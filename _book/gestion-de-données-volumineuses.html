@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapitre 9 Gestion de données volumineuses | Manipulation de données avec R</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapitre 9 Gestion de données volumineuses | Manipulation de données avec R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapitre 9 Gestion de données volumineuses | Manipulation de données avec R" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Sébastien Déjean et Thibault Laurent" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="tidy-data.html"/>
+<link rel="next" href="visualiser-et-traiter-les-données-manquantes.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R avancé</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#usage"><i class="fa fa-check"></i><b>1.1</b> Usage</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#render-book"><i class="fa fa-check"></i><b>1.2</b> Render book</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#preview-book"><i class="fa fa-check"></i><b>1.3</b> Preview book</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introduction.html"><a href="introduction.html#principe-du-document"><i class="fa fa-check"></i><b>2.1</b> Principe du document</a></li>
+<li class="chapter" data-level="2.2" data-path="introduction.html"><a href="introduction.html#pré-requis"><i class="fa fa-check"></i><b>2.2</b> Pré-requis</a></li>
+<li class="chapter" data-level="2.3" data-path="introduction.html"><a href="introduction.html#packages-à-installer"><i class="fa fa-check"></i><b>2.3</b> Packages à installer</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html"><i class="fa fa-check"></i><b>3</b> Les chaînes de caractères</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#fonctions-de-base"><i class="fa fa-check"></i><b>3.1</b> Fonctions de base</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#nchar"><i class="fa fa-check"></i><b>3.1.1</b> <em>nchar()</em></a></li>
+<li class="chapter" data-level="3.1.2" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#substr"><i class="fa fa-check"></i><b>3.1.2</b> <em>substr()</em></a></li>
+<li class="chapter" data-level="3.1.3" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#strsplit"><i class="fa fa-check"></i><b>3.1.3</b> <em>strsplit()</em></a></li>
+<li class="chapter" data-level="3.1.4" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#toupper-tolower"><i class="fa fa-check"></i><b>3.1.4</b> <em>toupper()</em>, <em>tolower()</em></a></li>
+<li class="chapter" data-level="3.1.5" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#grep"><i class="fa fa-check"></i><b>3.1.5</b> <em>grep()</em></a></li>
+<li class="chapter" data-level="3.1.6" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#agrep"><i class="fa fa-check"></i><b>3.1.6</b> <em>agrep()</em></a></li>
+<li class="chapter" data-level="3.1.7" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#regexpr"><i class="fa fa-check"></i><b>3.1.7</b> <em>regexpr()</em></a></li>
+<li class="chapter" data-level="3.1.8" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#abbreviate"><i class="fa fa-check"></i><b>3.1.8</b> <em>abbreviate()</em></a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#les-expressions-régulières"><i class="fa fa-check"></i><b>3.2</b> Les expressions régulières</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#définition"><i class="fa fa-check"></i><b>3.2.1</b> Définition</a></li>
+<li class="chapter" data-level="3.2.2" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#les-autres-expressions-régulières"><i class="fa fa-check"></i><b>3.2.2</b> Les autres expressions régulières</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#application-aux-tweets"><i class="fa fa-check"></i><b>3.3</b> Application aux tweets</a></li>
+<li class="chapter" data-level="3.4" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#nuage-de-mots"><i class="fa fa-check"></i><b>3.4</b> Nuage de mots</a></li>
+<li class="chapter" data-level="3.5" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#ordonnancement"><i class="fa fa-check"></i><b>3.5</b> Ordonnancement</a></li>
+<li class="chapter" data-level="3.6" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#package-stringr"><i class="fa fa-check"></i><b>3.6</b> Package <strong>stringr</strong></a></li>
+<li class="chapter" data-level="3.7" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#package-glue"><i class="fa fa-check"></i><b>3.7</b> Package <strong>glue</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="les-facteurs.html"><a href="les-facteurs.html"><i class="fa fa-check"></i><b>4</b> Les facteurs</a></li>
+<li class="chapter" data-level="5" data-path="les-dates.html"><a href="les-dates.html"><i class="fa fa-check"></i><b>5</b> Les dates</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="les-dates.html"><a href="les-dates.html#dates-et-unités-de-temps"><i class="fa fa-check"></i><b>5.1</b> Dates et unités de temps</a></li>
+<li class="chapter" data-level="5.2" data-path="les-dates.html"><a href="les-dates.html#séries-temporelles"><i class="fa fa-check"></i><b>5.2</b> Séries temporelles</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="opérations-ensemblistes.html"><a href="opérations-ensemblistes.html"><i class="fa fa-check"></i><b>6</b> Opérations ensemblistes</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="opérations-ensemblistes.html"><a href="opérations-ensemblistes.html#lunion"><i class="fa fa-check"></i><b>6.1</b> L’union</a></li>
+<li class="chapter" data-level="6.2" data-path="opérations-ensemblistes.html"><a href="opérations-ensemblistes.html#lintersection"><i class="fa fa-check"></i><b>6.2</b> L’intersection</a></li>
+<li class="chapter" data-level="6.3" data-path="opérations-ensemblistes.html"><a href="opérations-ensemblistes.html#la-différence-a-b-différent-de-b-a"><i class="fa fa-check"></i><b>6.3</b> La différence (<span class="math inline">\(A-B\)</span>, différent de <span class="math inline">\(B-A\)</span>)</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html"><i class="fa fa-check"></i><b>7</b> Manipulation de bases de données</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#jointure-et-agrégation"><i class="fa fa-check"></i><b>7.1</b> Jointure et agrégation</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#jointure-sans-utiliser-la-fonction-merge"><i class="fa fa-check"></i><b>7.1.1</b> Jointure sans utiliser la fonction <em>merge()</em></a></li>
+<li class="chapter" data-level="7.1.2" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#jointure-en-utilisant-la-fonction-merge"><i class="fa fa-check"></i><b>7.1.2</b> Jointure en utilisant la fonction <em>merge()</em></a></li>
+<li class="chapter" data-level="7.1.3" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#aggrégation"><i class="fa fa-check"></i><b>7.1.3</b> Aggrégation</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#package-dplyr"><i class="fa fa-check"></i><b>7.2</b> Package <strong>dplyr</strong></a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#sélection-de-lignes-avec-la-fonction-filter"><i class="fa fa-check"></i><b>7.2.1</b> Sélection de lignes avec la fonction <em>filter()</em></a></li>
+<li class="chapter" data-level="7.2.2" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#trier-le-jeu-de-données-avec-la-fonction-arrange"><i class="fa fa-check"></i><b>7.2.2</b> Trier le jeu de données avec la fonction <em>arrange()</em></a></li>
+<li class="chapter" data-level="7.2.3" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#sélectionner-certaines-variables-avec-la-fonction-select"><i class="fa fa-check"></i><b>7.2.3</b> Sélectionner certaines variables avec la fonction <em>select()</em></a></li>
+<li class="chapter" data-level="7.2.4" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#changer-le-nom-de-variables-avec-la-fonction-rename"><i class="fa fa-check"></i><b>7.2.4</b> Changer le nom de variables avec la fonction <em>rename()</em></a></li>
+<li class="chapter" data-level="7.2.5" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#ajouter-une-nouvelle-colonne-avec-la-fonction-mutate"><i class="fa fa-check"></i><b>7.2.5</b> Ajouter une nouvelle colonne avec la fonction <em>mutate()</em></a></li>
+<li class="chapter" data-level="7.2.6" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#faire-des-calculs-statistiques-avec-la-fonction-summarise"><i class="fa fa-check"></i><b>7.2.6</b> Faire des calculs statistiques avec la fonction <em>summarise()</em></a></li>
+<li class="chapter" data-level="7.2.7" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#faire-des-calculs-statistiques-en-utilisant-une-nouvelle-syntaxe"><i class="fa fa-check"></i><b>7.2.7</b> Faire des calculs statistiques en utilisant une nouvelle syntaxe</a></li>
+<li class="chapter" data-level="7.2.8" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#tirer-un-échantillon-dune-population"><i class="fa fa-check"></i><b>7.2.8</b> Tirer un échantillon d’une population</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tidy-data.html"><a href="tidy-data.html"><i class="fa fa-check"></i><b>8</b> Tidy data</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tidy-data.html"><a href="tidy-data.html#la-fonction-pivot_longer-transformer-des-colonnes-en-lignes"><i class="fa fa-check"></i><b>8.1</b> La fonction <em>pivot_longer()</em> : transformer des colonnes en lignes</a></li>
+<li class="chapter" data-level="8.2" data-path="tidy-data.html"><a href="tidy-data.html#la-fonction-pivot_wider-transformer-des-lignes-en-colonnes"><i class="fa fa-check"></i><b>8.2</b> La fonction <em>pivot_wider()</em> : transformer des lignes en colonnes</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="tidy-data.html"><a href="tidy-data.html#la-fonction-separate"><i class="fa fa-check"></i><b>8.2.1</b> La fonction <em>separate()</em></a></li>
+<li class="chapter" data-level="8.2.2" data-path="tidy-data.html"><a href="tidy-data.html#la-fonction-unite"><i class="fa fa-check"></i><b>8.2.2</b> La fonction <em>unite()</em></a></li>
+<li class="chapter" data-level="8.2.3" data-path="tidy-data.html"><a href="tidy-data.html#la-fonction-extract"><i class="fa fa-check"></i><b>8.2.3</b> La fonction <em>extract()</em></a></li>
+<li class="chapter" data-level="8.2.4" data-path="tidy-data.html"><a href="tidy-data.html#la-fonction-complete"><i class="fa fa-check"></i><b>8.2.4</b> La fonction <em>complete()</em></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html"><i class="fa fa-check"></i><b>9</b> Gestion de données volumineuses</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#optimiser-la-fonction-read.table"><i class="fa fa-check"></i><b>9.1</b> Optimiser la fonction <em>read.table()</em></a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#astuce-1"><i class="fa fa-check"></i><b>9.1.1</b> Astuce 1</a></li>
+<li class="chapter" data-level="9.1.2" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#astuce-2"><i class="fa fa-check"></i><b>9.1.2</b> Astuce 2</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#le-package-readr"><i class="fa fa-check"></i><b>9.2</b> Le package <strong>readr</strong></a></li>
+<li class="chapter" data-level="9.3" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#autres-packages"><i class="fa fa-check"></i><b>9.3</b> Autres packages</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#package-data.table"><i class="fa fa-check"></i><b>9.3.1</b> Package <strong>data.table</strong></a></li>
+<li class="chapter" data-level="9.3.2" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#package-ff"><i class="fa fa-check"></i><b>9.3.2</b> Package <strong>ff</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#algorithme-de-type-mapreducce"><i class="fa fa-check"></i><b>9.4</b> Algorithme de type Map/Reducce</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#package-matrix"><i class="fa fa-check"></i><b>9.4.1</b> Package <strong>Matrix</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#interaction-avec-des-systèmes-de-gestion-de-bases-de-données"><i class="fa fa-check"></i><b>9.5</b> Interaction avec des systèmes de gestion de bases de données</a></li>
+<li class="chapter" data-level="9.6" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#utiliser-la-syntaxe-sql"><i class="fa fa-check"></i><b>9.6</b> utiliser la syntaxe SQL</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="visualiser-et-traiter-les-données-manquantes.html"><a href="visualiser-et-traiter-les-données-manquantes.html"><i class="fa fa-check"></i><b>10</b> Visualiser et traiter les données manquantes</a></li>
+<li class="chapter" data-level="11" data-path="répertoires-et-fichiers.html"><a href="répertoires-et-fichiers.html"><i class="fa fa-check"></i><b>11</b> Répertoires et fichiers</a></li>
+<li class="chapter" data-level="12" data-path="autour-de-lespace-de-travail.html"><a href="autour-de-lespace-de-travail.html"><i class="fa fa-check"></i><b>12</b> Autour de l’espace de travail</a></li>
+<li class="chapter" data-level="13" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html"><i class="fa fa-check"></i><b>13</b> Footnotes and citations</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#footnotes"><i class="fa fa-check"></i><b>13.1</b> Footnotes</a></li>
+<li class="chapter" data-level="13.2" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#citations"><i class="fa fa-check"></i><b>13.2</b> Citations</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="hello-bookdown.html"><a href="hello-bookdown.html"><i class="fa fa-check"></i><b>14</b> Hello bookdown</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="hello-bookdown.html"><a href="hello-bookdown.html#a-section"><i class="fa fa-check"></i><b>14.1</b> A section</a>
+<ul>
+<li class="chapter" data-level="" data-path="hello-bookdown.html"><a href="hello-bookdown.html#an-unnumbered-section"><i class="fa fa-check"></i>An unnumbered section</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="cross.html"><a href="cross.html"><i class="fa fa-check"></i><b>15</b> Cross-references</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="cross.html"><a href="cross.html#chapters-and-sub-chapters"><i class="fa fa-check"></i><b>15.1</b> Chapters and sub-chapters</a></li>
+<li class="chapter" data-level="15.2" data-path="cross.html"><a href="cross.html#captioned-figures-and-tables"><i class="fa fa-check"></i><b>15.2</b> Captioned figures and tables</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="parts.html"><a href="parts.html"><i class="fa fa-check"></i><b>16</b> Parts</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="17" data-path="blocks.html"><a href="blocks.html"><i class="fa fa-check"></i><b>17</b> Blocks</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="blocks.html"><a href="blocks.html#equations"><i class="fa fa-check"></i><b>17.1</b> Equations</a></li>
+<li class="chapter" data-level="17.2" data-path="blocks.html"><a href="blocks.html#theorems-and-proofs"><i class="fa fa-check"></i><b>17.2</b> Theorems and proofs</a></li>
+<li class="chapter" data-level="17.3" data-path="blocks.html"><a href="blocks.html#callout-blocks"><i class="fa fa-check"></i><b>17.3</b> Callout blocks</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="sharing-your-book.html"><a href="sharing-your-book.html"><i class="fa fa-check"></i><b>18</b> Sharing your book</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="sharing-your-book.html"><a href="sharing-your-book.html#publishing"><i class="fa fa-check"></i><b>18.1</b> Publishing</a></li>
+<li class="chapter" data-level="18.2" data-path="sharing-your-book.html"><a href="sharing-your-book.html#pages"><i class="fa fa-check"></i><b>18.2</b> 404 pages</a></li>
+<li class="chapter" data-level="18.3" data-path="sharing-your-book.html"><a href="sharing-your-book.html#metadata-for-sharing"><i class="fa fa-check"></i><b>18.3</b> Metadata for sharing</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Manipulation de données avec <strong>R</strong></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="gestion-de-données-volumineuses" class="section level1" number="9">
+<h1><span class="header-section-number">Chapitre 9</span> Gestion de données volumineuses</h1>
+<p>Ici, nous allons essentiellement parler de données “moyennement volumineuses,” à savoir des données qui prennent entre 1 et 2 Go de RAM, ce qui correspond très approximativement à des jeux de données contenant quelques millions de lignes et quelques dizaines de variables. Nous parlerons des packages qui permettent de traiter des bases de données plus volumineuses, sans rentrer dans les détails.</p>
+<div id="optimiser-la-fonction-read.table" class="section level2" number="9.1">
+<h2><span class="header-section-number">9.1</span> Optimiser la fonction <em>read.table()</em></h2>
+<div id="astuce-1" class="section level3" number="9.1.1">
+<h3><span class="header-section-number">9.1.1</span> Astuce 1</h3>
+<p>Une première astuce concernant la gestion de données volumineuses consiste à mieux gérer l’importation des données. Regardons ce que cela donne avec un fichier contenant 500000 lignes et 3 colonnes.</p>
+<ul>
+<li>Commençons par générer des données :</li>
+</ul>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="gestion-de-données-volumineuses.html#cb288-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">500000</span> <span class="co"># à modifier selon la mémoire vive de votre machine</span></span>
+<span id="cb288-2"><a href="gestion-de-données-volumineuses.html#cb288-2" aria-hidden="true" tabindex="-1"></a>donnees_a_importer <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">chiffre =</span> <span class="dv">1</span><span class="sc">:</span>n,</span>
+<span id="cb288-3"><a href="gestion-de-données-volumineuses.html#cb288-3" aria-hidden="true" tabindex="-1"></a> <span class="at">lettre =</span> <span class="fu">paste0</span>(<span class="st">&quot;caract&quot;</span>, <span class="dv">1</span><span class="sc">:</span>n), </span>
+<span id="cb288-4"><a href="gestion-de-données-volumineuses.html#cb288-4" aria-hidden="true" tabindex="-1"></a> <span class="at">date =</span> <span class="fu">sample</span>(<span class="fu">seq.Date</span>(<span class="fu">as.Date</span>(<span class="st">&quot;2017-10-01&quot;</span>), <span class="at">by =</span> <span class="st">&quot;day&quot;</span>, <span class="at">len =</span> <span class="dv">100</span>), n, </span>
+<span id="cb288-5"><a href="gestion-de-données-volumineuses.html#cb288-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">replace =</span> T))</span>
+<span id="cb288-6"><a href="gestion-de-données-volumineuses.html#cb288-6" aria-hidden="true" tabindex="-1"></a><span class="fu">object.size</span>(donnees_a_importer)</span></code></pre></div>
+<pre><code>## 40001136 bytes</code></pre>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="gestion-de-données-volumineuses.html#cb290-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(donnees_a_importer)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    500000 obs. of  3 variables:
+##  $ chiffre: int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ lettre : chr  &quot;caract1&quot; &quot;caract2&quot; &quot;caract3&quot; &quot;caract4&quot; ...
+##  $ date   : Date, format: &quot;2017-12-04&quot; &quot;2017-10-01&quot; ...</code></pre>
+<p>Ce jeu de données utilise environ 38Mo de mémoire vive ou RAM (pour un rappel sur les différents types de mémoire, voir ce <a href="https://cours-informatique-gratuit.fr/cours/disque-dur-et-ram/">tutoriel</a> intéressant). Il contient 3 variables : la 1ère au format <strong>integer</strong> (un <strong>integer</strong> occupe moins de mémoires qu’un <strong>double</strong>), la seconde au format <strong>factor</strong>, le troisième au format <strong>Date</strong>.</p>
+<ul>
+<li>Exportons ces données dans un fichier avec la fonction <em>write.table()</em> :</li>
+</ul>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="gestion-de-données-volumineuses.html#cb292-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(donnees_a_importer, <span class="st">&quot;fichier.txt&quot;</span>, <span class="at">row.names =</span> F)</span></code></pre></div>
+<p>On peut connaître la taille du fichier en mémoire disque :</p>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="gestion-de-données-volumineuses.html#cb293-1" aria-hidden="true" tabindex="-1"></a><span class="fu">file.info</span>(<span class="st">&quot;fichier.txt&quot;</span>)</span></code></pre></div>
+<p>On dispose ainsi d’un fichier appelé <em>fichier.txt</em> dans l’espace de travail, qui pèse environ 16Mo.</p>
+<ul>
+<li>Importons ces données avec la fonction <em>read.table()</em> en mesurant le temps pris pour accomplir cette action. On remarque que les 2ème et 3ème variables ont été stockées en tant que <strong>factor</strong> (parce que on lui a demandé en utilisant l’option <strong>stringsAsFactors = TRUE</strong>).</li>
+</ul>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="gestion-de-données-volumineuses.html#cb294-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(import1 <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;fichier.txt&quot;</span>, <span class="at">header =</span> T, </span>
+<span id="cb294-2"><a href="gestion-de-données-volumineuses.html#cb294-2" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>## utilisateur     système      écoulé 
+##       2.896       0.028       2.924</code></pre>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="gestion-de-données-volumineuses.html#cb296-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(import1)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    500000 obs. of  3 variables:
+##  $ chiffre: int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ lettre : Factor w/ 500000 levels &quot;caract1&quot;,&quot;caract10&quot;,..: 1 111112 222223 333334 444445 455557 466668 477779 488890 2 ...
+##  $ date   : Factor w/ 100 levels &quot;2017-10-01&quot;,&quot;2017-10-02&quot;,..: 65 1 56 95 64 100 21 62 15 34 ...</code></pre>
+<ul>
+<li>Exécutons la même opération en précisant que les chaînes de caractères seront stockées sous forme de <strong>character</strong>.</li>
+</ul>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="gestion-de-données-volumineuses.html#cb298-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(import2 <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;fichier.txt&quot;</span>, <span class="at">header =</span> T,</span>
+<span id="cb298-2"><a href="gestion-de-données-volumineuses.html#cb298-2" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>))</span></code></pre></div>
+<pre><code>## utilisateur     système      écoulé 
+##       0.497       0.011       0.511</code></pre>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="gestion-de-données-volumineuses.html#cb300-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(import2)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    500000 obs. of  3 variables:
+##  $ chiffre: int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ lettre : chr  &quot;caract1&quot; &quot;caract2&quot; &quot;caract3&quot; &quot;caract4&quot; ...
+##  $ date   : chr  &quot;2017-12-04&quot; &quot;2017-10-01&quot; &quot;2017-11-25&quot; &quot;2018-01-03&quot; ...</code></pre>
+<p>Le gain de temps dans le second cas vient du fait qu’on demande à ce que les variables qualitatives ne soient pas codées en <strong>factor</strong>. En effet, pour créer un <strong>factor</strong>, <strong>R</strong> a besoin de parcourir l’ensemble du fichier pour identifier tous les <strong>levels</strong> possibles, pour pouvoir attribuer un numéro à chaque <strong>levels</strong>. Cette procédure n’est évidemment pas optimale et il s’agissait d’une critique majeure concernant les objets <strong>data.frame</strong>, à savoir que les variables qualitatives sont codées par défaut en <strong>factor</strong> jusqu’à 2019. Depuis la version 4.0.0., l’argument *stringsAsFactors** vaut :</p>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="gestion-de-données-volumineuses.html#cb302-1" aria-hidden="true" tabindex="-1"></a><span class="fu">default.stringsAsFactors</span>()</span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<p>En effet, depuis la conférence useR!2019 qui s’est tenue à Toulouse, les chaînes de caractères sont à présent sauvegardées au format <strong>character</strong>. L’idée avancée était qu’un <strong>factor</strong> ordonne les caractères selon des règles lexicographiques qui ne sont pas les mêmes d’un pays à un autre. Autrement dit, compte tenu que ces règles sont définies par la machine utilisée, on peut obtenir des résultats différents d’une machine à une autre et la reproductibilité d’un même code n’était donc plus assurée. Pour plus de détails , voir <a href="https://developer.r-project.org/Blog/public/2020/02/16/stringsasfactors/index.html">ce message</a>.</p>
+</div>
+<div id="astuce-2" class="section level3" number="9.1.2">
+<h3><span class="header-section-number">9.1.2</span> Astuce 2</h3>
+<p>Pour importer un gros fichier, nous conseillons d’utiliser dans un premier temps la fonction <em>read.table()</em> (ou <em>read.csv()</em>, etc) sur les quelques premières lignes du fichier (entre 20 et 100 lignes selon la taille du fichier), puis d’analyser la structure du jeu de données, plus particulièrement le type de chaque colonne :</p>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="gestion-de-données-volumineuses.html#cb304-1" aria-hidden="true" tabindex="-1"></a>bigfile_sample <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;fichier.txt&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb304-2"><a href="gestion-de-données-volumineuses.html#cb304-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">header =</span> T, <span class="at">nrows =</span> <span class="dv">20</span>)</span>
+<span id="cb304-3"><a href="gestion-de-données-volumineuses.html#cb304-3" aria-hidden="true" tabindex="-1"></a>(bigfile_colclass <span class="ot">&lt;-</span> <span class="fu">sapply</span>(bigfile_sample, class))</span></code></pre></div>
+<pre><code>##     chiffre      lettre        date 
+##   &quot;integer&quot; &quot;character&quot; &quot;character&quot;</code></pre>
+<p>Dans un second temps, on importe la table en précisant le type de chaque colonne (par défaut l’option <strong>stringsAsFactors = FALSE</strong> donc ce n’est pas la peine de l’ajouter), ce qui aura pour effet de diminuer encore légèrement le temps de traitement.</p>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="gestion-de-données-volumineuses.html#cb306-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(bigfile_raw <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;fichier.txt&quot;</span>, <span class="at">header =</span> T, </span>
+<span id="cb306-2"><a href="gestion-de-données-volumineuses.html#cb306-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">colClasses =</span> bigfile_colclass)) </span></code></pre></div>
+<pre><code>## utilisateur     système      écoulé 
+##       0.364       0.008       0.372</code></pre>
+<p><strong>Remarque 1 :</strong> si le type d’une colonne a été mal spécifié, cela pourra créer un message d’erreur.</p>
+<p><strong>Remarque 2 :</strong> si vous êtes sûr que le fichier ne contient pas de lignes de commentaires, vous pouvez encore améliorer le temps de lecture en précisant l’option <strong>comment.char=““</strong>, ce qui permettra d’éviter de faire une recherche systématique de caractères de commentaires.</p>
+</div>
+</div>
+<div id="le-package-readr" class="section level2" number="9.2">
+<h2><span class="header-section-number">9.2</span> Le package <strong>readr</strong></h2>
+<p>Nous présentons ici le package <strong>readr</strong>, faisant également partie du projet <strong>tidyverse</strong> et dont l’objectif est encore et toujours de rendre les codes plus simples et calculs plus rapides. Pour cela, les fonctions de ce package utilisent du code <strong>C++</strong> ce qui vous le verrez permet de faire des améliorations considérables en temps de calcul. Parmi les fonctions de ce package, <em>read_csv()</em> ou <em>read_table()</em> dont le but est bien entendu l’importation de fichiers <strong>csv</strong> ou <strong>txt</strong>. Elles ont été programmées de telle sorte qu’il suffit en général de les appeler en précisant uniquement le chemin d’accès du fichier à importer.</p>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="gestion-de-données-volumineuses.html#cb308-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(</span>
+<span id="cb308-2"><a href="gestion-de-données-volumineuses.html#cb308-2" aria-hidden="true" tabindex="-1"></a> tibble.don <span class="ot">&lt;-</span> <span class="fu">read_table2</span>(<span class="st">&quot;fichier.txt&quot;</span>)</span>
+<span id="cb308-3"><a href="gestion-de-données-volumineuses.html#cb308-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   `&quot;chiffre&quot;` = col_double(),
+##   `&quot;lettre&quot;` = col_character(),
+##   `&quot;date&quot;` = col_date(format = &quot;&quot;)
+## )</code></pre>
+<pre><code>## utilisateur     système      écoulé 
+##       0.364       0.011       0.377</code></pre>
+<p>L’objet importé n’est pas un <strong>data.frame</strong> mais un <strong>tibble</strong> que nous avons déjà vu précédemment :</p>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="gestion-de-données-volumineuses.html#cb311-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(tibble.don)</span></code></pre></div>
+<pre><code>## [1] &quot;spec_tbl_df&quot; &quot;tbl_df&quot;      &quot;tbl&quot;         &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="gestion-de-données-volumineuses.html#cb313-1" aria-hidden="true" tabindex="-1"></a><span class="fu">object.size</span>(tibble.don)</span></code></pre></div>
+<pre><code>## 44004504 bytes</code></pre>
+<p>Ce type de format ne s’est pas encore généralisé à toutes les fonctions de <strong>R</strong>. Il se peut donc que vous rencontriez des difficultés pour utiliser certaines fonctions sur ce type d’objets. Pour passer du format <strong>tibble</strong> au <strong>data.frame</strong>, cela se fait très facilement au moyen de la fonction <strong>as.data.frame</strong>.</p>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="gestion-de-données-volumineuses.html#cb315-1" aria-hidden="true" tabindex="-1"></a>don <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(tibble.don)</span></code></pre></div>
+<p><strong>Autres formats de données :</strong> dans la même lignée que <strong>readr</strong>, nous citons également le package <strong>readxl</strong> pour la lecture de fichiers <em>xls/xlsx</em>, ainsi que le package <strong>haven</strong> pour la lecture de données issue des logiciels <strong>SPSS</strong>, <strong>Stata</strong> ou <strong>SAS</strong>.</p>
+<p><strong>Bibliographie:</strong> pour l’usage du package <strong>readr</strong>, le lecteur pourra consulter ce document <a href="http://readr.tidyverse.org/" class="uri">http://readr.tidyverse.org/</a>.</p>
+</div>
+<div id="autres-packages" class="section level2" number="9.3">
+<h2><span class="header-section-number">9.3</span> Autres packages</h2>
+<p>Voici 3 packages, parmi d’autres, susceptibles d’aider l’utilisateur à manipuler des fichiers de données volumineux.</p>
+<div id="package-data.table" class="section level3" number="9.3.1">
+<h3><span class="header-section-number">9.3.1</span> Package <strong>data.table</strong></h3>
+<p>Ce package est un package concurent au projet <strong>tidyverse</strong>, l’objectif de ce package étant également de rendre les lignes de codes plus élégantes, les calculs plus rapides, notamment en présence de données volumineuses. Le package <strong>data.table</strong> est plus ancien que le projet <strong>tidyverse</strong>, mais ce dernier bénéficiant du support financier de <strong>RStudio</strong>, il semble à ce jour plus intéressant de choisir l’univers <strong>tidyverse</strong> qui devrait bénéficier de plus de développements par la suite. Nous présentons toutefois ici quelques exemples d’utilisation de <strong>data.table</strong>.</p>
+<p>Pour importer un jeu de données :</p>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="gestion-de-données-volumineuses.html#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">&quot;data.table&quot;</span>)</span>
+<span id="cb316-2"><a href="gestion-de-données-volumineuses.html#cb316-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(</span>
+<span id="cb316-3"><a href="gestion-de-données-volumineuses.html#cb316-3" aria-hidden="true" tabindex="-1"></a>objet.data.table <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&quot;fichier.txt&quot;</span>)</span>
+<span id="cb316-4"><a href="gestion-de-données-volumineuses.html#cb316-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## utilisateur     système      écoulé 
+##       0.421       0.000       0.094</code></pre>
+<p>L’objet créé appartient à la classe d’objet <strong>data.table</strong> :</p>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="gestion-de-données-volumineuses.html#cb318-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(objet.data.table)</span></code></pre></div>
+<pre><code>## [1] &quot;data.table&quot; &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="gestion-de-données-volumineuses.html#cb320-1" aria-hidden="true" tabindex="-1"></a><span class="fu">object.size</span>(objet.data.table)</span></code></pre></div>
+<pre><code>## 40001760 bytes</code></pre>
+<p>Pour manipuler ce format de données, il faut se familiariser avec une nouvelle syntaxe propre à ce genre de données. Le lecteur pourra consulter la note suivante s’il souhaite utiliser ce package : <a href="https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html" class="uri">https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html</a></p>
+</div>
+<div id="package-ff" class="section level3" number="9.3.2">
+<h3><span class="header-section-number">9.3.2</span> Package <strong>ff</strong></h3>
+<p>Pour des données trop volumineuses par rapport à la mémoire vive disponible de la machine, la package <strong>ff</strong> va faire en sorte de ne charger qu’une partie des données en mémoire vive que lorsqu’il en aura besoin.</p>
+<p>Ici, on créé un fichier <em>“big_file.csv”</em> qui va contenir 50,000,000 observations et 3 colonnes. Pour faire cela, on va concaténer 100 fois <strong>Donnees.a.importer</strong> au fichier de sortie <em>big_file.csv</em> en utilisant la fonction <em>write_csv()</em>. L’opération peut prendre quelques minutes et c’est pourquoi pour informer l’utilisateur du temps restant, on propose d’utiliser la fonction <em>progress_estimated()</em>, qui fait avancer une barre au début de chaque nouvelle boucle (ici la boucle est répétée 100 fois).</p>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="gestion-de-données-volumineuses.html#cb322-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(donnees_a_importer, <span class="st">&quot;big_file.csv&quot;</span>)</span>
+<span id="cb322-2"><a href="gestion-de-données-volumineuses.html#cb322-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb322-3"><a href="gestion-de-données-volumineuses.html#cb322-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">progress_estimated</span>(<span class="dv">100</span>)</span>
+<span id="cb322-4"><a href="gestion-de-données-volumineuses.html#cb322-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>){</span>
+<span id="cb322-5"><a href="gestion-de-données-volumineuses.html#cb322-5" aria-hidden="true" tabindex="-1"></a>  p<span class="sc">$</span><span class="fu">pause</span>(<span class="fl">0.1</span>)<span class="sc">$</span><span class="fu">tick</span>()<span class="sc">$</span><span class="fu">print</span>()</span>
+<span id="cb322-6"><a href="gestion-de-données-volumineuses.html#cb322-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(donnees_a_importer, <span class="st">&quot;big_file.csv&quot;</span>, <span class="at">append =</span> T)</span>
+<span id="cb322-7"><a href="gestion-de-données-volumineuses.html#cb322-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>La taille du fichier créé, d’environ 1.5Go est encore théoriquement manipulable sur <strong>R</strong> (essayer de le faire via la fonction <em>read.csv()</em>), mais on va supposer ici qu’on ne souhaite pas charger ce jeu de données intégralement en mémoire vive. Pour cela, on va utiliser la fonction <em>read.csv.ffdf()</em> du package <strong>ff</strong>. On spécifie comme options que l’on souhaite lire les données par groupe de 5,000,000 d’observations, excepté la première fois où l’on va lire 500,000 observations</p>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="gestion-de-données-volumineuses.html#cb323-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">&quot;ff&quot;</span>)</span>
+<span id="cb323-2"><a href="gestion-de-données-volumineuses.html#cb323-2" aria-hidden="true" tabindex="-1"></a>bigDF <span class="ot">&lt;-</span> <span class="fu">read.csv.ffdf</span>(<span class="at">file=</span><span class="st">&quot;big_file.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb323-3"><a href="gestion-de-données-volumineuses.html#cb323-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">first.rows =</span> <span class="dv">500000</span>, <span class="at">next.rows =</span> <span class="dv">5000000</span>)</span></code></pre></div>
+<p>L’objet créé ne prend qu’une partie de la mémoire vive.</p>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="gestion-de-données-volumineuses.html#cb324-1" aria-hidden="true" tabindex="-1"></a>bigDF</span>
+<span id="cb324-2"><a href="gestion-de-données-volumineuses.html#cb324-2" aria-hidden="true" tabindex="-1"></a><span class="fu">object.size</span>(bigDF)</span></code></pre></div>
+<p>L’idée de ce package est de stocker les variables non pas en mémoire vive, mais quelque part sur le disque dur et d’y accéder en utilisant des pointeurs. On peut effectuer un certain nombre d’opérations sur ces objets. Par exemple, pour calculer la moyenne de la variable <strong>chiffre</strong> :</p>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="gestion-de-données-volumineuses.html#cb325-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ffbase&quot;</span>)</span>
+<span id="cb325-2"><a href="gestion-de-données-volumineuses.html#cb325-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean.ff</span>(bigDF<span class="sc">$</span>chiffre)</span></code></pre></div>
+<p><strong>Remarque:</strong> on citera également le package <strong>bigmemory</strong> dont le principe est similaire. Plus récemment, le package <a href="https://cran.r-project.org/web/packages/disk.frame/readme/README.html"><strong>disk.frame</strong></a> semble également promis à un bel avenir.</p>
+</div>
+</div>
+<div id="algorithme-de-type-mapreducce" class="section level2" number="9.4">
+<h2><span class="header-section-number">9.4</span> Algorithme de type Map/Reducce</h2>
+<p>On peut utiliser un algorithme de type <em>Map/Reduce</em> pour éviter d’importer un jeu de données trop volumineux sur la RAM. A la base, ce type d’algorithme s’applique sur des données qui sont organisées selon l’approche conceptuelle d’Hadoop, où les fichiers de données sont fractionnés en gros bloc et distribués à travers les noeuds d’un cluster.</p>
+<p>Dans cet exemple, nous n’avons qu’un gros fichier de données, l’idée étant d’importer des échantillons de ce jeu de données sur lesquels on va appliquer la première étape <em>Map</em> de l’algorithme.</p>
+<p>Par exemple, dans l’exemple ci-après, on a choisi d’importer les 5,000,000 premières observations, puis les 5,000,000 suivantes, etc. jusqu’à ce qu’on est parcouru tout le fichier. Sur chacun de ces échantillons, on va calculer d’une part la somme et d’autre part le maximum d’une variable quantitative.</p>
+<p>Une fois réalisée cette étape sur les sous-échantillons, on va assembler les résultats obtenus à l’étape précédente. Pour calculer la moyenne, on va faire la somme sur les sommes obtenues et diviser ensuite par le nombre total d’observations et pour le max, on va calculer le maximum sur les maximum.</p>
+<p><strong>Remarque :</strong> on ne peut pas appliquer toutes les méthodes statistiques sur ce type d’algorithme (par exemple calculer un quantile nécessite de travailler sur l’échantillon complet). En revanche, ce type d’algorithme peut fonctionner pour calculer l’estimateur des moindres carrés d’un modèle linéaire. Par ailleurs, le calcul parallèle (que nous verrons dans un autre chapitre) pourra être envisagé sur ce type d’algorithme.</p>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="gestion-de-données-volumineuses.html#cb326-1" aria-hidden="true" tabindex="-1"></a>n_split <span class="ot">&lt;-</span> <span class="dv">11</span></span>
+<span id="cb326-2"><a href="gestion-de-données-volumineuses.html#cb326-2" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb326-3"><a href="gestion-de-données-volumineuses.html#cb326-3" aria-hidden="true" tabindex="-1"></a>n_max <span class="ot">&lt;-</span> <span class="dv">5000001</span></span>
+<span id="cb326-4"><a href="gestion-de-données-volumineuses.html#cb326-4" aria-hidden="true" tabindex="-1"></a>my_max <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n_split)</span>
+<span id="cb326-5"><a href="gestion-de-données-volumineuses.html#cb326-5" aria-hidden="true" tabindex="-1"></a>my_mean <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n_split)</span>
+<span id="cb326-6"><a href="gestion-de-données-volumineuses.html#cb326-6" aria-hidden="true" tabindex="-1"></a>my_n <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n_split)</span>
+<span id="cb326-7"><a href="gestion-de-données-volumineuses.html#cb326-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_split) {</span>
+<span id="cb326-8"><a href="gestion-de-données-volumineuses.html#cb326-8" aria-hidden="true" tabindex="-1"></a>  split_don <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;big_file.csv&quot;</span>, <span class="at">skip =</span> ind, <span class="at">n_max =</span> n_max,</span>
+<span id="cb326-9"><a href="gestion-de-données-volumineuses.html#cb326-9" aria-hidden="true" tabindex="-1"></a>                        <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">&quot;chiffre&quot;</span>, <span class="st">&quot;lettre&quot;</span>, <span class="st">&quot;date&quot;</span>), </span>
+<span id="cb326-10"><a href="gestion-de-données-volumineuses.html#cb326-10" aria-hidden="true" tabindex="-1"></a>                        <span class="at">col_types =</span> <span class="st">&quot;ncc&quot;</span>)</span>
+<span id="cb326-11"><a href="gestion-de-données-volumineuses.html#cb326-11" aria-hidden="true" tabindex="-1"></a>  my_max[k] <span class="ot">&lt;-</span> <span class="fu">max</span>(split_don<span class="sc">$</span>chiffre)</span>
+<span id="cb326-12"><a href="gestion-de-données-volumineuses.html#cb326-12" aria-hidden="true" tabindex="-1"></a>  my_mean[k] <span class="ot">&lt;-</span> <span class="fu">sum</span>(split_don<span class="sc">$</span>chiffre)</span>
+<span id="cb326-13"><a href="gestion-de-données-volumineuses.html#cb326-13" aria-hidden="true" tabindex="-1"></a>  my_n[k] <span class="ot">&lt;-</span> <span class="fu">nrow</span>(split_don)</span>
+<span id="cb326-14"><a href="gestion-de-données-volumineuses.html#cb326-14" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> ind <span class="sc">+</span> n_max</span>
+<span id="cb326-15"><a href="gestion-de-données-volumineuses.html#cb326-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb326-16"><a href="gestion-de-données-volumineuses.html#cb326-16" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(my_mean) <span class="sc">/</span> <span class="fu">sum</span>(my_n)</span>
+<span id="cb326-17"><a href="gestion-de-données-volumineuses.html#cb326-17" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(my_max)</span></code></pre></div>
+<div id="package-matrix" class="section level3" number="9.4.1">
+<h3><span class="header-section-number">9.4.1</span> Package <strong>Matrix</strong></h3>
+<p>Il est possible d’avoir suffisament de mémoires vives pour importer des données, mais pour certaines opérations algébriques et notamment le calcul matriciel, il y a des cas où on a besoin d’avoir plus de mémoires vives que ce dont nous disposons (typiquement une inversion de matrice). Dans ce cas-là, il est important de voir si les données sur lesquelles on travaille sont creuses ou non, c’est-à-dire contenant beaucoup de 0. Si c’est le cas, le package <strong>Matrix</strong> permet d’obtenir de bonnes performances en temps calcul et d’utiliser moins de RAM, grâce aux propriétés des matrices creuses.</p>
+<p>Ce package s’utilise très simplement et la plupart des fonctions existantes pour le calcul matriciel (<em>crossprod()</em>, <em>solve()</em>, %&gt;%) s’appliquent directement sur ce type d’objet. Pour plus d’informations sur ce package, consulter la <a href="https://cran.r-project.org/web/packages/Matrix/vignettes/Intro2Matrix.pdf">vignette</a>.</p>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="gestion-de-données-volumineuses.html#cb327-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;Matrix&quot;</span>)</span>
+<span id="cb327-2"><a href="gestion-de-données-volumineuses.html#cb327-2" aria-hidden="true" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rbinom</span>(<span class="dv">10000</span>, <span class="dv">1</span>, <span class="fl">0.05</span>), <span class="dv">100</span>, <span class="dv">100</span>)</span>
+<span id="cb327-3"><a href="gestion-de-données-volumineuses.html#cb327-3" aria-hidden="true" tabindex="-1"></a><span class="fu">object.size</span>(mat)</span>
+<span id="cb327-4"><a href="gestion-de-données-volumineuses.html#cb327-4" aria-hidden="true" tabindex="-1"></a>Mat <span class="ot">&lt;-</span> <span class="fu">as</span>(mat, <span class="st">&quot;Matrix&quot;</span>)</span>
+<span id="cb327-5"><a href="gestion-de-données-volumineuses.html#cb327-5" aria-hidden="true" tabindex="-1"></a><span class="fu">object.size</span>(Mat)</span></code></pre></div>
+</div>
+</div>
+<div id="interaction-avec-des-systèmes-de-gestion-de-bases-de-données" class="section level2" number="9.5">
+<h2><span class="header-section-number">9.5</span> Interaction avec des systèmes de gestion de bases de données</h2>
+<p>Lorsqu’une entreprise travaille sur de gros volumes de données, cela sous-entend qu’elle dispose de systèmes de gestion de base de données.</p>
+<p><strong>R</strong> dispose de plusieurs packages permettant d’intéragir avec des systèmes de gestion de base de données : <strong>RODBC</strong>, <strong>RMySQL</strong>, <strong>RPostgresSQL</strong>, <strong>RSQLite</strong> ainsi qu’avec des bases de données orientées document comme <em>MongoDB</em> et <em>couchDB</em> via les packages <strong>mongolite</strong> et <strong>couchDB</strong>.</p>
+<p>Le gros avantage de ces packages est qu’ils permettent de laisser les bases de données trop grandes sur l’espace disque et d’aller récupérer uniquement l’information dont on a besoin en envoyant depuis <strong>R</strong> des requêtes qui seront exécutées sur les systèmes de gestion de base de données.</p>
+<p><strong>Bibliographie</strong> pour le traitement de données volumineuses, nous recommendons la lecture de ce document : <a href="https://rpubs.com/msundar/large_data_analysis" class="uri">https://rpubs.com/msundar/large_data_analysis</a></p>
+</div>
+<div id="utiliser-la-syntaxe-sql" class="section level2" number="9.6">
+<h2><span class="header-section-number">9.6</span> utiliser la syntaxe SQL</h2>
+<p>Pour celles et ceux qui sont familiers avec le langage SQL, le package <strong>sqldf</strong> permet d’utiliser la syntaxe SQL pour faire des requêtes depuis <strong>R</strong>.</p>
+<p>Pour plus d’informations, voir : <a href="https://github.com/ggrothendieck/sqldf" class="uri">https://github.com/ggrothendieck/sqldf</a></p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="tidy-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="visualiser-et-traiter-les-données-manquantes.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-data-management.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

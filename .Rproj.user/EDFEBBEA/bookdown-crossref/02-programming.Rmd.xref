@@ -1,0 +1,60 @@
+h1:programmation Programmation
+h2:quelques-règles-de-style Quelques règles de style
+h3:le-nom-des-fichiers-de-codes Le nom des fichiers de codes
+h3:le-nom-des-objets Le nom des objets
+h3:espace-entre-les-opérateurs Espace entre les opérateurs
+h3:les-conditions Les conditions
+h3:la-taille-dune-ligne La taille d’une ligne
+h3:affectation Affectation
+h2:fixer-la-taille-des-vecteurs-si-on-la-connaît-à-lavance Fixer la taille des vecteurs (si on la connaît à l’avance)
+h2:temps-de-calcul-et-mémoire Temps de calcul et mémoire
+h3:pour-mesurer-les-temps-de-calcul-efficacement Pour mesurer les temps de calcul efficacement
+h3:pour-comprendre-la-gestion-de-la-mémoire Pour comprendre la gestion de la mémoire
+h2:fonction-vectorisée Fonction vectorisée
+h2:ecrire-un-code-en-c Ecrire un code en C++
+h2:insérer-du-code-python-dans-un-document-markdown Insérer du code Python dans un document Markdown
+h2:eviter-si-possible-les-boucles-apply-lapply-replicate-colsums-etc. Eviter si possible les boucles (, , , , etc.)
+h3:apply-pour-les-matrixarray  pour les 
+h3:les-fonctions-colsums-rowsums-colmeans-rowmeans Les fonctions , , , 
+h3:la-fonction-lapply La fonction 
+h3:la-fonction-sapply La fonction 
+h3:la-fonction-replicate La fonction 
+h3:la-fonction-mapply La fonction 
+h3:la-fonction-tapply La fonction 
+h2:améliorer-ses-fonctions Améliorer ses fonctions
+h3:créer-des-sous-fonctions Créer des sous-fonctions
+h3:structure-de-contrôle Structure de contrôle
+h4:solution-avec-ifelse Solution avec 
+h4:solution-avec-switch Solution avec 
+h3:fonction-stopifnot Fonction 
+h3:les-arguments-dans-une-fonction Les arguments dans une fonction
+h4:supprimer-les-paramètres-inutiles Supprimer les paramètres inutiles
+h4:utiliser-des-fonctions-comme-argument-dentrée Utiliser des fonctions comme argument d’entrée
+h4:utiliser-des-fonctions-comme-argument-de-sortie Utiliser des fonctions comme argument de sortie
+h4:utiliser-les-comme-argument-dentrée Utiliser les … comme argument d’entrée
+h2:a-quoi-servent-les-fonctions-substitutequote-et-eval A quoi servent les fonctions  et  ?
+h3:les-fonctions-quote-et-substitute Les fonctions  et 
+h3:la-fonction-eval La fonction 
+h4:et-en-pratique Et en pratique ?
+h3:débugger-une-fonction Débugger une fonction
+h4:analyser-le-message-derreur Analyser le message d’erreur
+h4:la-fonction-traceback La fonction 
+h4:la-fonction-debugonce La fonction 
+h4:négliger-un-message-derreur Négliger un message d’erreur
+h5:la-fonction-try La fonction 
+h2:programmation-orientée-s3s4 Programmation orientée : S3/S4
+h3:la-norme-s3 La norme S3
+h4:définition-dune-nouvelle-classe Définition d’une nouvelle classe
+h4:définition-dune-méthode-générique Définition d’une méthode générique
+h4:exemple-de-méthodes-génériques Exemple de méthodes génériques
+h5:pour-connaître-les-objets-qui-sappliquent-sur-une-méthode-générique Pour connaître les objets qui s’appliquent sur une méthode générique
+h5:pour-connaître-les-méthodes-qui-sappliquent-sur-une-classe-dobjet Pour connaître les méthodes qui s’appliquent sur une classe d’objet
+h3:la-norme-s4 La norme S4
+h2:visualiser-le-code-source-dune-fonction Visualiser le code source d’une fonction
+h3:la-fonction-est-dans-lenvironnement-courant La fonction est dans l’environnement courant
+h3:la-fonction-est-une-méthode-générique-de-type-s3 La fonction est une méthode générique de type S3
+h3:la-fonction-fait-appel-à-du-code-c La fonction fait appel à du code 
+h4:primitive-ou-.internal  ou 
+h4:call 
+h3:la-fonction-est-une-méthode-générique-de-type-s4 La fonction est une méthode générique de type S4
+

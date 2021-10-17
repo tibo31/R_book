@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapitre 12 Autour de l’espace de travail | Manipulation de données avec R</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapitre 12 Autour de l’espace de travail | Manipulation de données avec R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapitre 12 Autour de l’espace de travail | Manipulation de données avec R" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Sébastien Déjean et Thibault Laurent" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="répertoires-et-fichiers.html"/>
+<link rel="next" href="footnotes-and-citations.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R avancé</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#usage"><i class="fa fa-check"></i><b>1.1</b> Usage</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#render-book"><i class="fa fa-check"></i><b>1.2</b> Render book</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#preview-book"><i class="fa fa-check"></i><b>1.3</b> Preview book</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introduction.html"><a href="introduction.html#principe-du-document"><i class="fa fa-check"></i><b>2.1</b> Principe du document</a></li>
+<li class="chapter" data-level="2.2" data-path="introduction.html"><a href="introduction.html#pré-requis"><i class="fa fa-check"></i><b>2.2</b> Pré-requis</a></li>
+<li class="chapter" data-level="2.3" data-path="introduction.html"><a href="introduction.html#packages-à-installer"><i class="fa fa-check"></i><b>2.3</b> Packages à installer</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html"><i class="fa fa-check"></i><b>3</b> Les chaînes de caractères</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#fonctions-de-base"><i class="fa fa-check"></i><b>3.1</b> Fonctions de base</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#nchar"><i class="fa fa-check"></i><b>3.1.1</b> <em>nchar()</em></a></li>
+<li class="chapter" data-level="3.1.2" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#substr"><i class="fa fa-check"></i><b>3.1.2</b> <em>substr()</em></a></li>
+<li class="chapter" data-level="3.1.3" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#strsplit"><i class="fa fa-check"></i><b>3.1.3</b> <em>strsplit()</em></a></li>
+<li class="chapter" data-level="3.1.4" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#toupper-tolower"><i class="fa fa-check"></i><b>3.1.4</b> <em>toupper()</em>, <em>tolower()</em></a></li>
+<li class="chapter" data-level="3.1.5" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#grep"><i class="fa fa-check"></i><b>3.1.5</b> <em>grep()</em></a></li>
+<li class="chapter" data-level="3.1.6" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#agrep"><i class="fa fa-check"></i><b>3.1.6</b> <em>agrep()</em></a></li>
+<li class="chapter" data-level="3.1.7" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#regexpr"><i class="fa fa-check"></i><b>3.1.7</b> <em>regexpr()</em></a></li>
+<li class="chapter" data-level="3.1.8" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#abbreviate"><i class="fa fa-check"></i><b>3.1.8</b> <em>abbreviate()</em></a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#les-expressions-régulières"><i class="fa fa-check"></i><b>3.2</b> Les expressions régulières</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#définition"><i class="fa fa-check"></i><b>3.2.1</b> Définition</a></li>
+<li class="chapter" data-level="3.2.2" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#les-autres-expressions-régulières"><i class="fa fa-check"></i><b>3.2.2</b> Les autres expressions régulières</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#application-aux-tweets"><i class="fa fa-check"></i><b>3.3</b> Application aux tweets</a></li>
+<li class="chapter" data-level="3.4" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#nuage-de-mots"><i class="fa fa-check"></i><b>3.4</b> Nuage de mots</a></li>
+<li class="chapter" data-level="3.5" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#ordonnancement"><i class="fa fa-check"></i><b>3.5</b> Ordonnancement</a></li>
+<li class="chapter" data-level="3.6" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#package-stringr"><i class="fa fa-check"></i><b>3.6</b> Package <strong>stringr</strong></a></li>
+<li class="chapter" data-level="3.7" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#package-glue"><i class="fa fa-check"></i><b>3.7</b> Package <strong>glue</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="les-facteurs.html"><a href="les-facteurs.html"><i class="fa fa-check"></i><b>4</b> Les facteurs</a></li>
+<li class="chapter" data-level="5" data-path="les-dates.html"><a href="les-dates.html"><i class="fa fa-check"></i><b>5</b> Les dates</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="les-dates.html"><a href="les-dates.html#dates-et-unités-de-temps"><i class="fa fa-check"></i><b>5.1</b> Dates et unités de temps</a></li>
+<li class="chapter" data-level="5.2" data-path="les-dates.html"><a href="les-dates.html#séries-temporelles"><i class="fa fa-check"></i><b>5.2</b> Séries temporelles</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="opérations-ensemblistes.html"><a href="opérations-ensemblistes.html"><i class="fa fa-check"></i><b>6</b> Opérations ensemblistes</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="opérations-ensemblistes.html"><a href="opérations-ensemblistes.html#lunion"><i class="fa fa-check"></i><b>6.1</b> L’union</a></li>
+<li class="chapter" data-level="6.2" data-path="opérations-ensemblistes.html"><a href="opérations-ensemblistes.html#lintersection"><i class="fa fa-check"></i><b>6.2</b> L’intersection</a></li>
+<li class="chapter" data-level="6.3" data-path="opérations-ensemblistes.html"><a href="opérations-ensemblistes.html#la-différence-a-b-différent-de-b-a"><i class="fa fa-check"></i><b>6.3</b> La différence (<span class="math inline">\(A-B\)</span>, différent de <span class="math inline">\(B-A\)</span>)</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html"><i class="fa fa-check"></i><b>7</b> Manipulation de bases de données</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#jointure-et-agrégation"><i class="fa fa-check"></i><b>7.1</b> Jointure et agrégation</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#jointure-sans-utiliser-la-fonction-merge"><i class="fa fa-check"></i><b>7.1.1</b> Jointure sans utiliser la fonction <em>merge()</em></a></li>
+<li class="chapter" data-level="7.1.2" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#jointure-en-utilisant-la-fonction-merge"><i class="fa fa-check"></i><b>7.1.2</b> Jointure en utilisant la fonction <em>merge()</em></a></li>
+<li class="chapter" data-level="7.1.3" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#aggrégation"><i class="fa fa-check"></i><b>7.1.3</b> Aggrégation</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#package-dplyr"><i class="fa fa-check"></i><b>7.2</b> Package <strong>dplyr</strong></a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#sélection-de-lignes-avec-la-fonction-filter"><i class="fa fa-check"></i><b>7.2.1</b> Sélection de lignes avec la fonction <em>filter()</em></a></li>
+<li class="chapter" data-level="7.2.2" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#trier-le-jeu-de-données-avec-la-fonction-arrange"><i class="fa fa-check"></i><b>7.2.2</b> Trier le jeu de données avec la fonction <em>arrange()</em></a></li>
+<li class="chapter" data-level="7.2.3" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#sélectionner-certaines-variables-avec-la-fonction-select"><i class="fa fa-check"></i><b>7.2.3</b> Sélectionner certaines variables avec la fonction <em>select()</em></a></li>
+<li class="chapter" data-level="7.2.4" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#changer-le-nom-de-variables-avec-la-fonction-rename"><i class="fa fa-check"></i><b>7.2.4</b> Changer le nom de variables avec la fonction <em>rename()</em></a></li>
+<li class="chapter" data-level="7.2.5" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#ajouter-une-nouvelle-colonne-avec-la-fonction-mutate"><i class="fa fa-check"></i><b>7.2.5</b> Ajouter une nouvelle colonne avec la fonction <em>mutate()</em></a></li>
+<li class="chapter" data-level="7.2.6" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#faire-des-calculs-statistiques-avec-la-fonction-summarise"><i class="fa fa-check"></i><b>7.2.6</b> Faire des calculs statistiques avec la fonction <em>summarise()</em></a></li>
+<li class="chapter" data-level="7.2.7" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#faire-des-calculs-statistiques-en-utilisant-une-nouvelle-syntaxe"><i class="fa fa-check"></i><b>7.2.7</b> Faire des calculs statistiques en utilisant une nouvelle syntaxe</a></li>
+<li class="chapter" data-level="7.2.8" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#tirer-un-échantillon-dune-population"><i class="fa fa-check"></i><b>7.2.8</b> Tirer un échantillon d’une population</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tidy-data.html"><a href="tidy-data.html"><i class="fa fa-check"></i><b>8</b> Tidy data</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tidy-data.html"><a href="tidy-data.html#la-fonction-pivot_longer-transformer-des-colonnes-en-lignes"><i class="fa fa-check"></i><b>8.1</b> La fonction <em>pivot_longer()</em> : transformer des colonnes en lignes</a></li>
+<li class="chapter" data-level="8.2" data-path="tidy-data.html"><a href="tidy-data.html#la-fonction-pivot_wider-transformer-des-lignes-en-colonnes"><i class="fa fa-check"></i><b>8.2</b> La fonction <em>pivot_wider()</em> : transformer des lignes en colonnes</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="tidy-data.html"><a href="tidy-data.html#la-fonction-separate"><i class="fa fa-check"></i><b>8.2.1</b> La fonction <em>separate()</em></a></li>
+<li class="chapter" data-level="8.2.2" data-path="tidy-data.html"><a href="tidy-data.html#la-fonction-unite"><i class="fa fa-check"></i><b>8.2.2</b> La fonction <em>unite()</em></a></li>
+<li class="chapter" data-level="8.2.3" data-path="tidy-data.html"><a href="tidy-data.html#la-fonction-extract"><i class="fa fa-check"></i><b>8.2.3</b> La fonction <em>extract()</em></a></li>
+<li class="chapter" data-level="8.2.4" data-path="tidy-data.html"><a href="tidy-data.html#la-fonction-complete"><i class="fa fa-check"></i><b>8.2.4</b> La fonction <em>complete()</em></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html"><i class="fa fa-check"></i><b>9</b> Gestion de données volumineuses</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#optimiser-la-fonction-read.table"><i class="fa fa-check"></i><b>9.1</b> Optimiser la fonction <em>read.table()</em></a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#astuce-1"><i class="fa fa-check"></i><b>9.1.1</b> Astuce 1</a></li>
+<li class="chapter" data-level="9.1.2" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#astuce-2"><i class="fa fa-check"></i><b>9.1.2</b> Astuce 2</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#le-package-readr"><i class="fa fa-check"></i><b>9.2</b> Le package <strong>readr</strong></a></li>
+<li class="chapter" data-level="9.3" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#autres-packages"><i class="fa fa-check"></i><b>9.3</b> Autres packages</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#package-data.table"><i class="fa fa-check"></i><b>9.3.1</b> Package <strong>data.table</strong></a></li>
+<li class="chapter" data-level="9.3.2" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#package-ff"><i class="fa fa-check"></i><b>9.3.2</b> Package <strong>ff</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#algorithme-de-type-mapreducce"><i class="fa fa-check"></i><b>9.4</b> Algorithme de type Map/Reducce</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#package-matrix"><i class="fa fa-check"></i><b>9.4.1</b> Package <strong>Matrix</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#interaction-avec-des-systèmes-de-gestion-de-bases-de-données"><i class="fa fa-check"></i><b>9.5</b> Interaction avec des systèmes de gestion de bases de données</a></li>
+<li class="chapter" data-level="9.6" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#utiliser-la-syntaxe-sql"><i class="fa fa-check"></i><b>9.6</b> utiliser la syntaxe SQL</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="visualiser-et-traiter-les-données-manquantes.html"><a href="visualiser-et-traiter-les-données-manquantes.html"><i class="fa fa-check"></i><b>10</b> Visualiser et traiter les données manquantes</a></li>
+<li class="chapter" data-level="11" data-path="répertoires-et-fichiers.html"><a href="répertoires-et-fichiers.html"><i class="fa fa-check"></i><b>11</b> Répertoires et fichiers</a></li>
+<li class="chapter" data-level="12" data-path="autour-de-lespace-de-travail.html"><a href="autour-de-lespace-de-travail.html"><i class="fa fa-check"></i><b>12</b> Autour de l’espace de travail</a></li>
+<li class="chapter" data-level="13" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html"><i class="fa fa-check"></i><b>13</b> Footnotes and citations</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#footnotes"><i class="fa fa-check"></i><b>13.1</b> Footnotes</a></li>
+<li class="chapter" data-level="13.2" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#citations"><i class="fa fa-check"></i><b>13.2</b> Citations</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="hello-bookdown.html"><a href="hello-bookdown.html"><i class="fa fa-check"></i><b>14</b> Hello bookdown</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="hello-bookdown.html"><a href="hello-bookdown.html#a-section"><i class="fa fa-check"></i><b>14.1</b> A section</a>
+<ul>
+<li class="chapter" data-level="" data-path="hello-bookdown.html"><a href="hello-bookdown.html#an-unnumbered-section"><i class="fa fa-check"></i>An unnumbered section</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="cross.html"><a href="cross.html"><i class="fa fa-check"></i><b>15</b> Cross-references</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="cross.html"><a href="cross.html#chapters-and-sub-chapters"><i class="fa fa-check"></i><b>15.1</b> Chapters and sub-chapters</a></li>
+<li class="chapter" data-level="15.2" data-path="cross.html"><a href="cross.html#captioned-figures-and-tables"><i class="fa fa-check"></i><b>15.2</b> Captioned figures and tables</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="parts.html"><a href="parts.html"><i class="fa fa-check"></i><b>16</b> Parts</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="17" data-path="blocks.html"><a href="blocks.html"><i class="fa fa-check"></i><b>17</b> Blocks</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="blocks.html"><a href="blocks.html#equations"><i class="fa fa-check"></i><b>17.1</b> Equations</a></li>
+<li class="chapter" data-level="17.2" data-path="blocks.html"><a href="blocks.html#theorems-and-proofs"><i class="fa fa-check"></i><b>17.2</b> Theorems and proofs</a></li>
+<li class="chapter" data-level="17.3" data-path="blocks.html"><a href="blocks.html#callout-blocks"><i class="fa fa-check"></i><b>17.3</b> Callout blocks</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="sharing-your-book.html"><a href="sharing-your-book.html"><i class="fa fa-check"></i><b>18</b> Sharing your book</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="sharing-your-book.html"><a href="sharing-your-book.html#publishing"><i class="fa fa-check"></i><b>18.1</b> Publishing</a></li>
+<li class="chapter" data-level="18.2" data-path="sharing-your-book.html"><a href="sharing-your-book.html#pages"><i class="fa fa-check"></i><b>18.2</b> 404 pages</a></li>
+<li class="chapter" data-level="18.3" data-path="sharing-your-book.html"><a href="sharing-your-book.html#metadata-for-sharing"><i class="fa fa-check"></i><b>18.3</b> Metadata for sharing</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Manipulation de données avec <strong>R</strong></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="autour-de-lespace-de-travail" class="section level1" number="12">
+<h1><span class="header-section-number">Chapitre 12</span> Autour de l’espace de travail</h1>
+<p>La fonction <em>search()</em> donne la liste des packages (mais pas seulement) attachés à l’espace de travail. En gros, il s’agit des packages et environnements auxquels il est possible d’accéder dans la session en cours à l’instant <span class="math inline">\(t\)</span>. Cette liste évolue bien entendu au fur et à mesure de la session :</p>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="autour-de-lespace-de-travail.html#cb348-1" aria-hidden="true" tabindex="-1"></a><span class="fu">search</span>()</span>
+<span id="cb348-2"><a href="autour-de-lespace-de-travail.html#cb348-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;foreign&quot;</span>)</span>
+<span id="cb348-3"><a href="autour-de-lespace-de-travail.html#cb348-3" aria-hidden="true" tabindex="-1"></a><span class="fu">search</span>()</span></code></pre></div>
+<p>L’option <strong>pos</strong> de la fonction <em>ls()</em> permet de lister le contenu d’un package particulier en donnant sa position dans la liste renvoyée par <em>search()</em>. Vous pourrez en choisissant le bon indice, vous rendre compte de l’ensemble des fonctions accessibles depuis le package <strong>base</strong> :</p>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="autour-de-lespace-de-travail.html#cb349-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>(<span class="at">pos =</span> <span class="fu">which</span>(<span class="fu">search</span>() <span class="sc">==</span> <span class="st">&quot;package:base&quot;</span>))</span></code></pre></div>
+<p>Certains packages peuvent avoir des fonctions portant le même nom ; d’où le message d’avertissement ci-dessous au moment de charger un nouveau package, indiquant qu’un objet est masqué dans un package situé plus loin dans la liste <em>search()</em>.</p>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="autour-de-lespace-de-travail.html#cb350-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;pls&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## Attachement du package : &#39;pls&#39;</code></pre>
+<pre><code>## L&#39;objet suivant est masqué depuis &#39;package:stats&#39;:
+## 
+##     loadings</code></pre>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="autour-de-lespace-de-travail.html#cb353-1" aria-hidden="true" tabindex="-1"></a><span class="fu">search</span>()</span></code></pre></div>
+<pre><code>##  [1] &quot;.GlobalEnv&quot;           &quot;package:pls&quot;          &quot;package:VIM&quot;         
+##  [4] &quot;package:grid&quot;         &quot;package:colorspace&quot;   &quot;package:Amelia&quot;      
+##  [7] &quot;package:Rcpp&quot;         &quot;package:missForest&quot;   &quot;package:itertools&quot;   
+## [10] &quot;package:iterators&quot;    &quot;package:foreach&quot;      &quot;package:randomForest&quot;
+## [13] &quot;package:data.table&quot;   &quot;package:forcats&quot;      &quot;package:dplyr&quot;       
+## [16] &quot;package:purrr&quot;        &quot;package:readr&quot;        &quot;package:tidyr&quot;       
+## [19] &quot;package:tibble&quot;       &quot;package:ggplot2&quot;      &quot;package:tidyverse&quot;   
+## [22] &quot;package:gplots&quot;       &quot;package:zoo&quot;          &quot;package:classInt&quot;    
+## [25] &quot;package:glue&quot;         &quot;package:stringr&quot;      &quot;package:wordcloud&quot;   
+## [28] &quot;package:RColorBrewer&quot; &quot;package:stats&quot;        &quot;package:graphics&quot;    
+## [31] &quot;package:grDevices&quot;    &quot;package:utils&quot;        &quot;package:datasets&quot;    
+## [34] &quot;package:methods&quot;      &quot;Autoloads&quot;            &quot;package:base&quot;</code></pre>
+<p>Dans ce cas, si on souhaite obtenir l’aide de la “bonne” fonction, il suffit de précéder le nom de la fonction par le nom du package suivi de <em>::</em>.</p>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="autour-de-lespace-de-travail.html#cb355-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span>(<span class="st">&quot;loadings&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;package:pls&quot;   &quot;package:stats&quot;</code></pre>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="autour-de-lespace-de-travail.html#cb357-1" aria-hidden="true" tabindex="-1"></a>?loadings</span></code></pre></div>
+<pre><code>## Help on topic &#39;loadings&#39; was found in the following packages:
+## 
+##   Package               Library
+##   pls                   /home/laurent/R/x86_64-pc-linux-gnu-library/4.1
+##   stats                 /usr/lib/R/library
+## 
+## 
+## Utilisation de la première correspondance ...</code></pre>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="autour-de-lespace-de-travail.html#cb359-1" aria-hidden="true" tabindex="-1"></a>?stats<span class="sc">::</span>loadings</span></code></pre></div>
+<p><strong>Remarque :</strong> on pourra procéder de la même façon pour être sûr d’exécuter la “bonne” fonction.</p>
+<p>On a vu précédement que pour accéder à un élément d’une <strong>list</strong> ou d’un <strong>data.frame</strong>, il est nécessaire d’appeler cet objet suivi de l’opérateur <strong>$</strong>. Il existe au moins deux façons de simplifier cette opération. La première consiste à utiliser la fonction <em>with()</em> :</p>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="autour-de-lespace-de-travail.html#cb360-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(airquality,</span>
+<span id="cb360-2"><a href="autour-de-lespace-de-travail.html#cb360-2" aria-hidden="true" tabindex="-1"></a>     <span class="fu">summary</span>(Ozone))</span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##    1.00   18.00   31.50   42.13   63.25  168.00      37</code></pre>
+<p>La seconde consiste à utiliser la fonction <em>attach()</em> qui permet d’attacher tous les éléments d’un objet dans l’environnement de travail comme s’il s’agissait d’un package.</p>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="autour-de-lespace-de-travail.html#cb362-1" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">e_vec_x =</span> <span class="fu">rnorm</span>(<span class="dv">10</span>),</span>
+<span id="cb362-2"><a href="autour-de-lespace-de-travail.html#cb362-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">e_fic1 =</span> <span class="cf">function</span>(x) <span class="fu">mean</span>(x), </span>
+<span id="cb362-3"><a href="autour-de-lespace-de-travail.html#cb362-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">e_fic2 =</span> <span class="cf">function</span>(x) <span class="fu">mean</span>((x<span class="sc">-</span><span class="fu">e_fic1</span>(x))<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb362-4"><a href="autour-de-lespace-de-travail.html#cb362-4" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(e)</span>
+<span id="cb362-5"><a href="autour-de-lespace-de-travail.html#cb362-5" aria-hidden="true" tabindex="-1"></a><span class="fu">search</span>()</span></code></pre></div>
+<pre><code>##  [1] &quot;.GlobalEnv&quot;           &quot;e&quot;                    &quot;package:pls&quot;         
+##  [4] &quot;package:VIM&quot;          &quot;package:grid&quot;         &quot;package:colorspace&quot;  
+##  [7] &quot;package:Amelia&quot;       &quot;package:Rcpp&quot;         &quot;package:missForest&quot;  
+## [10] &quot;package:itertools&quot;    &quot;package:iterators&quot;    &quot;package:foreach&quot;     
+## [13] &quot;package:randomForest&quot; &quot;package:data.table&quot;   &quot;package:forcats&quot;     
+## [16] &quot;package:dplyr&quot;        &quot;package:purrr&quot;        &quot;package:readr&quot;       
+## [19] &quot;package:tidyr&quot;        &quot;package:tibble&quot;       &quot;package:ggplot2&quot;     
+## [22] &quot;package:tidyverse&quot;    &quot;package:gplots&quot;       &quot;package:zoo&quot;         
+## [25] &quot;package:classInt&quot;     &quot;package:glue&quot;         &quot;package:stringr&quot;     
+## [28] &quot;package:wordcloud&quot;    &quot;package:RColorBrewer&quot; &quot;package:stats&quot;       
+## [31] &quot;package:graphics&quot;     &quot;package:grDevices&quot;    &quot;package:utils&quot;       
+## [34] &quot;package:datasets&quot;     &quot;package:methods&quot;      &quot;Autoloads&quot;           
+## [37] &quot;package:base&quot;</code></pre>
+<p>Ensuite, il est possible d’accéder directement aux éléments de la liste sans avoir à appeler l’objet <strong>e</strong> :</p>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="autour-de-lespace-de-travail.html#cb364-1" aria-hidden="true" tabindex="-1"></a><span class="fu">e_fic1</span>(e_vec_x)</span></code></pre></div>
+<pre><code>## [1] 0.6690173</code></pre>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="autour-de-lespace-de-travail.html#cb366-1" aria-hidden="true" tabindex="-1"></a><span class="fu">e_fic2</span>(e_vec_x)</span></code></pre></div>
+<pre><code>## [1] 0.9399229</code></pre>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="autour-de-lespace-de-travail.html#cb368-1" aria-hidden="true" tabindex="-1"></a><span class="fu">detach</span>(e)</span></code></pre></div>
+<p><strong>Attention :</strong> il faut être très prudent avec la fonction <em>attach()</em>, car cela peut créer des conflits avec l’environnement global.</p>
+<p><strong>Remarque :</strong> il est parfois utile de connaître certains détails de l’environnement de travail notamment pour comprendre <em>pourquoi ça ne marche pas !!!</em> (voir dessin ci-dessous). Les fonctions <em>sessionInfo()</em> et <em>R.Version()</em> peuvent permettre d’identifier certaines incompatibilités entre notre version de <strong>R</strong> et un package particulier que l’on vient d’installer.</p>
+<div class="figure">
+<img src="Figures/version.png" alt="" />
+<p class="caption">ça ne marche pas !!!</p>
+</div>
+<p><strong>Exercice 1.11.</strong></p>
+<p><strong>Q1</strong> Quel est l’inconvénient illustré par les manipulations de <em>e_fic1()</em>, <strong>e_vec_x</strong> et <em>e_fic2()</em> ?</p>
+<p><strong>Q2</strong> à quoi sert l’opérateur <strong>::</strong> ?</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="répertoires-et-fichiers.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="footnotes-and-citations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-data-management.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

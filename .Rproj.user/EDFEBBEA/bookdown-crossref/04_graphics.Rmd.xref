@@ -1,0 +1,43 @@
+h1:visualisation-de-données Visualisation de données
+h2:fonctions-graphiques-de-base-vs-ggplot2 Fonctions graphiques de base VS 
+h3:graphiques-standards Graphiques standards
+h4:diagramme-en-barre Diagramme en barre
+h4:séries-temporelles Séries temporelles
+h4:histogramme-et-fonction-de-densité Histogramme et fonction de densité
+h4:nuage-de-points Nuage de points
+h4:boîtes-à-moustaches-parallèles Boîtes à moustaches parallèles
+h3:graphiques-conditionnels Graphiques conditionnels
+h4:utilisation-des-options-fill-et-colour Utilisation des options  et 
+h5:fonctions-de-densités Fonctions de densités
+h5:nuages-de-points Nuages de points
+h5:boîtes-à-moustaches Boîtes à moustaches
+h4:utilisation-des-facet Utilisation des facet
+h2:présentation-de-graphiques-originaux Présentation de graphiques originaux
+h3:mélange-boîte-à-moustachediagramme-de-dispersion Mélange boîte à moustache/diagramme de dispersion
+h3:violin-plot Violin plot
+h3:ridgeline-plots Ridgeline plots
+h3:barres-derreurs Barres d’erreurs
+h3:cleveland-dot-chart Cleveland dot chart
+h3:area-chart Area chart
+h3:correlation-plot Correlation plot
+h3:représenter-les-effets-des-variables-explicatives Représenter les effets des variables explicatives
+h4:régression-linéaire Régression linéaire
+h4:régression-logistique Régression logistique
+h4:modèle-de-survie Modèle de survie
+h3:mosaic-plot Mosaic plot
+h2:présenter-des-tableaux-de-résultats Présenter des tableaux de résultats
+h3:la-fonction-kable La fonction 
+h3:la-fonction-stargazer La fonction 
+h4:table-de-données-brutes Table de données brutes
+h4:tableau-de-résumé Tableau de résumé
+h4:tableaux-de-régression Tableaux de régression
+h2:graphiques-interactifs Graphiques interactifs
+h3:via-plotly Via 
+h3:via-d3 Via 
+h2:mini-introduction-à-shiny Mini-introduction à 
+h3:un-premier-exemple Un premier exemple
+h3:quelques-fonctionnalités-de-shiny Quelques fonctionnalités de 
+h4:dans-la-partie-de-gauche Dans la partie de gauche
+h4:dans-la-partie-de-droite Dans la partie de droite
+h3:publier-ses-applications Publier ses applications
+

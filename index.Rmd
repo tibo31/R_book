@@ -1,0 +1,51 @@
+--- 
+title: "R avancé"
+author: "Sébastien Déjean et Thibault Laurent"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+# url: your book url like https://bookdown.org/yihui/bookdown
+# cover-image: path to the social sharing image like images/cover.jpg
+description: |
+  This is a minimal example of using the bookdown package to write a book.
+  The HTML output format for this example is bookdown::gitbook,
+  set in the _output.yml file.
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+---
+
+# Introduction  
+
+## Principe du document 
+
+Ce document fait suite aux documents suivants : 
+
+* *Pour se donner un peu d'**R*** disponible [ici](https://www.math.univ-toulouse.fr/~sdejean/PDF/un-peu-d-R.pdf) 
+
+* *Introduction à **R*** disponible [ici](http://www.thibault.laurent.free.fr/cours/R_intro/)
+
+Il contient des commandes à saisir, des commentaires pour attirer l'attention sur des points particuliers et quelques questions/réponses pour tester la compréhension des notions présentées. Pour certains points particuliers, nécessitant par exemple un environnement logiciel particulier, les faits ne sont que mentionnés et il n'y a pas toujours de mise en oeuvre pratique. 
+
+## Pré-requis ##
+
+Même si la plupart des points abordés dans ce document ne sont pas très compliqués, ils relèvent d'une utilisation avancée de **R** et ne s'adressent donc pas au débutant en **R**. Avant d'utiliser ce document, le lecteur doit notamment savoir :
+
+* se servir de l'aide en ligne de **R**,
+
+* manipuler les objets de base de **R** : vecteur, matrice, liste,  **data.frame**,
+
+* programmer une fonction élémentaire.
+
+
+```{r eval=FALSE}
+bookdown::serve_book()
+```
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```

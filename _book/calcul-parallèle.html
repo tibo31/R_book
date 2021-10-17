@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapitre 4 Calcul parallèle | R avancé</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapitre 4 Calcul parallèle | R avancé" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapitre 4 Calcul parallèle | R avancé" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Sébastien Déjean et Thibault Laurent" />
+
+
+<meta name="date" content="2021-10-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="programmation.html"/>
+<link rel="next" href="visualisation-de-données.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.9.3/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+<script src="libs/d3-4.5.0/d3.min.js"></script>
+<script src="libs/chordNetwork-binding-0.4/chordNetwork.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R avancé</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#principe-du-document"><i class="fa fa-check"></i><b>1.1</b> Principe du document</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#pré-requis"><i class="fa fa-check"></i><b>1.2</b> Pré-requis</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html"><i class="fa fa-check"></i><b>2</b> Manipulation de données avec <strong>R</strong></a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#les-chaînes-de-caractères"><i class="fa fa-check"></i><b>2.1</b> Les chaînes de caractères</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#fonctions-de-base"><i class="fa fa-check"></i><b>2.1.1</b> Fonctions de base</a></li>
+<li class="chapter" data-level="2.1.2" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#les-expressions-régulières"><i class="fa fa-check"></i><b>2.1.2</b> Les expressions régulières</a></li>
+<li class="chapter" data-level="2.1.3" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#application-aux-tweets"><i class="fa fa-check"></i><b>2.1.3</b> Application aux tweets</a></li>
+<li class="chapter" data-level="2.1.4" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#nuage-de-mots"><i class="fa fa-check"></i><b>2.1.4</b> Nuage de mots</a></li>
+<li class="chapter" data-level="2.1.5" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#ordonnancement"><i class="fa fa-check"></i><b>2.1.5</b> Ordonnancement</a></li>
+<li class="chapter" data-level="2.1.6" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#package-stringr"><i class="fa fa-check"></i><b>2.1.6</b> Package <strong>stringr</strong></a></li>
+<li class="chapter" data-level="2.1.7" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#package-glue"><i class="fa fa-check"></i><b>2.1.7</b> Package <strong>glue</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#les-facteurs"><i class="fa fa-check"></i><b>2.2</b> Les facteurs</a></li>
+<li class="chapter" data-level="2.3" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#les-dates"><i class="fa fa-check"></i><b>2.3</b> Les dates</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#dates-et-unités-de-temps"><i class="fa fa-check"></i><b>2.3.1</b> Dates et unités de temps</a></li>
+<li class="chapter" data-level="2.3.2" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#séries-temporelles"><i class="fa fa-check"></i><b>2.3.2</b> Séries temporelles</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#opérations-ensemblistes"><i class="fa fa-check"></i><b>2.4</b> Opérations ensemblistes</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#lunion"><i class="fa fa-check"></i><b>2.4.1</b> L’union</a></li>
+<li class="chapter" data-level="2.4.2" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#lintersection"><i class="fa fa-check"></i><b>2.4.2</b> L’intersection</a></li>
+<li class="chapter" data-level="2.4.3" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#la-différence-a-b-différent-de-b-a"><i class="fa fa-check"></i><b>2.4.3</b> La différence (<span class="math inline">\(A-B\)</span>, différent de <span class="math inline">\(B-A\)</span>)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#manipulation-de-bases-de-données"><i class="fa fa-check"></i><b>2.5</b> Manipulation de bases de données</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#jointure-et-agrégation"><i class="fa fa-check"></i><b>2.5.1</b> Jointure et agrégation</a></li>
+<li class="chapter" data-level="2.5.2" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#package-dplyr"><i class="fa fa-check"></i><b>2.5.2</b> Package <strong>dplyr</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#tidy-data"><i class="fa fa-check"></i><b>2.6</b> Tidy data</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#la-fonction-pivot_longer-transformer-des-colonnes-en-lignes"><i class="fa fa-check"></i><b>2.6.1</b> La fonction <em>pivot_longer()</em> : transformer des colonnes en lignes</a></li>
+<li class="chapter" data-level="2.6.2" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#la-fonction-pivot_wider-transformer-des-lignes-en-colonnes"><i class="fa fa-check"></i><b>2.6.2</b> La fonction <em>pivot_wider()</em> : transformer des lignes en colonnes</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#gestion-de-données-volumineuses"><i class="fa fa-check"></i><b>2.7</b> Gestion de données volumineuses</a>
+<ul>
+<li class="chapter" data-level="2.7.1" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#optimiser-la-fonction-read.table"><i class="fa fa-check"></i><b>2.7.1</b> Optimiser la fonction <em>read.table()</em></a></li>
+<li class="chapter" data-level="2.7.2" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#le-package-readr"><i class="fa fa-check"></i><b>2.7.2</b> Le package <strong>readr</strong></a></li>
+<li class="chapter" data-level="2.7.3" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#autres-packages"><i class="fa fa-check"></i><b>2.7.3</b> Autres packages</a></li>
+<li class="chapter" data-level="2.7.4" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#algorithme-de-type-mapreducce"><i class="fa fa-check"></i><b>2.7.4</b> Algorithme de type Map/Reducce</a></li>
+<li class="chapter" data-level="2.7.5" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#interaction-avec-des-systèmes-de-gestion-de-bases-de-données"><i class="fa fa-check"></i><b>2.7.5</b> Interaction avec des systèmes de gestion de bases de données</a></li>
+<li class="chapter" data-level="2.7.6" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#utiliser-la-syntaxe-sql"><i class="fa fa-check"></i><b>2.7.6</b> Utiliser la syntaxe SQL</a></li>
+</ul></li>
+<li class="chapter" data-level="2.8" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#visualiser-et-traiter-les-données-manquantes"><i class="fa fa-check"></i><b>2.8</b> Visualiser et traiter les données manquantes</a></li>
+<li class="chapter" data-level="2.9" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#répertoires-et-fichiers"><i class="fa fa-check"></i><b>2.9</b> Répertoires et fichiers</a></li>
+<li class="chapter" data-level="2.10" data-path="manipulation-de-données-avec-r.html"><a href="manipulation-de-données-avec-r.html#autour-de-lespace-de-travail"><i class="fa fa-check"></i><b>2.10</b> Autour de l’espace de travail</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="programmation.html"><a href="programmation.html"><i class="fa fa-check"></i><b>3</b> Programmation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="programmation.html"><a href="programmation.html#quelques-règles-de-style"><i class="fa fa-check"></i><b>3.1</b> Quelques règles de style</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="programmation.html"><a href="programmation.html#le-nom-des-fichiers-de-codes"><i class="fa fa-check"></i><b>3.1.1</b> Le nom des fichiers de codes</a></li>
+<li class="chapter" data-level="3.1.2" data-path="programmation.html"><a href="programmation.html#le-nom-des-objets"><i class="fa fa-check"></i><b>3.1.2</b> Le nom des objets</a></li>
+<li class="chapter" data-level="3.1.3" data-path="programmation.html"><a href="programmation.html#espace-entre-les-opérateurs"><i class="fa fa-check"></i><b>3.1.3</b> Espace entre les opérateurs</a></li>
+<li class="chapter" data-level="3.1.4" data-path="programmation.html"><a href="programmation.html#les-conditions"><i class="fa fa-check"></i><b>3.1.4</b> Les conditions</a></li>
+<li class="chapter" data-level="3.1.5" data-path="programmation.html"><a href="programmation.html#la-taille-dune-ligne"><i class="fa fa-check"></i><b>3.1.5</b> La taille d’une ligne</a></li>
+<li class="chapter" data-level="3.1.6" data-path="programmation.html"><a href="programmation.html#affectation"><i class="fa fa-check"></i><b>3.1.6</b> Affectation</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="programmation.html"><a href="programmation.html#fixer-la-taille-des-vecteurs-si-on-la-connaît-à-lavance"><i class="fa fa-check"></i><b>3.2</b> Fixer la taille des vecteurs (si on la connaît à l’avance)</a></li>
+<li class="chapter" data-level="3.3" data-path="programmation.html"><a href="programmation.html#temps-de-calcul-et-mémoire"><i class="fa fa-check"></i><b>3.3</b> Temps de calcul et mémoire</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="programmation.html"><a href="programmation.html#pour-mesurer-les-temps-de-calcul-efficacement"><i class="fa fa-check"></i><b>3.3.1</b> Pour mesurer les temps de calcul efficacement</a></li>
+<li class="chapter" data-level="3.3.2" data-path="programmation.html"><a href="programmation.html#pour-comprendre-la-gestion-de-la-mémoire"><i class="fa fa-check"></i><b>3.3.2</b> Pour comprendre la gestion de la mémoire</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="programmation.html"><a href="programmation.html#fonction-vectorisée"><i class="fa fa-check"></i><b>3.4</b> Fonction vectorisée</a></li>
+<li class="chapter" data-level="3.5" data-path="programmation.html"><a href="programmation.html#ecrire-un-code-en-c"><i class="fa fa-check"></i><b>3.5</b> Ecrire un code en C++</a></li>
+<li class="chapter" data-level="3.6" data-path="programmation.html"><a href="programmation.html#insérer-du-code-python-dans-un-document-markdown"><i class="fa fa-check"></i><b>3.6</b> Insérer du code Python dans un document Markdown</a></li>
+<li class="chapter" data-level="3.7" data-path="programmation.html"><a href="programmation.html#eviter-si-possible-les-boucles-apply-lapply-replicate-colsums-etc."><i class="fa fa-check"></i><b>3.7</b> Eviter si possible les boucles (<em>apply()</em>, <em>lapply()</em>, <em>replicate()</em>, <em>colSums()</em>, etc.)</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="programmation.html"><a href="programmation.html#apply-pour-les-matrixarray"><i class="fa fa-check"></i><b>3.7.1</b> <em>apply()</em> pour les <strong>matrix/array</strong></a></li>
+<li class="chapter" data-level="3.7.2" data-path="programmation.html"><a href="programmation.html#les-fonctions-colsums-rowsums-colmeans-rowmeans"><i class="fa fa-check"></i><b>3.7.2</b> Les fonctions <em>colSums()</em>, <em>rowSums()</em>, <em>colMeans()</em>, <em>rowMeans()</em></a></li>
+<li class="chapter" data-level="3.7.3" data-path="programmation.html"><a href="programmation.html#la-fonction-lapply"><i class="fa fa-check"></i><b>3.7.3</b> La fonction <em>lapply()</em></a></li>
+<li class="chapter" data-level="3.7.4" data-path="programmation.html"><a href="programmation.html#la-fonction-sapply"><i class="fa fa-check"></i><b>3.7.4</b> La fonction <em>sapply()</em></a></li>
+<li class="chapter" data-level="3.7.5" data-path="programmation.html"><a href="programmation.html#la-fonction-replicate"><i class="fa fa-check"></i><b>3.7.5</b> La fonction <em>replicate()</em></a></li>
+<li class="chapter" data-level="3.7.6" data-path="programmation.html"><a href="programmation.html#la-fonction-mapply"><i class="fa fa-check"></i><b>3.7.6</b> La fonction <em>mapply()</em></a></li>
+<li class="chapter" data-level="3.7.7" data-path="programmation.html"><a href="programmation.html#la-fonction-tapply"><i class="fa fa-check"></i><b>3.7.7</b> La fonction <em>tapply()</em></a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="programmation.html"><a href="programmation.html#améliorer-ses-fonctions"><i class="fa fa-check"></i><b>3.8</b> Améliorer ses fonctions</a>
+<ul>
+<li class="chapter" data-level="3.8.1" data-path="programmation.html"><a href="programmation.html#créer-des-sous-fonctions"><i class="fa fa-check"></i><b>3.8.1</b> Créer des sous-fonctions</a></li>
+<li class="chapter" data-level="3.8.2" data-path="programmation.html"><a href="programmation.html#structure-de-contrôle"><i class="fa fa-check"></i><b>3.8.2</b> Structure de contrôle</a></li>
+<li class="chapter" data-level="3.8.3" data-path="programmation.html"><a href="programmation.html#fonction-stopifnot"><i class="fa fa-check"></i><b>3.8.3</b> Fonction <em>stopifnot()</em></a></li>
+<li class="chapter" data-level="3.8.4" data-path="programmation.html"><a href="programmation.html#les-arguments-dans-une-fonction"><i class="fa fa-check"></i><b>3.8.4</b> Les arguments dans une fonction</a></li>
+</ul></li>
+<li class="chapter" data-level="3.9" data-path="programmation.html"><a href="programmation.html#a-quoi-servent-les-fonctions-substitutequote-et-eval"><i class="fa fa-check"></i><b>3.9</b> A quoi servent les fonctions <em>substitute()/quote()</em> et <em>eval()</em> ?</a>
+<ul>
+<li class="chapter" data-level="3.9.1" data-path="programmation.html"><a href="programmation.html#les-fonctions-quote-et-substitute"><i class="fa fa-check"></i><b>3.9.1</b> Les fonctions <em>quote()</em> et <em>substitute()</em></a></li>
+<li class="chapter" data-level="3.9.2" data-path="programmation.html"><a href="programmation.html#la-fonction-eval"><i class="fa fa-check"></i><b>3.9.2</b> La fonction <em>eval()</em></a></li>
+<li class="chapter" data-level="3.9.3" data-path="programmation.html"><a href="programmation.html#débugger-une-fonction"><i class="fa fa-check"></i><b>3.9.3</b> Débugger une fonction</a></li>
+</ul></li>
+<li class="chapter" data-level="3.10" data-path="programmation.html"><a href="programmation.html#programmation-orientée-s3s4"><i class="fa fa-check"></i><b>3.10</b> Programmation orientée : S3/S4</a>
+<ul>
+<li class="chapter" data-level="3.10.1" data-path="programmation.html"><a href="programmation.html#la-norme-s3"><i class="fa fa-check"></i><b>3.10.1</b> La norme S3</a></li>
+<li class="chapter" data-level="3.10.2" data-path="programmation.html"><a href="programmation.html#la-norme-s4"><i class="fa fa-check"></i><b>3.10.2</b> La norme S4</a></li>
+</ul></li>
+<li class="chapter" data-level="3.11" data-path="programmation.html"><a href="programmation.html#visualiser-le-code-source-dune-fonction"><i class="fa fa-check"></i><b>3.11</b> Visualiser le code source d’une fonction</a>
+<ul>
+<li class="chapter" data-level="3.11.1" data-path="programmation.html"><a href="programmation.html#la-fonction-est-dans-lenvironnement-courant"><i class="fa fa-check"></i><b>3.11.1</b> La fonction est dans l’environnement courant</a></li>
+<li class="chapter" data-level="3.11.2" data-path="programmation.html"><a href="programmation.html#la-fonction-est-une-méthode-générique-de-type-s3"><i class="fa fa-check"></i><b>3.11.2</b> La fonction est une méthode générique de type S3</a></li>
+<li class="chapter" data-level="3.11.3" data-path="programmation.html"><a href="programmation.html#la-fonction-fait-appel-à-du-code-c"><i class="fa fa-check"></i><b>3.11.3</b> La fonction fait appel à du code <strong>C</strong></a></li>
+<li class="chapter" data-level="3.11.4" data-path="programmation.html"><a href="programmation.html#la-fonction-est-une-méthode-générique-de-type-s4"><i class="fa fa-check"></i><b>3.11.4</b> La fonction est une méthode générique de type S4</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="calcul-parallèle.html"><a href="calcul-parallèle.html"><i class="fa fa-check"></i><b>4</b> Calcul parallèle</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="calcul-parallèle.html"><a href="calcul-parallèle.html#principe-du-calcul-parallèle"><i class="fa fa-check"></i><b>4.1</b> Principe du calcul parallèle</a></li>
+<li class="chapter" data-level="4.2" data-path="calcul-parallèle.html"><a href="calcul-parallèle.html#notion-de-programme-maître"><i class="fa fa-check"></i><b>4.2</b> Notion de programme maître</a></li>
+<li class="chapter" data-level="4.3" data-path="calcul-parallèle.html"><a href="calcul-parallèle.html#fonction-set.seed"><i class="fa fa-check"></i><b>4.3</b> Fonction <em>set.seed()</em></a></li>
+<li class="chapter" data-level="4.4" data-path="calcul-parallèle.html"><a href="calcul-parallèle.html#syntaxe-pour-lancer-un-calcul-parallèle"><i class="fa fa-check"></i><b>4.4</b> Syntaxe pour lancer un calcul parallèle</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="calcul-parallèle.html"><a href="calcul-parallèle.html#syntaxe-dans-le-cas-non-parallèle"><i class="fa fa-check"></i><b>4.4.1</b> Syntaxe dans le cas non parallèle</a></li>
+<li class="chapter" data-level="4.4.2" data-path="calcul-parallèle.html"><a href="calcul-parallèle.html#syntaxe-dans-le-cas-parallèle"><i class="fa fa-check"></i><b>4.4.2</b> Syntaxe dans le cas parallèle</a></li>
+<li class="chapter" data-level="4.4.3" data-path="calcul-parallèle.html"><a href="calcul-parallèle.html#recommandations"><i class="fa fa-check"></i><b>4.4.3</b> Recommandations</a></li>
+<li class="chapter" data-level="4.4.4" data-path="calcul-parallèle.html"><a href="calcul-parallèle.html#récupérer-les-résultats"><i class="fa fa-check"></i><b>4.4.4</b> Récupérer les résultats</a></li>
+<li class="chapter" data-level="4.4.5" data-path="calcul-parallèle.html"><a href="calcul-parallèle.html#utiliser-des-packages-objets-jeux-de-données-sur-les-différents-coeurs"><i class="fa fa-check"></i><b>4.4.5</b> Utiliser des packages, objets, jeux de données sur les différents coeurs</a></li>
+<li class="chapter" data-level="4.4.6" data-path="calcul-parallèle.html"><a href="calcul-parallèle.html#fonctions-lapply-sapply-apply-mapply"><i class="fa fa-check"></i><b>4.4.6</b> Fonctions <em>lapply()</em>, <em>sapply()</em>, <em>apply()</em>, <em>mapply()</em></a></li>
+<li class="chapter" data-level="4.4.7" data-path="calcul-parallèle.html"><a href="calcul-parallèle.html#autres-packages-de-calcul-parallèle"><i class="fa fa-check"></i><b>4.4.7</b> Autres packages de calcul parallèle</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="calcul-parallèle.html"><a href="calcul-parallèle.html#equilibrer-la-répartition-des-tâches"><i class="fa fa-check"></i><b>4.5</b> Equilibrer la répartition des tâches</a></li>
+<li class="chapter" data-level="4.6" data-path="calcul-parallèle.html"><a href="calcul-parallèle.html#améliorer-la-répartition-des-tâches"><i class="fa fa-check"></i><b>4.6</b> Améliorer la répartition des tâches</a></li>
+<li class="chapter" data-level="4.7" data-path="calcul-parallèle.html"><a href="calcul-parallèle.html#fonction-vectorisée-vs-calcul-vs-code-c"><i class="fa fa-check"></i><b>4.7</b> Fonction vectorisée VS calcul // VS code <strong>C++</strong></a></li>
+<li class="chapter" data-level="4.8" data-path="calcul-parallèle.html"><a href="calcul-parallèle.html#reproductibilité-des-résultats-choix-de-la-graine-aléatoire"><i class="fa fa-check"></i><b>4.8</b> Reproductibilité des résultats : choix de la graine aléatoire</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html"><i class="fa fa-check"></i><b>5</b> Visualisation de données</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#fonctions-graphiques-de-base-vs-ggplot2"><i class="fa fa-check"></i><b>5.1</b> Fonctions graphiques de base VS <strong>ggplot2</strong></a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#graphiques-standards"><i class="fa fa-check"></i><b>5.1.1</b> Graphiques standards</a></li>
+<li class="chapter" data-level="5.1.2" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#graphiques-conditionnels"><i class="fa fa-check"></i><b>5.1.2</b> Graphiques conditionnels</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#présentation-de-graphiques-originaux"><i class="fa fa-check"></i><b>5.2</b> Présentation de graphiques originaux</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#mélange-boîte-à-moustachediagramme-de-dispersion"><i class="fa fa-check"></i><b>5.2.1</b> Mélange boîte à moustache/diagramme de dispersion</a></li>
+<li class="chapter" data-level="5.2.2" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#violin-plot"><i class="fa fa-check"></i><b>5.2.2</b> Violin plot</a></li>
+<li class="chapter" data-level="5.2.3" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#ridgeline-plots"><i class="fa fa-check"></i><b>5.2.3</b> Ridgeline plots</a></li>
+<li class="chapter" data-level="5.2.4" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#barres-derreurs"><i class="fa fa-check"></i><b>5.2.4</b> Barres d’erreurs</a></li>
+<li class="chapter" data-level="5.2.5" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#cleveland-dot-chart"><i class="fa fa-check"></i><b>5.2.5</b> Cleveland dot chart</a></li>
+<li class="chapter" data-level="5.2.6" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#area-chart"><i class="fa fa-check"></i><b>5.2.6</b> Area chart</a></li>
+<li class="chapter" data-level="5.2.7" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#correlation-plot"><i class="fa fa-check"></i><b>5.2.7</b> Correlation plot</a></li>
+<li class="chapter" data-level="5.2.8" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#représenter-les-effets-des-variables-explicatives"><i class="fa fa-check"></i><b>5.2.8</b> Représenter les effets des variables explicatives</a></li>
+<li class="chapter" data-level="5.2.9" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#mosaic-plot"><i class="fa fa-check"></i><b>5.2.9</b> Mosaic plot</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#présenter-des-tableaux-de-résultats"><i class="fa fa-check"></i><b>5.3</b> Présenter des tableaux de résultats</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#la-fonction-kable"><i class="fa fa-check"></i><b>5.3.1</b> La fonction <span class="math inline">\(kable()\)</span></a></li>
+<li class="chapter" data-level="5.3.2" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#la-fonction-stargazer"><i class="fa fa-check"></i><b>5.3.2</b> La fonction <span class="math inline">\(stargazer()\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#graphiques-interactifs"><i class="fa fa-check"></i><b>5.4</b> Graphiques interactifs</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#via-plotly"><i class="fa fa-check"></i><b>5.4.1</b> Via <strong>plotly</strong></a></li>
+<li class="chapter" data-level="5.4.2" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#via-d3"><i class="fa fa-check"></i><b>5.4.2</b> Via <strong>D3</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#mini-introduction-à-shiny"><i class="fa fa-check"></i><b>5.5</b> Mini-introduction à <strong>shiny</strong></a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#un-premier-exemple"><i class="fa fa-check"></i><b>5.5.1</b> Un premier exemple</a></li>
+<li class="chapter" data-level="5.5.2" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#quelques-fonctionnalités-de-shiny"><i class="fa fa-check"></i><b>5.5.2</b> Quelques fonctionnalités de <strong>shiny</strong></a></li>
+<li class="chapter" data-level="5.5.3" data-path="visualisation-de-données.html"><a href="visualisation-de-données.html#publier-ses-applications"><i class="fa fa-check"></i><b>5.5.3</b> Publier ses applications</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="hello-bookdown.html"><a href="hello-bookdown.html"><i class="fa fa-check"></i><b>6</b> Hello bookdown</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="hello-bookdown.html"><a href="hello-bookdown.html#a-section"><i class="fa fa-check"></i><b>6.1</b> A section</a>
+<ul>
+<li class="chapter" data-level="" data-path="hello-bookdown.html"><a href="hello-bookdown.html#an-unnumbered-section"><i class="fa fa-check"></i>An unnumbered section</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="cross.html"><a href="cross.html"><i class="fa fa-check"></i><b>7</b> Cross-references</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="cross.html"><a href="cross.html#chapters-and-sub-chapters"><i class="fa fa-check"></i><b>7.1</b> Chapters and sub-chapters</a></li>
+<li class="chapter" data-level="7.2" data-path="cross.html"><a href="cross.html#captioned-figures-and-tables"><i class="fa fa-check"></i><b>7.2</b> Captioned figures and tables</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="parts.html"><a href="parts.html"><i class="fa fa-check"></i><b>8</b> Parts</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="9" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html"><i class="fa fa-check"></i><b>9</b> Footnotes and citations</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#footnotes"><i class="fa fa-check"></i><b>9.1</b> Footnotes</a></li>
+<li class="chapter" data-level="9.2" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#citations"><i class="fa fa-check"></i><b>9.2</b> Citations</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="blocks.html"><a href="blocks.html"><i class="fa fa-check"></i><b>10</b> Blocks</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="blocks.html"><a href="blocks.html#equations"><i class="fa fa-check"></i><b>10.1</b> Equations</a></li>
+<li class="chapter" data-level="10.2" data-path="blocks.html"><a href="blocks.html#theorems-and-proofs"><i class="fa fa-check"></i><b>10.2</b> Theorems and proofs</a></li>
+<li class="chapter" data-level="10.3" data-path="blocks.html"><a href="blocks.html#callout-blocks"><i class="fa fa-check"></i><b>10.3</b> Callout blocks</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="sharing-your-book.html"><a href="sharing-your-book.html"><i class="fa fa-check"></i><b>11</b> Sharing your book</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="sharing-your-book.html"><a href="sharing-your-book.html#publishing"><i class="fa fa-check"></i><b>11.1</b> Publishing</a></li>
+<li class="chapter" data-level="11.2" data-path="sharing-your-book.html"><a href="sharing-your-book.html#pages"><i class="fa fa-check"></i><b>11.2</b> 404 pages</a></li>
+<li class="chapter" data-level="11.3" data-path="sharing-your-book.html"><a href="sharing-your-book.html#metadata-for-sharing"><i class="fa fa-check"></i><b>11.3</b> Metadata for sharing</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R avancé</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="calcul-parallèle" class="section level1" number="4">
+<h1><span class="header-section-number">Chapitre 4</span> Calcul parallèle</h1>
+<p>Nous allons voir dans ce chapitre le principe du calcul parallèle et une façon d’en faire avec <strong>R</strong>. Ce document est fortement inspiré du tutoriel suivant <a href="https://rawgit.com/PPgp/useR2017public/master/tutorial.html">Introduction to parallel computing with R</a>. Le lecteur pourra également consulter cette présentation très intéressante de Vicent Miele <a href="http://rug.mnhn.fr/semin-r/PDF/semin-R_calcul-parallele_VMiele_160617.pdf">Le calcul parallèle pour non-spécialistes,c’est maintenant!</a></p>
+<p>Ce document a été généré directement depuis <strong>RStudio</strong> en utilisant l’outil Markdown. La version <em>.pdf</em> se trouve <a href="chapitre_3_avance.pdf">ici</a>.</p>
+<p><strong>Packages à installer</strong></p>
+<div class="sourceCode" id="cb597"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb597-1"><a href="calcul-parallèle.html#cb597-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;parallel&quot;</span>, <span class="st">&quot;snow&quot;</span>, <span class="st">&quot;snowFT&quot;</span>, <span class="st">&quot;VGAM&quot;</span>), </span>
+<span id="cb597-2"><a href="calcul-parallèle.html#cb597-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div id="principe-du-calcul-parallèle" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Principe du calcul parallèle</h2>
+<p>On suppose que nous ayons un calcul à réaliser qui aurait cette forme :</p>
+<div class="sourceCode" id="cb598"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb598-1"><a href="calcul-parallèle.html#cb598-1" aria-hidden="true" tabindex="-1"></a><span class="ex">initialize.rng</span><span class="er">(</span><span class="ex">...</span><span class="kw">)</span> <span class="co"># on définit une séquence de graines pour tirage aléatoire</span></span>
+<span id="cb598-2"><a href="calcul-parallèle.html#cb598-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="kw">(</span><span class="ex">iteration</span> in 1:N<span class="kw">)</span> <span class="kw">{</span>              <span class="co"># on répète N fois,  </span></span>
+<span id="cb598-3"><a href="calcul-parallèle.html#cb598-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">result</span><span class="op">[</span>iteration<span class="op">]</span> <span class="op">&lt;</span>- <span class="ex">myfunc</span><span class="er">(</span><span class="ex">...</span><span class="kw">)</span>  <span class="co"># la fonction myfunc() </span></span>
+<span id="cb598-4"><a href="calcul-parallèle.html#cb598-4" aria-hidden="true" tabindex="-1"></a>                                      <span class="co"># avec une valeur de graine différente par itération</span></span>
+<span id="cb598-5"><a href="calcul-parallèle.html#cb598-5" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb598-6"><a href="calcul-parallèle.html#cb598-6" aria-hidden="true" tabindex="-1"></a><span class="ex">process</span><span class="er">(</span><span class="ex">result,...</span><span class="kw">)</span> <span class="co"># récupération des résultats </span></span></code></pre></div>
+<p><strong>Exemple</strong>: un exemple de programme ayant cette forme serait l’algorithme des forêts aléatoires, dans lequel <em>myfunc()</em> permettrait de coder un arbre de régression ou de classification sur un échantillon qui serait tiré différemment à chaque itération. A la fin de la boucle, on agrège en général les résultats des différents arbres pour faire de la prédiction.</p>
+<div class="figure">
+<img src="Figures/rf.png" alt="" />
+<p class="caption">Schéma des forêts aléatoires</p>
+</div>
+<p>Si on ne précise rien, le calcul précédent sera effectué de façon séquentiel, autrement dit il faut attendre qu’une itération soit terminée pour passer à la suivante. L’idée du calcul parallèle est de permettre de lancer le calcul de la fonction <em>myfunc()</em>, en parallèle, comme le montre la figure suivante.</p>
+<div class="figure">
+<img src="Figures/Figure1.png" alt="" />
+<p class="caption">Exemple de calcul parallèle</p>
+</div>
+<p>Avant de continuer à parler de calcul parallèle, rappelons la définition d’un processeur : “Le processeur ou CPU (Central Processing Unit) est le composant de votre ordinateur qui exécute les instructions qui lui sont données par votre système d’exploitation. Quand vous exécutez un logiciel, décompressez une archive ZIP ou regardez une vidéo en haute définition, vous faites travailler en priorité le processeur ! Pour répondre à vos demandes les plus exigeantes, le processeur peut être doté de plusieurs coeurs.” (définition extraite de <a href="https://lecrabeinfo.net/le-role-des-processeurs-et-de-leurs-coeurs.html">ce site</a>)</p>
+<p>Si un processeur ne possède qu’un seul coeur, il ne sera pas possible faire du calcul parallèle car les instructions seront traitées en série. Aujourd’hui, la plupart des machines sont dotées d’un processeur multi coeur, composé de deux ou plusieurs coeurs indépendants. Un processeur dual-core contient deux coeurs, un processeur quad-core quatre coeurs, etc. Sur la représentation graphique ci-dessous, on distingue bien les quatre coeurs du processeur.</p>
+<div class="figure">
+<img src="Figures/cpu.jpg" alt="" />
+<p class="caption">CPU</p>
+</div>
+<p>Pour savoir combien de coeurs on dispose sur notre machine, on peut utiliser la fonction <em>detectCores()</em> du package <strong>parallel</strong>:</p>
+<div class="sourceCode" id="cb599"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb599-1"><a href="calcul-parallèle.html#cb599-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;parallel&quot;</span>)</span>
+<span id="cb599-2"><a href="calcul-parallèle.html#cb599-2" aria-hidden="true" tabindex="-1"></a><span class="fu">detectCores</span>() <span class="co"># nombre de coeurs physiques</span></span></code></pre></div>
+<pre><code>## [1] 40</code></pre>
+<p>Cependant, un coeur peut lui-même se dédoubler : le nombre de tâches pouvant être exécuté correspond au nombre de “Thread” ou processeurs logiques. Pour connaître le nombre de Threads, on exécute la commande suivante :</p>
+<div class="sourceCode" id="cb601"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb601-1"><a href="calcul-parallèle.html#cb601-1" aria-hidden="true" tabindex="-1"></a><span class="fu">detectCores</span>(<span class="at">logical =</span> <span class="cn">TRUE</span>) <span class="co"># nombre de Threads</span></span></code></pre></div>
+<pre><code>## [1] 40</code></pre>
+<p>Sur Windows, il y a en général deux fois plus de Threads que de coeurs physiques. Dans notre cas, c’est le nombre de Threads qui nous intéresse plus particulièrement et c’est ce dernier chiffre que nous utiliserons pour faire du calcul parallèle. Dans la suite du cours, j’utiliserai l’expression coeur pour définir un Thread.</p>
+<p><strong>Pour en savoir plus</strong> sur les définitions des coeurs logiques et physiques, vous pouvez consulter cette page <a href="https://fr.wikipedia.org/wiki/Hyper-Threading">wikipedia</a></p>
+</div>
+<div id="notion-de-programme-maître" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Notion de programme maître</h2>
+<p>Dans l’exemple précédent, on a vu qu’on souhaitait répliquer <em>N</em> fois la fonction <em>myfunc()</em>, sachant que pour chaque itération, on utilise une valeur de graine différente (ce qui est logique sinon cela voudrait dire qu’on aurait <span class="math inline">\(N\)</span> fois le même résultat). Si <span class="math inline">\(N\)</span> est plus grand que le nombre de coeurs dont on dispose (ce qui est le plus souvent le cas), l’idée sera d’envoyer sur chaque coeur un certain nombre d’itération. Prenons par exemple <span class="math inline">\(N=100\)</span> et 4 coeurs, dans ce cas il semble naturel de répartir les tâches de la façon suivante :</p>
+<ul>
+<li>le coeur 1 lancera les itérations 1, 5, 9, … 93 et 97.</li>
+<li>le coeur 2 lancera les itérations 2, 6, 10, …, 94 et 98.</li>
+<li>le coeur 3 lancera les itérations 3, 7, 11, …, 95 et 99.</li>
+<li>le coeur 4 lancera les itérations 4, 8, 12, …, 96 et 100</li>
+</ul>
+<p>L’idée du programme maître est qu’il devra spécifier cette répartition des tâches. Autrement dit, il devra indiquer que la fonction <em>myfunc()</em> exécutera les itérations 1, 5, 9, … 93 et 97 dans le coeur 1, les itérations 2, 6, 10, …, 94 et 98 dans le coeur 2, etc.</p>
+<p>Une fois les tâches effectuées, l’autre rôle du programme maître est de bien récupérer les sorties du programme parallélisé et d’en faire en général une synthèse (calcul de moyenne, d’écart-types, etc.).</p>
+<p>On peut résumer ceci par la figure suivante :</p>
+<div class="figure">
+<img src="Figures/Figure2.png" alt="" />
+<p class="caption">Exemple de programme maître</p>
+</div>
+<p>Il existe énormément de package permettant de faire du calcul parallèle. Nous utiliserons ici les packages <strong>parallel</strong> et <strong>snow</strong>.</p>
+</div>
+<div id="fonction-set.seed" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Fonction <em>set.seed()</em></h2>
+<p>Quand on fait de l’échantillonage ou qu’on simule des échantillons de façon aléatoire, on peut avoir besoin de retrouver les mêmes tirages. C’est le cas notamment lorsqu’on présente des résultats dans un rapport et qu’on souhaite que les résultats soient reproductibles.</p>
+<p>La fonction <em>set.seed()</em> est utilisée pour reproduire les mêmes tirages/échantillonages les uns à la suite des autres. Elle prend comme argument d’entrée un entier appelé <strong>graine</strong> ou “seed” qui est utilisée dans l’algorithme de simulation. En effet, la notion d’aléatoire au sens strict n’exite pas lorsqu’on fait de la simulation numérique. Dans la vraie vie, lorsqu’on tire une boule dans une urne (par exemple au tirage du loto), on comprend bien qu’il ne sera pas possible de tirer les mêmes boules deux fois de suite (si la condition d’aléatoire est bien respectée). En revanche, avec des simulations numériques, comme on utilise un algorithme dit pseudo-aléatoire, cela devient possible de répliquer un même tirage en utilisant le même nombre initial dans l’algorithme.</p>
+<p>La fonction <em>set.seed()</em> précède la fonction <em>sample()</em> ou tout autre fonction génératrice de lois de distribution connues (<em>rnorm()</em>, <em>runif()</em>, <em>rbinom()</em>, etc.). Par exemple, on souhaite faire à la suite :</p>
+<ul>
+<li>un tirage aléatoire de 5 nombres dans une urne comprenant 49 boules avec des numéros allant de 1 à 49 example,</li>
+<li>simuler un bruit blanc de taille 5</li>
+</ul>
+<div class="sourceCode" id="cb603"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb603-1"><a href="calcul-parallèle.html#cb603-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">200907</span>)</span>
+<span id="cb603-2"><a href="calcul-parallèle.html#cb603-2" aria-hidden="true" tabindex="-1"></a>(loto <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">49</span>, <span class="dv">5</span>))</span></code></pre></div>
+<pre><code>## [1]  4 21 18  8 37</code></pre>
+<div class="sourceCode" id="cb605"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb605-1"><a href="calcul-parallèle.html#cb605-1" aria-hidden="true" tabindex="-1"></a>(white_noise <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">5</span>))</span></code></pre></div>
+<pre><code>## [1]  0.69019477 -0.13529509  0.69372207 -0.73089395  0.02133644</code></pre>
+<p>Si on répète cette même syntaxe, on obtiendra systématiquement les mêmes résultats.</p>
+<div class="sourceCode" id="cb607"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb607-1"><a href="calcul-parallèle.html#cb607-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">200907</span>)</span>
+<span id="cb607-2"><a href="calcul-parallèle.html#cb607-2" aria-hidden="true" tabindex="-1"></a>(loto <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">49</span>, <span class="dv">5</span>))</span></code></pre></div>
+<pre><code>## [1]  4 21 18  8 37</code></pre>
+<div class="sourceCode" id="cb609"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb609-1"><a href="calcul-parallèle.html#cb609-1" aria-hidden="true" tabindex="-1"></a>(white_noise <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">5</span>))</span></code></pre></div>
+<pre><code>## [1]  0.69019477 -0.13529509  0.69372207 -0.73089395  0.02133644</code></pre>
+<p>Le lecteur trouvera plus d’informations sur la fonction <em>set.seed()</em> dans cette vidéo : <a href="https://www.youtube.com/watch?v=zAYzAZwufKI" class="uri">https://www.youtube.com/watch?v=zAYzAZwufKI</a></p>
+<p><strong>Application dans un algorithme de type “bootstrap”</strong></p>
+<p>Dans le graphique suivant, on représente l’intérêt du bootstrap.</p>
+<div class="figure">
+<img src="Figures/bootstrap-sample.png" alt="" />
+<p class="caption">Exemple d’algorithme de type bootstrap</p>
+</div>
+<p>Pour que cela fonctionne, il faut qu’à chaque simulation, on tire un échantillon différent. Autrement dit, il faut veiller à ne pas appliquer la fonction <em>set.seed()</em> à un nombre constant dans la boucle <strong>for</strong>. Dans l’exemple suivant, on calcule l’estimateur “bootstrap” de la moyenne de la variable <strong>Sepal.Length</strong> du jeu de données <strong>iris</strong>. Comme la graine est fixée, on va toujours tirer le même échantillon et on aura un estimateur biaisée.</p>
+<div class="sourceCode" id="cb611"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb611-1"><a href="calcul-parallèle.html#cb611-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb611-2"><a href="calcul-parallèle.html#cb611-2" aria-hidden="true" tabindex="-1"></a>res_mean <span class="ot">&lt;-</span> <span class="fu">numeric</span>(B)</span>
+<span id="cb611-3"><a href="calcul-parallèle.html#cb611-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (b <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>B) {</span>
+<span id="cb611-4"><a href="calcul-parallèle.html#cb611-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb611-5"><a href="calcul-parallèle.html#cb611-5" aria-hidden="true" tabindex="-1"></a>  samp <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(iris), <span class="at">replace =</span> T)</span>
+<span id="cb611-6"><a href="calcul-parallèle.html#cb611-6" aria-hidden="true" tabindex="-1"></a>  res_mean[b] <span class="ot">&lt;-</span> <span class="fu">mean</span>(iris[samp, <span class="st">&quot;Sepal.Length&quot;</span>])</span>
+<span id="cb611-7"><a href="calcul-parallèle.html#cb611-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb611-8"><a href="calcul-parallèle.html#cb611-8" aria-hidden="true" tabindex="-1"></a>res_mean</span></code></pre></div>
+<pre><code>##  [1] 5.774 5.774 5.774 5.774 5.774 5.774 5.774 5.774 5.774 5.774</code></pre>
+<p><strong>Solution:</strong> pour corriger le programme ci-dessus, il suffit de remplacer la valeur de la graine 123 par l’objet <strong>b</strong> qui varie de 1 à B.</p>
+<p><strong>Exercice 3.1</strong></p>
+<p>On considère le modèle de régression suivant où les données <strong>wage1</strong> sont issues du package <strong>wooldridge</strong>:</p>
+<p><span class="math display">\[log(wage)=\beta_0+\beta_1 educ + \epsilon\]</span></p>
+<div class="sourceCode" id="cb613"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb613-1"><a href="calcul-parallèle.html#cb613-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wooldridge)</span>
+<span id="cb613-2"><a href="calcul-parallèle.html#cb613-2" aria-hidden="true" tabindex="-1"></a>log_wage_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(lwage <span class="sc">~</span> educ, <span class="at">data =</span> wage1)</span></code></pre></div>
+<ul>
+<li><p>Calculer un estimateur bootstrap de <span class="math inline">\(\beta_0\)</span> et <span class="math inline">\(\beta_1\)</span>. On fixe le nombre de réplications à <span class="math inline">\(B=1000\)</span>.</p></li>
+<li><p>Representer l’histogramme des valeurs bootstrappées (un histogramme par coefficient), l’estimateur “bootstrap” de la moyenne et la vraie valeur.</p></li>
+<li><p>Ecrire l’algorithme qui permette de faire la même chose en utilisant le calcul parallèle</p></li>
+</ul>
+</div>
+<div id="syntaxe-pour-lancer-un-calcul-parallèle" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Syntaxe pour lancer un calcul parallèle</h2>
+<p>On considère la fonction suivante qui permet de calculer la moyenne d’un échantillon de taille <strong>r</strong> simulée selon une loi normale de paramètre <strong>mean</strong> et <strong>sd</strong>.</p>
+<div class="sourceCode" id="cb614"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb614-1"><a href="calcul-parallèle.html#cb614-1" aria-hidden="true" tabindex="-1"></a>myfun <span class="ot">&lt;-</span> <span class="cf">function</span>(r, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>) {</span>
+<span id="cb614-2"><a href="calcul-parallèle.html#cb614-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(<span class="fu">rnorm</span>(r, <span class="at">mean =</span> mean, <span class="at">sd =</span> sd))</span>
+<span id="cb614-3"><a href="calcul-parallèle.html#cb614-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>On souhaite répéter 100 fois cette fonction :</p>
+<ul>
+<li>25 fois quand <strong>r</strong> vaut 10,</li>
+<li>25 fois quand <strong>r</strong> vaut 1000,</li>
+<li>25 fois quand <strong>r</strong> vaut 100000,</li>
+<li>25 fois quand <strong>r</strong> vaut 10000000,</li>
+</ul>
+<p>avec <strong>mean=5</strong> et <strong>sd=10</strong>.</p>
+<div id="syntaxe-dans-le-cas-non-parallèle" class="section level3" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> Syntaxe dans le cas non parallèle</h3>
+<p>Pour répondre à la problématique posée, on va d’abord utiliser la fonction <em>sapply()</em> qui permet de répondre au problème de façon séquentielle. Autrement dit, elle va appliquer la fonction <em>myfun()</em> itération après itération sur les différentes valeurs de <strong>r</strong> qu’on donne dans le 1er argument de la fonction <em>sapply()</em>. D’abord, on créé le vecteur contenant les valeurs de <strong>r</strong> et on prépare aussi l’objet qui va contenir les résultats.</p>
+<div class="sourceCode" id="cb615"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb615-1"><a href="calcul-parallèle.html#cb615-1" aria-hidden="true" tabindex="-1"></a>r_values <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">1000</span>, <span class="dv">100000</span>, <span class="dv">10000000</span>), <span class="at">each =</span> <span class="dv">25</span>)</span>
+<span id="cb615-2"><a href="calcul-parallèle.html#cb615-2" aria-hidden="true" tabindex="-1"></a>resultats <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">r_values =</span> <span class="fu">factor</span>(r_values))</span></code></pre></div>
+<p>On lance la fonction <em>sapply()</em> et on regarde le temps de calcul :</p>
+<div class="sourceCode" id="cb616"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb616-1"><a href="calcul-parallèle.html#cb616-1" aria-hidden="true" tabindex="-1"></a>time_sapply <span class="ot">&lt;-</span> <span class="fu">system.time</span>(</span>
+<span id="cb616-2"><a href="calcul-parallèle.html#cb616-2" aria-hidden="true" tabindex="-1"></a>  resultats<span class="sc">$</span>res_non_par <span class="ot">&lt;-</span> <span class="fu">sapply</span>(r_values, <span class="at">FUN =</span> myfun, </span>
+<span id="cb616-3"><a href="calcul-parallèle.html#cb616-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">10</span>) <span class="co"># options de la fonction myfun</span></span>
+<span id="cb616-4"><a href="calcul-parallèle.html#cb616-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb616-5"><a href="calcul-parallèle.html#cb616-5" aria-hidden="true" tabindex="-1"></a>time_sapply</span></code></pre></div>
+<pre><code>## utilisateur     système      écoulé 
+##      15.979       0.964      16.944</code></pre>
+</div>
+<div id="syntaxe-dans-le-cas-parallèle" class="section level3" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> Syntaxe dans le cas parallèle</h3>
+<p>Pour exécuter la fonction précédente dans le cas parallèle, la syntaxe est la suivante :</p>
+<div class="sourceCode" id="cb618"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb618-1"><a href="calcul-parallèle.html#cb618-1" aria-hidden="true" tabindex="-1"></a>P <span class="ot">&lt;-</span> <span class="dv">4</span>  <span class="co"># définir le nombre de coeurs </span></span>
+<span id="cb618-2"><a href="calcul-parallèle.html#cb618-2" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(P) <span class="co"># réserve 4 coeurs - début du calcul </span></span>
+<span id="cb618-3"><a href="calcul-parallèle.html#cb618-3" aria-hidden="true" tabindex="-1"></a>time_par <span class="ot">&lt;-</span> <span class="fu">system.time</span>(</span>
+<span id="cb618-4"><a href="calcul-parallèle.html#cb618-4" aria-hidden="true" tabindex="-1"></a> res_par <span class="ot">&lt;-</span> <span class="fu">clusterApply</span>(cl, r_values, <span class="at">fun =</span> myfun, <span class="co"># évalue myfun sur r_values  </span></span>
+<span id="cb618-5"><a href="calcul-parallèle.html#cb618-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">10</span>)  <span class="co"># options de myfun</span></span>
+<span id="cb618-6"><a href="calcul-parallèle.html#cb618-6" aria-hidden="true" tabindex="-1"></a>)  </span>
+<span id="cb618-7"><a href="calcul-parallèle.html#cb618-7" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cl) <span class="co"># libère 4 coeurs - fin du calcul </span></span>
+<span id="cb618-8"><a href="calcul-parallèle.html#cb618-8" aria-hidden="true" tabindex="-1"></a>time_par</span></code></pre></div>
+<pre><code>## utilisateur     système      écoulé 
+##       0.016       0.017       6.080</code></pre>
+<p>La syntaxe est donc pratiquement la même que dans le cas non parallèle. Il suffit simplement d’utiliser la fonction <em>makeCluster()</em> au début pour réserver le nombre de coeurs nécessaires et la fonction <em>stopCluster()</em> à la fin pour libérer les coeurs. De même, c’est la fonction <em>clusterApply()</em> qui permet de répartir la fonction <em>myfun()</em> vers les différents coeurs.</p>
+<p>Pendant l’execution d’un programe en parallèle, il est possible de vérifier que les coeurs sont en train de fonctionner en parallèle. Sur Windows, il suffit de cliquer sur le “Gestionnaire des tâches” pour voir l’état de l’utilisation des processeurs et/ou de la mémoire.</p>
+<div class="figure">
+<img src="Figures/processeur.png" alt="" />
+<p class="caption">Gestionnaire des tâches Windows</p>
+</div>
+</div>
+<div id="recommandations" class="section level3" number="4.4.3">
+<h3><span class="header-section-number">4.4.3</span> Recommandations</h3>
+<div id="gestion-de-la-mémoire" class="section level4" number="4.4.3.1">
+<h4><span class="header-section-number">4.4.3.1</span> Gestion de la mémoire</h4>
+<p>Si vous parallélisez un programme qui utilise <span class="math inline">\(x\)</span> Go de RAM, vous allez a priori avoir besoin de <em>Px</em> Go de RAM où <span class="math inline">\(P\)</span> est le nombre de coeurs utilisés. Si dans le gestionnaire des tâches, vous vous rendez compte que vous utilisez un programme qui utilise <span class="math inline">\(100\%\)</span> de la mémoire RAM, cela aura pour effet de réduire considérablement les temps de calcul.</p>
+</div>
+<div id="en-cas-dinterruption-du-programme-maître" class="section level4" number="4.4.3.2">
+<h4><span class="header-section-number">4.4.3.2</span> En cas d’interruption du programme maître</h4>
+<p>Si vous quittez votre programme maître alors que le calcul parallèle est en train de tourner, dans ce cas il est probable que les coeurs alloués continuent de tourner même si votre session maître semble terminer (ceci peut se voir dans le “Gestionnaire des tâches” et “Processus,” plusieurs processus <strong>R</strong> seront ouverts). Dans ce cas, il faudra penser à exécuter la fonction <em>stopCluster()</em>. Si cela n’est pas suffisant (les coeurs continuent à tourner), il faudra vraisemblablement tuer les process à la main (dans “Gestionnaire des tâches,” puis “Processus,” puis click droit sur les icônes “R for Windows” et “Fin de tâche”).</p>
+</div>
+<div id="choix-du-nombre-de-coeurs" class="section level4" number="4.4.3.3">
+<h4><span class="header-section-number">4.4.3.3</span> Choix du nombre de coeurs</h4>
+<p>Ici, nous avons utilisé 4 coeurs sur les 40 Threads disponibles de la machine, ce qui laisse un nombre considérable de coeurs libres. Sur une machine de type perso, il est d’usage de ne pas utiliser tous les coeurs disponibles afin d’en laisser un certain nombre de libres pour rendre le fonctionnement de la machine stable (qui doit en effet gérer d’autres processus que <strong>R</strong>). Sur un serveur dédié au calcul, il est a priori possible d’utiliser tous les coeurs disponible à cet usage.</p>
+<p>Le gain en temps de calcul n’est pas linéaire en fonction du nombre de coeurs utilisés. Cependant, dans l’exemple ci-dessus, en utilisant 4 coeurs plutôt qu’un seul, on a eu un facteur environ 2.8 de gain en temps calcul. On s’est amusé à refaire le même calcul que précédemment, mais en faisant évoluer le nombre de coeurs alloué. Pour chaque coeur, on a répliqué 10 fois le calcul pour avoir une distribution du temps de calcul. Dans la figure ci-dessous, on a représenté la courbe du temps de calcul en fonction du nombre de coeurs alloués. On constate que :</p>
+<ul>
+<li>la tendance est décroissante mais pas linéaire</li>
+<li>à partir de 5 coeurs, le temps gagné est de moins en moins significatif et on a une asymptote à partir de 10 coeurs.</li>
+</ul>
+<p><img src="_main_files/figure-html/unnamed-chunk-316-1.png" width="672" /></p>
+<p>La raison est qu’en faisant du calcul parallèle, il y a des flux d’informations qui communiquent entre le programme maître et les coeurs sollicités et que ces flux coûtent du temps. Aussi, parfois il arrive que les flux d’informations coûtent plus en temps que les calculs à proprement dit. Autrement dit, il peut arriver que le calcul parallèle ait un effet négatif sur le temps… Nous verrons un exemple plus tard.</p>
+</div>
+</div>
+<div id="récupérer-les-résultats" class="section level3" number="4.4.4">
+<h3><span class="header-section-number">4.4.4</span> Récupérer les résultats</h3>
+<p>En utilisant la fonction <em>sapply()</em> dans le cas non parallèle, le résultat est stocké sous forme d’un <strong>array</strong>. Avec la fonction <em>clusterApply()</em>, le résultat est stocké sous forme de <strong>list</strong>. Dans les exemples précédents, une façon de récupérer les résultats est donc la suivante :</p>
+<div class="sourceCode" id="cb620"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb620-1"><a href="calcul-parallèle.html#cb620-1" aria-hidden="true" tabindex="-1"></a>resultats<span class="sc">$</span>res_par <span class="ot">&lt;-</span> <span class="fu">unlist</span>(res_par)</span></code></pre></div>
+<p>On calcule ensuite la moyenne et l’écart-type en fonction des valeurs prises par <strong>r_values</strong>:</p>
+<div class="sourceCode" id="cb621"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb621-1"><a href="calcul-parallèle.html#cb621-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(resultats[, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>], <span class="fu">list</span>(<span class="at">r_values =</span> <span class="fu">as.factor</span>(resultats[, <span class="st">&quot;r_values&quot;</span>])), </span>
+<span id="cb621-2"><a href="calcul-parallèle.html#cb621-2" aria-hidden="true" tabindex="-1"></a>          <span class="cf">function</span>(x) <span class="fu">c</span>(<span class="at">MEAN =</span> <span class="fu">mean</span>(x), <span class="at">SD =</span> <span class="fu">sd</span>(x)))</span></code></pre></div>
+<pre><code>##   r_values res_non_par.MEAN res_non_par.SD res_par.MEAN  res_par.SD
+## 1       10      4.155421997    2.472656827  4.443995812 3.035332231
+## 2     1000      4.916073620    0.314449683  4.988679286 0.339641637
+## 3    1e+05      5.004018285    0.035245747  5.006987560 0.044037661
+## 4    1e+07      5.000064298    0.003280121  4.999472726 0.003617255</code></pre>
+<p>On peut également utiliser la syntaxe <strong>tidyverse</strong> :</p>
+<div class="sourceCode" id="cb623"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb623-1"><a href="calcul-parallèle.html#cb623-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">&quot;dplyr&quot;</span>)</span>
+<span id="cb623-2"><a href="calcul-parallèle.html#cb623-2" aria-hidden="true" tabindex="-1"></a>resultats <span class="sc">%&gt;%</span></span>
+<span id="cb623-3"><a href="calcul-parallèle.html#cb623-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(r_values) <span class="sc">%&gt;%</span></span>
+<span id="cb623-4"><a href="calcul-parallèle.html#cb623-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_all</span>(<span class="fu">list</span>(<span class="at">mean =</span> mean, <span class="at">sd =</span> sd))</span></code></pre></div>
+<pre><code>## # A tibble: 4 x 5
+##   r_values res_non_par_mean res_par_mean res_non_par_sd res_par_sd
+##   &lt;fct&gt;               &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;      &lt;dbl&gt;
+## 1 10                   4.16         4.44        2.47       3.04   
+## 2 1000                 4.92         4.99        0.314      0.340  
+## 3 1e+05                5.00         5.01        0.0352     0.0440 
+## 4 1e+07                5.00         5.00        0.00328    0.00362</code></pre>
+<p>Nous verrons un peu plus tard un équivalent de <em>sapply()</em> en calcul parallèle qui permettra de récupérer les résultats sous forme simplifiée.</p>
+</div>
+<div id="utiliser-des-packages-objets-jeux-de-données-sur-les-différents-coeurs" class="section level3" number="4.4.5">
+<h3><span class="header-section-number">4.4.5</span> Utiliser des packages, objets, jeux de données sur les différents coeurs</h3>
+<p>Lorsqu’on lance un calcul en parallèle sur 4 coeurs, c’est comme si on ouvrait 4 nouvelles consoles <strong>R</strong>. Or, à l’ouverture d’une nouvelle console <strong>R</strong>, il n’y a par défaut aucun package ni objets chargés. C’est pourquoi si le programme fait appel à des librairies ou des objets, l’utilisateur devra le spécifier.</p>
+<div id="utiliser-des-packages-sur-plusieurs-coeurs" class="section level4" number="4.4.5.1">
+<h4><span class="header-section-number">4.4.5.1</span> Utiliser des packages sur plusieurs coeurs</h4>
+<p>On reprend la fonction précédente dans laquelle on aimerait changer la loi de distribution gaussienne par une loi de Pareto. La fonction <em>rpareto()</em> du package <strong>VGAM</strong> permet de faire cela. On a plusieurs possibilités pour programmer la fonction.</p>
+<p><strong>Solution 1 :</strong> elle consiste à utiliser la fonction <em>library()</em> à l’intérieur de la fonction <em>myfun_pareto()</em>. Dans ce cas, si on lance un calcul en parallèle, la librarie sera chargée dans chaque coeur appelé.</p>
+<div class="sourceCode" id="cb625"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb625-1"><a href="calcul-parallèle.html#cb625-1" aria-hidden="true" tabindex="-1"></a>myfun_pareto <span class="ot">&lt;-</span> <span class="cf">function</span>(r, <span class="at">scale =</span> <span class="dv">1</span>, <span class="at">shape =</span> <span class="dv">10</span>) {</span>
+<span id="cb625-2"><a href="calcul-parallèle.html#cb625-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">&quot;VGAM&quot;</span>)</span>
+<span id="cb625-3"><a href="calcul-parallèle.html#cb625-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(<span class="fu">rpareto</span>(r, <span class="at">scale =</span> scale, <span class="at">shape =</span> shape))</span>
+<span id="cb625-4"><a href="calcul-parallèle.html#cb625-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>Solution 2 :</strong> elle consiste à utiliser la syntaxe suivante qui évite de charger toutes les fonctions du package <strong>VGAM</strong> mais qui indique dans quelle librairie il faut aller chercher la fonction <em>rpareto()</em>.</p>
+<div class="sourceCode" id="cb626"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb626-1"><a href="calcul-parallèle.html#cb626-1" aria-hidden="true" tabindex="-1"></a>myfun_pareto <span class="ot">&lt;-</span> <span class="cf">function</span>(r, <span class="at">scale =</span> <span class="dv">1</span>, <span class="at">shape =</span> <span class="dv">10</span>) {</span>
+<span id="cb626-2"><a href="calcul-parallèle.html#cb626-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(VGAM<span class="sc">::</span><span class="fu">rpareto</span>(r, <span class="at">scale =</span> scale, <span class="at">shape =</span> shape))</span>
+<span id="cb626-3"><a href="calcul-parallèle.html#cb626-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Dans les deux cas, lorsqu’on executera cette fonction en parallèle, chaque coeur saura où trouver la fonction <em>rpareto()</em>. Pour exécuter la fonction en parallèle :</p>
+<div class="sourceCode" id="cb627"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb627-1"><a href="calcul-parallèle.html#cb627-1" aria-hidden="true" tabindex="-1"></a>r_values <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">1000</span>, <span class="dv">100000</span>), <span class="at">each =</span> <span class="dv">25</span>)</span>
+<span id="cb627-2"><a href="calcul-parallèle.html#cb627-2" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(P) </span>
+<span id="cb627-3"><a href="calcul-parallèle.html#cb627-3" aria-hidden="true" tabindex="-1"></a>res_par <span class="ot">&lt;-</span> <span class="fu">clusterApply</span>(cl, r_values, <span class="at">fun =</span> myfun_pareto, </span>
+<span id="cb627-4"><a href="calcul-parallèle.html#cb627-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">scale =</span> <span class="dv">1</span>, <span class="at">shape =</span> <span class="dv">10</span>) </span>
+<span id="cb627-5"><a href="calcul-parallèle.html#cb627-5" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cl)  </span></code></pre></div>
+<p><strong>Solution 3 :</strong> une façon alternative de procéder est d’écrire la fonction sans faire appel à la librairie <strong>VGAM</strong>.</p>
+<div class="sourceCode" id="cb628"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb628-1"><a href="calcul-parallèle.html#cb628-1" aria-hidden="true" tabindex="-1"></a>myfun_pareto <span class="ot">&lt;-</span> <span class="cf">function</span>(r, <span class="at">scale =</span> <span class="dv">1</span>, <span class="at">shape =</span> <span class="dv">10</span>) {</span>
+<span id="cb628-2"><a href="calcul-parallèle.html#cb628-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(<span class="fu">rpareto</span>(r, <span class="at">scale =</span> scale, <span class="at">shape =</span> shape))</span>
+<span id="cb628-3"><a href="calcul-parallèle.html#cb628-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>En revanche, il faudra indiquer dans le programme maître, qu’on souhaite charger le package <strong>VGAM</strong> sur tous les coeurs que nous allons utiliser. Ceci se fait à l’aide de la fonction <em>clusterEvalQ()</em>. Voici un exemple d’utilisation :</p>
+<div class="sourceCode" id="cb629"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb629-1"><a href="calcul-parallèle.html#cb629-1" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(P) </span>
+<span id="cb629-2"><a href="calcul-parallèle.html#cb629-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb629-3"><a href="calcul-parallèle.html#cb629-3" aria-hidden="true" tabindex="-1"></a><span class="fu">clusterEvalQ</span>(cl, <span class="fu">library</span>(<span class="st">&quot;VGAM&quot;</span>))</span>
+<span id="cb629-4"><a href="calcul-parallèle.html#cb629-4" aria-hidden="true" tabindex="-1"></a>res_par <span class="ot">&lt;-</span> <span class="fu">clusterApply</span>(cl, r_values, <span class="at">fun =</span> myfun_pareto, </span>
+<span id="cb629-5"><a href="calcul-parallèle.html#cb629-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">scale =</span> <span class="dv">1</span>, <span class="at">shape =</span> <span class="dv">10</span>) </span>
+<span id="cb629-6"><a href="calcul-parallèle.html#cb629-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb629-7"><a href="calcul-parallèle.html#cb629-7" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cl) </span></code></pre></div>
+</div>
+<div id="charger-des-objets-fonctions-ou-jeux-de-données-dans-les-différents-coeurs" class="section level4" number="4.4.5.2">
+<h4><span class="header-section-number">4.4.5.2</span> Charger des objets, fonctions ou jeux de données dans les différents coeurs</h4>
+<p>On reprend l’exemple précédent dans lequel on modifie légèrement la fonction de telle sorte que les paramètres <strong>scale</strong> et <strong>shape</strong> ne sont pas reconnus en tant que variables locales.</p>
+<div class="sourceCode" id="cb630"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb630-1"><a href="calcul-parallèle.html#cb630-1" aria-hidden="true" tabindex="-1"></a>myfun_pareto <span class="ot">&lt;-</span> <span class="cf">function</span>(r) {</span>
+<span id="cb630-2"><a href="calcul-parallèle.html#cb630-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(<span class="fu">rpareto</span>(r, <span class="at">scale =</span> scale, <span class="at">shape =</span> shape))</span>
+<span id="cb630-3"><a href="calcul-parallèle.html#cb630-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Pour que la fonction ne retourne pas de messages d’erreurs, il faudra donc que les objets <strong>scale</strong> et <strong>shape</strong> soient définis en tant que variables globales, et ceci dans chaque coeur. Il est possible de faire cela, toujours grâce à la fonction <em>clusterEvalQ()</em> que nous avons utilisée précédemment. Dans l’exemple suivant, la librairie <strong>VGAM</strong> sera chargée dans chaque coeur et les objets <strong>scale</strong> et <strong>shape</strong> seront également définis.</p>
+<div class="sourceCode" id="cb631"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb631-1"><a href="calcul-parallèle.html#cb631-1" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(P) </span>
+<span id="cb631-2"><a href="calcul-parallèle.html#cb631-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb631-3"><a href="calcul-parallèle.html#cb631-3" aria-hidden="true" tabindex="-1"></a><span class="fu">clusterEvalQ</span>(cl, {</span>
+<span id="cb631-4"><a href="calcul-parallèle.html#cb631-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">&quot;VGAM&quot;</span>)</span>
+<span id="cb631-5"><a href="calcul-parallèle.html#cb631-5" aria-hidden="true" tabindex="-1"></a>  scale <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb631-6"><a href="calcul-parallèle.html#cb631-6" aria-hidden="true" tabindex="-1"></a>  shape <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb631-7"><a href="calcul-parallèle.html#cb631-7" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb631-8"><a href="calcul-parallèle.html#cb631-8" aria-hidden="true" tabindex="-1"></a>res_par <span class="ot">&lt;-</span> <span class="fu">clusterApply</span>(cl, r_values, <span class="at">fun =</span> myfun_pareto) </span>
+<span id="cb631-9"><a href="calcul-parallèle.html#cb631-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb631-10"><a href="calcul-parallèle.html#cb631-10" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cl) </span></code></pre></div>
+<p>Une autre façon est de définir ces objets depuis la session maître :</p>
+<div class="sourceCode" id="cb632"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb632-1"><a href="calcul-parallèle.html#cb632-1" aria-hidden="true" tabindex="-1"></a>scale <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb632-2"><a href="calcul-parallèle.html#cb632-2" aria-hidden="true" tabindex="-1"></a>shape <span class="ot">&lt;-</span> <span class="dv">10</span></span></code></pre></div>
+<p>puis d’exporter ces objets vers tous les coeurs qui seront utilisés dans la suite à l’aide de la fonction <em>clusterExport()</em> :</p>
+<div class="sourceCode" id="cb633"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb633-1"><a href="calcul-parallèle.html#cb633-1" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(P) </span>
+<span id="cb633-2"><a href="calcul-parallèle.html#cb633-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb633-3"><a href="calcul-parallèle.html#cb633-3" aria-hidden="true" tabindex="-1"></a><span class="fu">clusterExport</span>(cl, <span class="fu">c</span>(<span class="st">&quot;scale&quot;</span>, <span class="st">&quot;shape&quot;</span>))</span>
+<span id="cb633-4"><a href="calcul-parallèle.html#cb633-4" aria-hidden="true" tabindex="-1"></a><span class="fu">clusterEvalQ</span>(cl, <span class="fu">library</span>(<span class="st">&quot;VGAM&quot;</span>))</span>
+<span id="cb633-5"><a href="calcul-parallèle.html#cb633-5" aria-hidden="true" tabindex="-1"></a>res_par <span class="ot">&lt;-</span> <span class="fu">clusterApply</span>(cl, r_values, <span class="at">fun =</span> myfun_pareto) </span>
+<span id="cb633-6"><a href="calcul-parallèle.html#cb633-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb633-7"><a href="calcul-parallèle.html#cb633-7" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cl) </span></code></pre></div>
+<p>Cette méthode peut s’avérer intéressante pour exporter des jeux de données vers les différents coeurs.</p>
+</div>
+</div>
+<div id="fonctions-lapply-sapply-apply-mapply" class="section level3" number="4.4.6">
+<h3><span class="header-section-number">4.4.6</span> Fonctions <em>lapply()</em>, <em>sapply()</em>, <em>apply()</em>, <em>mapply()</em></h3>
+<p>Il existe des versions parallélisées de ces fonctions. Celles-ci sont nommées :</p>
+<ul>
+<li><em>parLapply()</em>,</li>
+<li><em>parSapply()</em>,</li>
+<li><em>parApply()</em>,</li>
+<li><em>clusterMap()</em>.</li>
+</ul>
+<p>Ces fonctions font appel à la fonction <em>clusterApply()</em>. Elles semblent en général un peu plus longue en temps de calcul mais permettent de simplifier la syntaxe de sortie (fonction <em>parSapply()</em>) ou d’utiliser des arguments différents en fonction de l’itération (fonction <em>clusterMap()</em>).</p>
+<p><strong>Exemple :</strong> dans le premier exemple de ce chapitre, nous avons utilisé la fonction <em>sapply()</em> sur la fonction <em>myfun()</em> ainsi</p>
+<div class="sourceCode" id="cb634"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb634-1"><a href="calcul-parallèle.html#cb634-1" aria-hidden="true" tabindex="-1"></a>res_non_par <span class="ot">&lt;-</span> <span class="fu">sapply</span>(r_values, <span class="at">FUN =</span> myfun,</span>
+<span id="cb634-2"><a href="calcul-parallèle.html#cb634-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">10</span>) <span class="co"># options de la fonction myfun</span></span></code></pre></div>
+<p>Pour la version parallèle, on aurait pu remplacer simplement <em>sapply()</em> par <em>parSapply()</em> :</p>
+<div class="sourceCode" id="cb635"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb635-1"><a href="calcul-parallèle.html#cb635-1" aria-hidden="true" tabindex="-1"></a>P <span class="ot">&lt;-</span> <span class="dv">4</span>  <span class="co"># définir le nombre de coeurs </span></span>
+<span id="cb635-2"><a href="calcul-parallèle.html#cb635-2" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(P) <span class="co"># réserve 4 coeurs - début du calcul </span></span>
+<span id="cb635-3"><a href="calcul-parallèle.html#cb635-3" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(</span>
+<span id="cb635-4"><a href="calcul-parallèle.html#cb635-4" aria-hidden="true" tabindex="-1"></a>  res_par <span class="ot">&lt;-</span> <span class="fu">parSapply</span>(cl, r_values, <span class="at">FUN =</span> myfun, <span class="co"># évalue myfunc() sur r_values  </span></span>
+<span id="cb635-5"><a href="calcul-parallèle.html#cb635-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">10</span>) </span>
+<span id="cb635-6"><a href="calcul-parallèle.html#cb635-6" aria-hidden="true" tabindex="-1"></a>)  </span></code></pre></div>
+<pre><code>## utilisateur     système      écoulé 
+##       0.003       0.001      16.162</code></pre>
+<div class="sourceCode" id="cb637"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb637-1"><a href="calcul-parallèle.html#cb637-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cl) <span class="co"># libère 4 coeurs - fin du calcul </span></span></code></pre></div>
+<p><strong>Remarque :</strong> dans cet exemple, le gain en temps de calcul n’est pas aussi prononcé que lorsqu’on avait utilisé la fonction <em>clusterApply()</em> seul. Ceci peut s’expliquer par le fait qu’il y a des opérations supplémentaires avec la fonction <em>parSapply()</em>. Aussi, même si l’avantage ici est que le résultat est retourné sous forme de vecteur, on recommande d’utiliser la fonction <em>clusterApply()</em>.</p>
+</div>
+<div id="autres-packages-de-calcul-parallèle" class="section level3" number="4.4.7">
+<h3><span class="header-section-number">4.4.7</span> Autres packages de calcul parallèle</h3>
+<ul>
+<li><p><strong>snowFT</strong> : ce package permet de gérer le choix des graines de simulation de façon optimale à l’intérieur de chaque coeur. Nous en présenterons un exemple à la fin de ce chapitre car son utilisation semble prometteuse.</p></li>
+<li><p><strong>foreach</strong> : ce package permet de faire des boucles de type <strong>for</strong> en utilisant une syntaxe similaire. Le but est de faire tourner en parallèle les instructions à l’intérieur de la boucle <strong>for</strong>. Ce package est en général couplé avec le package <strong>doParallel</strong>, via le package <strong>parallel</strong> (voir <a href="https://cran.r-project.org/web/packages/doParallel/vignettes/gettingstartedParallel.pdf">vignette à ce lien</a>), dont on présente ci-dessous un exemple d’utilisation :</p></li>
+</ul>
+<div class="sourceCode" id="cb638"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb638-1"><a href="calcul-parallèle.html#cb638-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">&quot;doParallel&quot;</span>)</span>
+<span id="cb638-2"><a href="calcul-parallèle.html#cb638-2" aria-hidden="true" tabindex="-1"></a><span class="fu">getDoParWorkers</span>() <span class="co"># affiche nombre de coeurs alloué</span></span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<div class="sourceCode" id="cb640"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb640-1"><a href="calcul-parallèle.html#cb640-1" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoParallel</span>(<span class="at">cores =</span> P) <span class="co"># alloue le nombre de coeurs souhaité</span></span>
+<span id="cb640-2"><a href="calcul-parallèle.html#cb640-2" aria-hidden="true" tabindex="-1"></a><span class="fu">getDoParWorkers</span>() <span class="co"># Pour vérifer qu&#39;on utilise bien tous les coeurs</span></span></code></pre></div>
+<pre><code>## [1] 4</code></pre>
+<div class="sourceCode" id="cb642"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb642-1"><a href="calcul-parallèle.html#cb642-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(</span>
+<span id="cb642-2"><a href="calcul-parallèle.html#cb642-2" aria-hidden="true" tabindex="-1"></a>  res_par_foreach <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">i =</span> r_values) </span>
+<span id="cb642-3"><a href="calcul-parallèle.html#cb642-3" aria-hidden="true" tabindex="-1"></a>   <span class="sc">%dopar%</span> <span class="fu">myfun</span>(i, <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">10</span>)</span>
+<span id="cb642-4"><a href="calcul-parallèle.html#cb642-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## utilisateur     système      écoulé 
+##      16.719       1.048       5.105</code></pre>
+<div class="sourceCode" id="cb644"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb644-1"><a href="calcul-parallèle.html#cb644-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pour revenir au nombre de coeur initial </span></span>
+<span id="cb644-2"><a href="calcul-parallèle.html#cb644-2" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoParallel</span>(<span class="at">cores =</span> <span class="dv">1</span>)</span>
+<span id="cb644-3"><a href="calcul-parallèle.html#cb644-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb644-4"><a href="calcul-parallèle.html#cb644-4" aria-hidden="true" tabindex="-1"></a><span class="co"># présentation des resultats</span></span>
+<span id="cb644-5"><a href="calcul-parallèle.html#cb644-5" aria-hidden="true" tabindex="-1"></a>resultats<span class="sc">$</span>res_par_foreach <span class="ot">&lt;-</span> <span class="fu">unlist</span>(res_par_foreach)</span></code></pre></div>
+<ul>
+<li><strong>doMPI</strong> : utilise une architecture mpi.</li>
+</ul>
+<p>Des temps de calcul ont été comparés entre ces différentes solutions (voir <a href="https://rawgit.com/PPgp/useR2017public/master/tutorial.html">Introduction to parallel computing with R</a>), le package <strong>parallel</strong> est parmi ceux qui obtiennent les meilleurs résultats.</p>
+<p><strong>Exercice 3.2.</strong></p>
+<p>Le bagging est une technique utilisée pour améliorer la classification notamment celle des arbres de décision. On va programmer l’algorithme suivant :</p>
+<p><strong>Entrées :</strong></p>
+<ul>
+<li><strong>ech_test</strong> l’échantillon test,</li>
+<li><strong>ech_appr</strong> l’échantillon d’apprentissage,</li>
+<li><strong>B</strong> le nombre d’arbres,</li>
+</ul>
+<p>Pour <span class="math inline">\(k = 1, ..., B\)</span> :</p>
+<ol style="list-style-type: decimal">
+<li>Tirer un échantillon bootstrap dans <strong>ech_appr</strong></li>
+<li>Construire un arbre CART sur cet échantillon bootstrap et prédire sur l’échantillon test.</li>
+</ol>
+<p>On va appliquer cet algorithme sur le jeu de données <strong>iris</strong> qui est inclus dans <strong>R</strong> par défaut. L’objectif est de prédire à quel type d’espèce appartient une fleur (variable <strong>Species</strong> qui contient 3 variétés) en fonction de ses caractéristiques (variables <strong>Sepal.Length</strong>, <strong>Sepal.Width</strong>, <strong>Petal.Length</strong> et <strong>Petal.Width</strong>).</p>
+<p>Tout d’abord, on définit l’échantillon <strong>ech_test</strong> qui contient les observations à prédire. Ici, on en tire 25 au hasard et les 125 observations restantes constitueront l’échantillon d’apprentissage :</p>
+<div class="sourceCode" id="cb645"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb645-1"><a href="calcul-parallèle.html#cb645-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb645-2"><a href="calcul-parallèle.html#cb645-2" aria-hidden="true" tabindex="-1"></a>id_pred <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">150</span>, <span class="dv">25</span>, <span class="at">replace =</span> F)</span>
+<span id="cb645-3"><a href="calcul-parallèle.html#cb645-3" aria-hidden="true" tabindex="-1"></a>ech_test <span class="ot">&lt;-</span> iris[id_pred, ]</span>
+<span id="cb645-4"><a href="calcul-parallèle.html#cb645-4" aria-hidden="true" tabindex="-1"></a>ech_appr <span class="ot">&lt;-</span> iris[<span class="sc">-</span>id_pred,]</span></code></pre></div>
+<ul>
+<li>Créer la fonction <em>class_tree()</em> qui prend comme argument d’entrée la valeur de la graine <span class="math inline">\(k\)</span> utilisée pour tirer un échantillon bootstrap de <strong>ech_appr</strong> (il s’agit simplement d’un tirage aléatoire avec remise appliquée après la fonction <em>set.seed(k)</em>), va constuire un arbre CART sur cet échantillon bootstrap et retournera la prédiction sur l’échantillon test <strong>ech_test</strong>. On pourra utiliser les fonctions <em>rpart()</em> et <em>predict.rpart()</em>, mais l’objet retourné sera un vecteur de <strong>character</strong> contenant l’espèce prédite.</li>
+</ul>
+<p>Le résultat de cette fonction est le suivant :</p>
+<div class="sourceCode" id="cb646"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb646-1"><a href="calcul-parallèle.html#cb646-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">&quot;rpart&quot;</span>)</span>
+<span id="cb646-2"><a href="calcul-parallèle.html#cb646-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class_tree</span>(<span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##  [1] &quot;versicolor&quot; &quot;virginica&quot;  &quot;setosa&quot;     &quot;setosa&quot;     &quot;versicolor&quot;
+##  [6] &quot;versicolor&quot; &quot;setosa&quot;     &quot;virginica&quot;  &quot;versicolor&quot; &quot;setosa&quot;    
+## [11] &quot;versicolor&quot; &quot;versicolor&quot; &quot;setosa&quot;     &quot;virginica&quot;  &quot;virginica&quot; 
+## [16] &quot;setosa&quot;     &quot;virginica&quot;  &quot;virginica&quot;  &quot;versicolor&quot; &quot;setosa&quot;    
+## [21] &quot;virginica&quot;  &quot;versicolor&quot; &quot;virginica&quot;  &quot;setosa&quot;     &quot;setosa&quot;</code></pre>
+<ul>
+<li><p>A présent, nous allons répéter 100 fois cette opération en effectuant du calcul parallèle. Pour cela, on aura besoin d’exporter dans les différents coeurs la librairie <strong>rpart</strong> et les objets suivants <strong>ech_test</strong>, <strong>ech_appr</strong>:</p></li>
+<li><p>Récupérer les données et donner les valeurs prédites pour chaque observation de l’échantillon test.</p></li>
+<li><p>Calculer le tableau de bien classés</p></li>
+</ul>
+</div>
+</div>
+<div id="equilibrer-la-répartition-des-tâches" class="section level2" number="4.5">
+<h2><span class="header-section-number">4.5</span> Equilibrer la répartition des tâches</h2>
+<p>En envoyant plusieurs tâches dans différents coeurs, il se peut que certains coeurs soient plus sollicités que d’autres. On considère la fonction suivante qui consiste à calculer la moyenne d’un échantillon de taille <strong>r</strong> simulée selon une loi gaussienne.</p>
+<div class="sourceCode" id="cb648"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb648-1"><a href="calcul-parallèle.html#cb648-1" aria-hidden="true" tabindex="-1"></a>rnmean <span class="ot">&lt;-</span> <span class="cf">function</span>(r, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>) {</span>
+<span id="cb648-2"><a href="calcul-parallèle.html#cb648-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mean</span>(<span class="fu">rnorm</span>(r, <span class="at">mean =</span> mean, <span class="at">sd =</span> sd))</span>
+<span id="cb648-3"><a href="calcul-parallèle.html#cb648-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Nous allons appliquer cette fonction en utilisant des valeurs de <strong>r</strong> qui soient très hétérogènes de telle sorte qu’on va créer un déséquilibre dans l’exécution des tâches.</p>
+<div class="sourceCode" id="cb649"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb649-1"><a href="calcul-parallèle.html#cb649-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">40</span></span>
+<span id="cb649-2"><a href="calcul-parallèle.html#cb649-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">50</span>)</span>
+<span id="cb649-3"><a href="calcul-parallèle.html#cb649-3" aria-hidden="true" tabindex="-1"></a>r.seq <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">ceiling</span>(<span class="fu">exp</span>(<span class="fu">seq</span>(<span class="dv">7</span>, <span class="dv">14</span>, <span class="at">length =</span> <span class="dv">50</span>))), N)</span>
+<span id="cb649-4"><a href="calcul-parallèle.html#cb649-4" aria-hidden="true" tabindex="-1"></a>r.seq</span></code></pre></div>
+<pre><code>##  [1]  903730    4576   79676 1202605  679133    1460    2981    9348   12439
+## [10]   44995   19095  332464   16553  187749  122307    2585   51904   59875
+## [19]   39005    3967   33813    6090    1266   69069  162755    8104  783424
+## [28] 1042512  141089  288206    5279  383519    1684    2241   22027  510353
+## [37]   10783    1942  249839  106025</code></pre>
+<p>Si on parallèlise sur 4 coeurs, comment vont se répartir l’envoi des tâches sur les coeurs ? Cela va se faire automatiquement de la façon suivante :</p>
+<ul>
+<li>le coeur 1 va effectuer le calcul pour les valeurs de <strong>r</strong> suivantes : 162755 (1ère position de <strong>r.seq</strong>), 29311 (5ème position de <strong>r.seq</strong>), 1266 (9ème position de <strong>r.seq</strong>), etc.</li>
+<li>le coeur 2 va effectuer le calcul pour les valeurs de <strong>r</strong> suivantes : 22027 (2ème position de <strong>r.seq</strong>), 1460 (6ème position de <strong>r.seq</strong>), 1942 (10ème position de <strong>r.seq</strong>), etc.</li>
+<li>le coeur 3 va effectuer le calcul pour les valeurs de <strong>r</strong> suivantes : 3967 (3ème position de <strong>r.seq</strong>), 79676 (7ème position de <strong>r.seq</strong>), 9348 (11ème position de <strong>r.seq</strong>), etc.</li>
+<li>le coeur 4 va effectuer le calcul pour les valeurs de <strong>r</strong> suivantes : 187749 (4ème position de <strong>r.seq</strong>), 51904 (8ème position de <strong>r.seq</strong>), 4576 (12ème position de <strong>r.seq</strong>), etc.</li>
+</ul>
+<p>On constate que le 1er coeur va d’abord commencer à simuler un vecteur de taille 162755 alors que le second coeur va simuler un vecteur de taille 22027. Le second coeur devrait donc être monopolisé moins de temps que le premier. On peut alors se poser la question s’il va passer au calcul de sa seconde valeur à calculer une fois le premier calcul terminé.</p>
+<p>Il est possible de faire un rapport de l’usage des coeurs grâce à la fonction <em>snow.time()</em> du package <strong>snow</strong>.</p>
+<div class="sourceCode" id="cb651"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb651-1"><a href="calcul-parallèle.html#cb651-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;snow&quot;</span>)</span>
+<span id="cb651-2"><a href="calcul-parallèle.html#cb651-2" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(P) </span>
+<span id="cb651-3"><a href="calcul-parallèle.html#cb651-3" aria-hidden="true" tabindex="-1"></a>ctime1 <span class="ot">&lt;-</span> <span class="fu">snow.time</span>(<span class="fu">clusterApply</span>(cl, r.seq, <span class="at">fun =</span> rnmean))</span>
+<span id="cb651-4"><a href="calcul-parallèle.html#cb651-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ctime1, <span class="at">title =</span> <span class="st">&quot;Usage with clusterApply&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-341-1.png" width="672" /></p>
+<div class="sourceCode" id="cb652"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb652-1"><a href="calcul-parallèle.html#cb652-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cl) </span></code></pre></div>
+<p>Dans le graphique ci-dessus, les traits en vert correspondent à des périodes où un coeur <span class="math inline">\(i\)</span> (<span class="math inline">\(i = 1, \ldots, 4\)</span> en ordonnée) est en train d’effecture un calcul. Un trait bleu correspond à une période où le coeur est en repos. Aussi, on constate que dans un coeur donné, pour passer à l’exécution d’une nouvelle tâche, il faut attendre que toutes les instructions effectuées sur les coeurs en parallèle soient terminées. Autrement dit, le coeur 2 a du attendre que le coeur 1 ait terminé l’exécution de sa première tâche avant de pouvoir passer à la tâche suivante. Ceci n’est donc pas optimale.</p>
+<p>Une alternative à la fonction <em>clusterApply()</em> est d’utiliser la fonction <em>clusterApplyLB()</em> qui a été optimisée pour cet usage. On constate ci-dessous que toutes les tâches n’ont plus besoin d’avoir été exécutées avant de passer aux suivantes.</p>
+<div class="sourceCode" id="cb653"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb653-1"><a href="calcul-parallèle.html#cb653-1" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(P) </span>
+<span id="cb653-2"><a href="calcul-parallèle.html#cb653-2" aria-hidden="true" tabindex="-1"></a>ctimeLB <span class="ot">&lt;-</span> <span class="fu">snow.time</span>(<span class="fu">clusterApplyLB</span>(cl, r.seq, <span class="at">fun =</span> rnmean))</span>
+<span id="cb653-3"><a href="calcul-parallèle.html#cb653-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ctimeLB, <span class="at">title =</span> <span class="st">&quot;Usage with clusterApplyLB&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-342-1.png" width="672" /></p>
+<div class="sourceCode" id="cb654"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb654-1"><a href="calcul-parallèle.html#cb654-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cl) </span></code></pre></div>
+<p>Le gain en temps de calcul est d’un facteur 1.4.</p>
+<p><strong>Remarque :</strong> dès lors que nous avons chargé la librairie <strong>snow</strong>, ce sont les fonctions <em>clusterApply()</em> et <em>clusterApplyLB()</em> du package <strong>snow</strong> qui ont été utilisées alors qu’elles existent simultanément dans les packages <strong>snow</strong> et <strong>parallel</strong>. Elles sont quasiment équivalentes d’un package à un autre, mais pour garder en mémoire le rapport sur l’usage des coeurs, il faut utiliser les fonctions du package <strong>snow</strong>.</p>
+</div>
+<div id="améliorer-la-répartition-des-tâches" class="section level2" number="4.6">
+<h2><span class="header-section-number">4.6</span> Améliorer la répartition des tâches</h2>
+<p>Dans l’exemple précédent, on a vu qu’il y avait sans arrêt des flux d’information entre le programme maître et les coeurs car on a 40 calculs ou ‘jobs’ qui sont envoyés au fur et à mesure dans les coeurs alloués. Une façon de déjouer cela est de re-travailler le programme maître pour indiquer que les 10 premières tâches seront envoyées dans le 1er coeur, les 10 suivantes dans le second, etc. Pour cela, on modifie d’abord la fonction <em>rnmean()</em> afin qu’elle puisse s’appliquer avec <strong>r</strong> défini comme un vecteur, plutôt qu’un scalaire :</p>
+<div class="sourceCode" id="cb655"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb655-1"><a href="calcul-parallèle.html#cb655-1" aria-hidden="true" tabindex="-1"></a>rnmean_vect <span class="ot">&lt;-</span> <span class="cf">function</span>(r, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>) {</span>
+<span id="cb655-2"><a href="calcul-parallèle.html#cb655-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sapply</span>(r, </span>
+<span id="cb655-3"><a href="calcul-parallèle.html#cb655-3" aria-hidden="true" tabindex="-1"></a>         <span class="cf">function</span>(x) <span class="fu">mean</span>(<span class="fu">rnorm</span>(x, <span class="at">mean =</span> mean, <span class="at">sd =</span> sd)))</span>
+<span id="cb655-4"><a href="calcul-parallèle.html#cb655-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Ensuite, on transforme le vecteur <strong>r.seq</strong> en liste composée de 4 sous vecteurs.</p>
+<div class="sourceCode" id="cb656"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb656-1"><a href="calcul-parallèle.html#cb656-1" aria-hidden="true" tabindex="-1"></a>r.seq_list <span class="ot">&lt;-</span> <span class="fu">list</span>(r.seq[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>],</span>
+<span id="cb656-2"><a href="calcul-parallèle.html#cb656-2" aria-hidden="true" tabindex="-1"></a>                   r.seq[<span class="dv">11</span><span class="sc">:</span><span class="dv">20</span>],</span>
+<span id="cb656-3"><a href="calcul-parallèle.html#cb656-3" aria-hidden="true" tabindex="-1"></a>                   r.seq[<span class="dv">21</span><span class="sc">:</span><span class="dv">30</span>],</span>
+<span id="cb656-4"><a href="calcul-parallèle.html#cb656-4" aria-hidden="true" tabindex="-1"></a>                   r.seq[<span class="dv">31</span><span class="sc">:</span><span class="dv">40</span>])</span></code></pre></div>
+<p>Enfin, on refait appel à la fonction</p>
+<div class="sourceCode" id="cb657"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb657-1"><a href="calcul-parallèle.html#cb657-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;snow&quot;</span>)</span>
+<span id="cb657-2"><a href="calcul-parallèle.html#cb657-2" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(P) </span>
+<span id="cb657-3"><a href="calcul-parallèle.html#cb657-3" aria-hidden="true" tabindex="-1"></a>ctime <span class="ot">&lt;-</span> <span class="fu">snow.time</span>(<span class="fu">clusterApply</span>(cl, r.seq_list, <span class="at">fun =</span> rnmean_vect))</span>
+<span id="cb657-4"><a href="calcul-parallèle.html#cb657-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ctime, <span class="at">title =</span> <span class="st">&quot;Usage with clusterApply&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-345-1.png" width="672" /></p>
+<div class="sourceCode" id="cb658"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb658-1"><a href="calcul-parallèle.html#cb658-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cl) </span></code></pre></div>
+<p>A travers cet exemple, on voit que les flux d’informations sont minimes et le temps de calcul par conséquent meilleur avec une amélioration d’un facteur 3.1.</p>
+<p><strong>Exercice 3.3.</strong></p>
+<p>En vous inspirant de cette section, améliorer la fonction <em>class_tree()</em> vue précédemment en la vectorisant. Le but est de ne faire que 4 jobs (25 bootstrap par job) au lieu de 100. Comparer le temps de calcul avec la version non vectorisée.</p>
+</div>
+<div id="fonction-vectorisée-vs-calcul-vs-code-c" class="section level2" number="4.7">
+<h2><span class="header-section-number">4.7</span> Fonction vectorisée VS calcul // VS code <strong>C++</strong></h2>
+<p>Faire du calcul // n’est pas nécessairement bénéfique si celui-ci n’est pas utilisé dans les règles de l’art. Dans cette section, on va comparer plusieurs façons de coder le même problème.</p>
+<p>On considère le jeu de données suivant qui prend un peu moins d’1 Go de mémoire vive (10M d’observations et 3 variables).</p>
+<div class="sourceCode" id="cb659"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb659-1"><a href="calcul-parallèle.html#cb659-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000000</span> </span>
+<span id="cb659-2"><a href="calcul-parallèle.html#cb659-2" aria-hidden="true" tabindex="-1"></a>big_file <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">chiffre =</span> <span class="dv">1</span><span class="sc">:</span>n,</span>
+<span id="cb659-3"><a href="calcul-parallèle.html#cb659-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">lettre =</span> <span class="fu">paste0</span>(<span class="st">&quot;caract&quot;</span>, <span class="dv">1</span><span class="sc">:</span>n), </span>
+<span id="cb659-4"><a href="calcul-parallèle.html#cb659-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">date =</span> <span class="fu">sample</span>(<span class="fu">seq.Date</span>(<span class="fu">as.Date</span>(<span class="st">&quot;2017-10-01&quot;</span>),</span>
+<span id="cb659-5"><a href="calcul-parallèle.html#cb659-5" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">by =</span> <span class="st">&quot;day&quot;</span>, <span class="at">len =</span> <span class="dv">100</span>), n,</span>
+<span id="cb659-6"><a href="calcul-parallèle.html#cb659-6" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">replace =</span> T))</span>
+<span id="cb659-7"><a href="calcul-parallèle.html#cb659-7" aria-hidden="true" tabindex="-1"></a><span class="fu">object.size</span>(big_file)</span></code></pre></div>
+<pre><code>## 840001520 bytes</code></pre>
+<p>L’objectif est de créer une nouvelle variable binaire qui vaut 1 si la variable <strong>chiffre</strong> est paire est 0 sinon. Pour cela, on va comparer plusieurs moyens pour y arriver.</p>
+<p><strong>Solution 1 :</strong> on va utiliser la fonction <em>ifelse()</em> qui s’applique sur la fonction <strong>%%</strong>.</p>
+<div class="sourceCode" id="cb661"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb661-1"><a href="calcul-parallèle.html#cb661-1" aria-hidden="true" tabindex="-1"></a>sol_1 <span class="ot">&lt;-</span> microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>({</span>
+<span id="cb661-2"><a href="calcul-parallèle.html#cb661-2" aria-hidden="true" tabindex="-1"></a>  big_file<span class="sc">$</span>new <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(big_file<span class="sc">$</span>chiffre <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>) </span>
+<span id="cb661-3"><a href="calcul-parallèle.html#cb661-3" aria-hidden="true" tabindex="-1"></a>}, <span class="at">times =</span> 10L</span>
+<span id="cb661-4"><a href="calcul-parallèle.html#cb661-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Solution 2 :</strong> on va utiliser les opérateurs d’affectation et la fonction <strong>%%</strong></p>
+<div class="sourceCode" id="cb662"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb662-1"><a href="calcul-parallèle.html#cb662-1" aria-hidden="true" tabindex="-1"></a>sol_2 <span class="ot">&lt;-</span> microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>({</span>
+<span id="cb662-2"><a href="calcul-parallèle.html#cb662-2" aria-hidden="true" tabindex="-1"></a>  big_file<span class="sc">$</span>new <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(big_file<span class="sc">$</span>chiffre <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span>)  </span>
+<span id="cb662-3"><a href="calcul-parallèle.html#cb662-3" aria-hidden="true" tabindex="-1"></a>}, <span class="at">times =</span> 10L</span>
+<span id="cb662-4"><a href="calcul-parallèle.html#cb662-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Solution 3 :</strong> on va utiliser du calcul // avec la fonction <em>foreach()</em>. D’abord, on créé la fonction à paralléliser qui regarde si un chiffre est pair ou non :</p>
+<div class="sourceCode" id="cb663"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb663-1"><a href="calcul-parallèle.html#cb663-1" aria-hidden="true" tabindex="-1"></a>compare <span class="ot">&lt;-</span> <span class="cf">function</span>(x)</span>
+<span id="cb663-2"><a href="calcul-parallèle.html#cb663-2" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span> </span></code></pre></div>
+<p>Ensuite, on parallélise avec la fonction <em>foreach()</em> (ici, sur les 1000 premières valeurs uniquement car le temps de calcul serait trop long sur l’ensemble des individus) :</p>
+<div class="sourceCode" id="cb664"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb664-1"><a href="calcul-parallèle.html#cb664-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">&quot;doParallel&quot;</span>)</span>
+<span id="cb664-2"><a href="calcul-parallèle.html#cb664-2" aria-hidden="true" tabindex="-1"></a>P <span class="ot">&lt;-</span> <span class="dv">4</span> </span>
+<span id="cb664-3"><a href="calcul-parallèle.html#cb664-3" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoParallel</span>(<span class="at">cores =</span> P) </span>
+<span id="cb664-4"><a href="calcul-parallèle.html#cb664-4" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(</span>
+<span id="cb664-5"><a href="calcul-parallèle.html#cb664-5" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">i =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) <span class="sc">%dopar%</span> </span>
+<span id="cb664-6"><a href="calcul-parallèle.html#cb664-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">compare</span>(big_file<span class="sc">$</span>chiffre[i])</span>
+<span id="cb664-7"><a href="calcul-parallèle.html#cb664-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Dans cet exemple, on a mal programmé la parallélisation comme cela a été vue dans la section 1.6. On va donc re-programmer la fonction à paralléliser pour indiquer que l’on souhaite faire le calcul des 2500000 premières observations sur le 1er coeur, les 2500000 suivantes sur le second coeur, etc. Comme la fonction <em>compare()</em> est déjà vectorisée, ce n’est pas la peine de la changer. En revanche, on change l’appel de la fonction <em>foreach()</em> afin de l’adapter à ce que l’on souhaite faire :</p>
+<div class="sourceCode" id="cb665"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb665-1"><a href="calcul-parallèle.html#cb665-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">&quot;doParallel&quot;</span>)</span>
+<span id="cb665-2"><a href="calcul-parallèle.html#cb665-2" aria-hidden="true" tabindex="-1"></a>sol_3 <span class="ot">&lt;-</span> microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>({</span>
+<span id="cb665-3"><a href="calcul-parallèle.html#cb665-3" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoParallel</span>(<span class="at">cores =</span> P) </span>
+<span id="cb665-4"><a href="calcul-parallèle.html#cb665-4" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">i =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) <span class="sc">%dopar%</span> </span>
+<span id="cb665-5"><a href="calcul-parallèle.html#cb665-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compare</span>(big_file[(<span class="dv">1</span> <span class="sc">+</span> <span class="dv">2500000</span> <span class="sc">*</span> (i <span class="sc">-</span> <span class="dv">1</span>))<span class="sc">:</span>(<span class="dv">2500000</span> <span class="sc">*</span> i),                           <span class="st">&quot;chiffre&quot;</span>])</span>
+<span id="cb665-6"><a href="calcul-parallèle.html#cb665-6" aria-hidden="true" tabindex="-1"></a>}, <span class="at">times =</span> 10L</span>
+<span id="cb665-7"><a href="calcul-parallèle.html#cb665-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><strong>Solution 4 :</strong> on va utiliser du code <strong>C++</strong></p>
+<div class="sourceCode" id="cb666"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb666-1"><a href="calcul-parallèle.html#cb666-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;Rcpp.h&gt;</span></span>
+<span id="cb666-2"><a href="calcul-parallèle.html#cb666-2" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> Rcpp<span class="op">;</span></span>
+<span id="cb666-3"><a href="calcul-parallèle.html#cb666-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb666-4"><a href="calcul-parallèle.html#cb666-4" aria-hidden="true" tabindex="-1"></a><span class="co">// [[Rcpp::export]]</span></span>
+<span id="cb666-5"><a href="calcul-parallèle.html#cb666-5" aria-hidden="true" tabindex="-1"></a>IntegerVector compare_cpp<span class="op">(</span>IntegerVector x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb666-6"><a href="calcul-parallèle.html#cb666-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n <span class="op">=</span> x<span class="op">.</span>size<span class="op">();</span></span>
+<span id="cb666-7"><a href="calcul-parallèle.html#cb666-7" aria-hidden="true" tabindex="-1"></a>    IntegerVector res<span class="op">(</span>n<span class="op">);</span></span>
+<span id="cb666-8"><a href="calcul-parallèle.html#cb666-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb666-9"><a href="calcul-parallèle.html#cb666-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb666-10"><a href="calcul-parallèle.html#cb666-10" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span><span class="op">(</span>x<span class="op">(</span>i<span class="op">)</span> <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb666-11"><a href="calcul-parallèle.html#cb666-11" aria-hidden="true" tabindex="-1"></a>      res<span class="op">(</span>i<span class="op">)</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb666-12"><a href="calcul-parallèle.html#cb666-12" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb666-13"><a href="calcul-parallèle.html#cb666-13" aria-hidden="true" tabindex="-1"></a>      res<span class="op">(</span>i<span class="op">)</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb666-14"><a href="calcul-parallèle.html#cb666-14" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span></span>
+<span id="cb666-15"><a href="calcul-parallèle.html#cb666-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb666-16"><a href="calcul-parallèle.html#cb666-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb666-17"><a href="calcul-parallèle.html#cb666-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> res<span class="op">;</span></span>
+<span id="cb666-18"><a href="calcul-parallèle.html#cb666-18" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb667"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb667-1"><a href="calcul-parallèle.html#cb667-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">&quot;Rcpp&quot;</span>)</span>
+<span id="cb667-2"><a href="calcul-parallèle.html#cb667-2" aria-hidden="true" tabindex="-1"></a>sol_4 <span class="ot">&lt;-</span> microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>(</span>
+<span id="cb667-3"><a href="calcul-parallèle.html#cb667-3" aria-hidden="true" tabindex="-1"></a>  big_file<span class="sc">$</span>new <span class="ot">&lt;-</span> <span class="fu">compare_cpp</span>(big_file<span class="sc">$</span>chiffre),</span>
+<span id="cb667-4"><a href="calcul-parallèle.html#cb667-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">times =</span> 10L)</span></code></pre></div>
+<p>Représentons les performances de ces 4 solutions :</p>
+<div class="sourceCode" id="cb668"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb668-1"><a href="calcul-parallèle.html#cb668-1" aria-hidden="true" tabindex="-1"></a>time_mbm <span class="ot">&lt;-</span> <span class="fu">rbind</span>(sol_1, sol_2, sol_3, sol_4)</span>
+<span id="cb668-2"><a href="calcul-parallèle.html#cb668-2" aria-hidden="true" tabindex="-1"></a>time_mbm<span class="sc">$</span>expr <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;solution&quot;</span>, <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">each =</span> <span class="dv">10</span>))</span>
+<span id="cb668-3"><a href="calcul-parallèle.html#cb668-3" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">autoplot</span>(time_mbm)</span></code></pre></div>
+<pre><code>## Coordinate system already present. Adding new coordinate system, which will replace the existing one.</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-355-1.png" width="672" /></p>
+<p>Si on compare les 4 solutions, c’est celle qui utilise <strong>C++</strong> qui est la plus performante. Souvent, lorsqu’un programme compte un grand nombre de boucles, c’est effectivement cette solution qui est la meilleure. Ici, le calcul // (à condition que la méthode soit bien implantée) donne des résultats équivalents à la solution 2 qui utilise la commande <strong>%%</strong>. Il n’y a pas d’améliorations à utiliser du code // ici car les flux d’informations entre le programme maître et les coeurs sont importants (en effet, on transfère une grosse quantité de données). Enfin, on constate que la solution 1 prend quant à elle plus de temps que la solution 2 car la fonction <em>ifelse()</em> contient pas mal de codes internes.</p>
+</div>
+<div id="reproductibilité-des-résultats-choix-de-la-graine-aléatoire" class="section level2" number="4.8">
+<h2><span class="header-section-number">4.8</span> Reproductibilité des résultats : choix de la graine aléatoire</h2>
+<p>Il est de plus en plus souvent demander aux programmeurs de coder de telle sorte que leur résultats soient reproductibles par d’autres sur n’importe quelle machine. Lorsqu’on fait des simulations, il est possible de fixer une graine avec la fonction <em>set.seed()</em>, mais ceci n’est valable que sur la machine ``maître’’. Ainsi, on peut exécuter autant de fois que l’on souhaite l’instruction suivante, cela donnera des résultats différents à chaque fois car des tirages différents ont été réalisés à chaque itération.</p>
+<div class="sourceCode" id="cb670"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb670-1"><a href="calcul-parallèle.html#cb670-1" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(P) </span>
+<span id="cb670-2"><a href="calcul-parallèle.html#cb670-2" aria-hidden="true" tabindex="-1"></a>res_par <span class="ot">&lt;-</span> <span class="fu">parSapply</span>(cl, <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="cf">function</span>(x) <span class="fu">mean</span>(<span class="fu">rnorm</span>(<span class="dv">100</span>)))</span>
+<span id="cb670-3"><a href="calcul-parallèle.html#cb670-3" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cl) </span></code></pre></div>
+<p>Une façon de régler ce problème est de fixer une graine à l’intérieur de la fonction qu’on parallèlise (comme ce qui a déjà été fait précédemment) :</p>
+<div class="sourceCode" id="cb671"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb671-1"><a href="calcul-parallèle.html#cb671-1" aria-hidden="true" tabindex="-1"></a>rnmean <span class="ot">&lt;-</span> <span class="cf">function</span>(x, r, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>) {</span>
+<span id="cb671-2"><a href="calcul-parallèle.html#cb671-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(x)</span>
+<span id="cb671-3"><a href="calcul-parallèle.html#cb671-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(<span class="fu">rnorm</span>(r, <span class="at">mean =</span> mean, <span class="at">sd =</span> sd))</span>
+<span id="cb671-4"><a href="calcul-parallèle.html#cb671-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb671-5"><a href="calcul-parallèle.html#cb671-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb671-6"><a href="calcul-parallèle.html#cb671-6" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(P) </span>
+<span id="cb671-7"><a href="calcul-parallèle.html#cb671-7" aria-hidden="true" tabindex="-1"></a>res_par <span class="ot">&lt;-</span> <span class="fu">parSapply</span>(cl, <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, rnmean, </span>
+<span id="cb671-8"><a href="calcul-parallèle.html#cb671-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">r =</span> <span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb671-9"><a href="calcul-parallèle.html#cb671-9" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cl) </span></code></pre></div>
+<p>Une autre façon de faire est d’utiliser la fonction <em>performParallel()</em> du package <strong>snowFT</strong> qui gère parfaitement la gestion des graines aléatoires et fait en sorte d’attribuer dans chaque coeur des graines qui pourront être reproduites.</p>
+<div class="sourceCode" id="cb672"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb672-1"><a href="calcul-parallèle.html#cb672-1" aria-hidden="true" tabindex="-1"></a>rnmean <span class="ot">&lt;-</span> <span class="cf">function</span>(r, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>) {</span>
+<span id="cb672-2"><a href="calcul-parallèle.html#cb672-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mean</span>(<span class="fu">rnorm</span>(r, <span class="at">mean =</span> mean, <span class="at">sd =</span> sd))</span>
+<span id="cb672-3"><a href="calcul-parallèle.html#cb672-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb672-4"><a href="calcul-parallèle.html#cb672-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb672-5"><a href="calcul-parallèle.html#cb672-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;snowFT&quot;</span>)</span>
+<span id="cb672-6"><a href="calcul-parallèle.html#cb672-6" aria-hidden="true" tabindex="-1"></a>seed <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb672-7"><a href="calcul-parallèle.html#cb672-7" aria-hidden="true" tabindex="-1"></a>r_values <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">1000</span>, <span class="dv">100000</span>, <span class="dv">10000000</span>), <span class="at">each =</span> <span class="dv">10</span>)</span>
+<span id="cb672-8"><a href="calcul-parallèle.html#cb672-8" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">performParallel</span>(P, r.seq, <span class="at">fun =</span> rnmean, </span>
+<span id="cb672-9"><a href="calcul-parallèle.html#cb672-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">seed =</span> seed)</span>
+<span id="cb672-10"><a href="calcul-parallèle.html#cb672-10" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(<span class="fu">unlist</span>(res))</span></code></pre></div>
+<pre><code>## [1]  0.0020074546  0.0001398813 -0.0028261112  0.0277917239  0.0001672218
+## [6] -0.0024037920</code></pre>
+<p><strong>Remarque :</strong> cette fonction permet également de définir ou exporter des objets/librairies vers les différents coeurs en utilisant les options <strong>initexpr</strong> et <strong>export</strong>. En reprenant l’exemple précédent avec la fonction <em>myfun_pareto()</em> :</p>
+<div class="sourceCode" id="cb674"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb674-1"><a href="calcul-parallèle.html#cb674-1" aria-hidden="true" tabindex="-1"></a>myfun_pareto <span class="ot">&lt;-</span> <span class="cf">function</span>(r) {</span>
+<span id="cb674-2"><a href="calcul-parallèle.html#cb674-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(<span class="fu">rpareto</span>(r, <span class="at">scale =</span> scale, <span class="at">shape =</span> shape))</span>
+<span id="cb674-3"><a href="calcul-parallèle.html#cb674-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb674-4"><a href="calcul-parallèle.html#cb674-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb674-5"><a href="calcul-parallèle.html#cb674-5" aria-hidden="true" tabindex="-1"></a>seed <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb674-6"><a href="calcul-parallèle.html#cb674-6" aria-hidden="true" tabindex="-1"></a>scale <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb674-7"><a href="calcul-parallèle.html#cb674-7" aria-hidden="true" tabindex="-1"></a>shape <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb674-8"><a href="calcul-parallèle.html#cb674-8" aria-hidden="true" tabindex="-1"></a>r_values <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">1000</span>, <span class="dv">100000</span>, <span class="dv">10000000</span>), <span class="at">each =</span> <span class="dv">10</span>)</span>
+<span id="cb674-9"><a href="calcul-parallèle.html#cb674-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb674-10"><a href="calcul-parallèle.html#cb674-10" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">performParallel</span>(P, r.seq, <span class="at">fun =</span> myfun_pareto, </span>
+<span id="cb674-11"><a href="calcul-parallèle.html#cb674-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">seed =</span> seed,</span>
+<span id="cb674-12"><a href="calcul-parallèle.html#cb674-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">initexpr =</span> <span class="fu">require</span>(<span class="st">&quot;VGAM&quot;</span>),</span>
+<span id="cb674-13"><a href="calcul-parallèle.html#cb674-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">export =</span> <span class="fu">c</span>(<span class="st">&quot;scale&quot;</span>, <span class="st">&quot;shape&quot;</span>))</span>
+<span id="cb674-14"><a href="calcul-parallèle.html#cb674-14" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(<span class="fu">unlist</span>(res))</span></code></pre></div>
+<pre><code>## [1] 1.111299 1.111008 1.110563 1.110589 1.111495 1.111505</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="programmation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="visualisation-de-données.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/03-parallel.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

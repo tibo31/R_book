@@ -1,0 +1,65 @@
+h1:manipulation-de-données-avec-r Manipulation de données avec 
+h2:les-chaînes-de-caractères Les chaînes de caractères
+h3:fonctions-de-base Fonctions de base
+h4:nchar 
+h4:substr 
+h4:strsplit 
+h4:toupper-tolower , 
+h4:grep 
+h4:agrep 
+h4:regexpr 
+h4:abbreviate 
+h3:les-expressions-régulières Les expressions régulières
+h4:définition Définition
+h5:exemples Exemples
+h4:les-autres-expressions-régulières Les autres expressions régulières
+h3:application-aux-tweets Application aux tweets
+h3:nuage-de-mots Nuage de mots
+h3:ordonnancement Ordonnancement
+h3:package-stringr Package 
+h3:package-glue Package 
+h2:les-facteurs Les facteurs
+h2:les-dates Les dates
+h3:dates-et-unités-de-temps Dates et unités de temps
+h3:séries-temporelles Séries temporelles
+h2:opérations-ensemblistes Opérations ensemblistes
+h3:lunion L’union
+h3:lintersection L’intersection
+h3:la-différence-a-b-différent-de-b-a La différence (, différent de )
+h2:manipulation-de-bases-de-données Manipulation de bases de données
+h3:jointure-et-agrégation Jointure et agrégation
+h4:jointure-sans-utiliser-la-fonction-merge Jointure sans utiliser la fonction 
+h4:jointure-en-utilisant-la-fonction-merge Jointure en utilisant la fonction 
+h4:aggrégation Aggrégation
+h3:package-dplyr Package 
+h4:sélection-de-lignes-avec-la-fonction-filter Sélection de lignes avec la fonction 
+h4:trier-le-jeu-de-données-avec-la-fonction-arrange Trier le jeu de données avec la fonction 
+h4:sélectionner-certaines-variables-avec-la-fonction-select Sélectionner certaines variables avec la fonction 
+h4:changer-le-nom-de-variables-avec-la-fonction-rename Changer le nom de variables avec la fonction 
+h4:ajouter-une-nouvelle-colonne-avec-la-fonction-mutate Ajouter une nouvelle colonne avec la fonction 
+h4:faire-des-calculs-statistiques-avec-la-fonction-summarise Faire des calculs statistiques avec la fonction 
+h4:faire-des-calculs-statistiques-en-utilisant-une-nouvelle-syntaxe Faire des calculs statistiques en utilisant une nouvelle syntaxe
+h4:tirer-un-échantillon-dune-population Tirer un échantillon d’une population
+h2:tidy-data Tidy data
+h3:la-fonction-pivot_longer-transformer-des-colonnes-en-lignes La fonction  : transformer des colonnes en lignes
+h3:la-fonction-pivot_wider-transformer-des-lignes-en-colonnes La fonction  : transformer des lignes en colonnes
+h4:la-fonction-separate La fonction 
+h4:la-fonction-unite La fonction 
+h4:la-fonction-extract La fonction 
+h4:la-fonction-complete La fonction 
+h2:gestion-de-données-volumineuses Gestion de données volumineuses
+h3:optimiser-la-fonction-read.table Optimiser la fonction 
+h4:astuce-1 Astuce 1
+h4:astuce-2 Astuce 2
+h3:le-package-readr Le package 
+h3:autres-packages Autres packages
+h4:package-data.table Package 
+h4:package-ff Package 
+h3:algorithme-de-type-mapreducce Algorithme de type Map/Reducce
+h4:package-matrix Package 
+h3:interaction-avec-des-systèmes-de-gestion-de-bases-de-données Interaction avec des systèmes de gestion de bases de données
+h3:utiliser-la-syntaxe-sql Utiliser la syntaxe SQL
+h2:visualiser-et-traiter-les-données-manquantes Visualiser et traiter les données manquantes
+h2:répertoires-et-fichiers Répertoires et fichiers
+h2:autour-de-lespace-de-travail Autour de l’espace de travail
+

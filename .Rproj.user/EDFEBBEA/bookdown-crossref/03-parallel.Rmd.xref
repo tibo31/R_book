@@ -1,0 +1,22 @@
+h1:calcul-parallèle Calcul parallèle
+h2:principe-du-calcul-parallèle Principe du calcul parallèle
+h2:notion-de-programme-maître Notion de programme maître
+h2:fonction-set.seed Fonction 
+h2:syntaxe-pour-lancer-un-calcul-parallèle Syntaxe pour lancer un calcul parallèle
+h3:syntaxe-dans-le-cas-non-parallèle Syntaxe dans le cas non parallèle
+h3:syntaxe-dans-le-cas-parallèle Syntaxe dans le cas parallèle
+h3:recommandations Recommandations
+h4:gestion-de-la-mémoire Gestion de la mémoire
+h4:en-cas-dinterruption-du-programme-maître En cas d’interruption du programme maître
+h4:choix-du-nombre-de-coeurs Choix du nombre de coeurs
+h3:récupérer-les-résultats Récupérer les résultats
+h3:utiliser-des-packages-objets-jeux-de-données-sur-les-différents-coeurs Utiliser des packages, objets, jeux de données sur les différents coeurs
+h4:utiliser-des-packages-sur-plusieurs-coeurs Utiliser des packages sur plusieurs coeurs
+h4:charger-des-objets-fonctions-ou-jeux-de-données-dans-les-différents-coeurs Charger des objets, fonctions ou jeux de données dans les différents coeurs
+h3:fonctions-lapply-sapply-apply-mapply Fonctions , , , 
+h3:autres-packages-de-calcul-parallèle Autres packages de calcul parallèle
+h2:equilibrer-la-répartition-des-tâches Equilibrer la répartition des tâches
+h2:améliorer-la-répartition-des-tâches Améliorer la répartition des tâches
+h2:fonction-vectorisée-vs-calcul-vs-code-c Fonction vectorisée VS calcul // VS code 
+h2:reproductibilité-des-résultats-choix-de-la-graine-aléatoire Reproductibilité des résultats : choix de la graine aléatoire
+

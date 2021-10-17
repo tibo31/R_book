@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapitre 8 Tidy data | Manipulation de données avec R</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapitre 8 Tidy data | Manipulation de données avec R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapitre 8 Tidy data | Manipulation de données avec R" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Sébastien Déjean et Thibault Laurent" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="manipulation-de-bases-de-données.html"/>
+<link rel="next" href="gestion-de-données-volumineuses.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R avancé</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#usage"><i class="fa fa-check"></i><b>1.1</b> Usage</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#render-book"><i class="fa fa-check"></i><b>1.2</b> Render book</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#preview-book"><i class="fa fa-check"></i><b>1.3</b> Preview book</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introduction.html"><a href="introduction.html#principe-du-document"><i class="fa fa-check"></i><b>2.1</b> Principe du document</a></li>
+<li class="chapter" data-level="2.2" data-path="introduction.html"><a href="introduction.html#pré-requis"><i class="fa fa-check"></i><b>2.2</b> Pré-requis</a></li>
+<li class="chapter" data-level="2.3" data-path="introduction.html"><a href="introduction.html#packages-à-installer"><i class="fa fa-check"></i><b>2.3</b> Packages à installer</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html"><i class="fa fa-check"></i><b>3</b> Les chaînes de caractères</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#fonctions-de-base"><i class="fa fa-check"></i><b>3.1</b> Fonctions de base</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#nchar"><i class="fa fa-check"></i><b>3.1.1</b> <em>nchar()</em></a></li>
+<li class="chapter" data-level="3.1.2" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#substr"><i class="fa fa-check"></i><b>3.1.2</b> <em>substr()</em></a></li>
+<li class="chapter" data-level="3.1.3" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#strsplit"><i class="fa fa-check"></i><b>3.1.3</b> <em>strsplit()</em></a></li>
+<li class="chapter" data-level="3.1.4" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#toupper-tolower"><i class="fa fa-check"></i><b>3.1.4</b> <em>toupper()</em>, <em>tolower()</em></a></li>
+<li class="chapter" data-level="3.1.5" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#grep"><i class="fa fa-check"></i><b>3.1.5</b> <em>grep()</em></a></li>
+<li class="chapter" data-level="3.1.6" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#agrep"><i class="fa fa-check"></i><b>3.1.6</b> <em>agrep()</em></a></li>
+<li class="chapter" data-level="3.1.7" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#regexpr"><i class="fa fa-check"></i><b>3.1.7</b> <em>regexpr()</em></a></li>
+<li class="chapter" data-level="3.1.8" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#abbreviate"><i class="fa fa-check"></i><b>3.1.8</b> <em>abbreviate()</em></a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#les-expressions-régulières"><i class="fa fa-check"></i><b>3.2</b> Les expressions régulières</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#définition"><i class="fa fa-check"></i><b>3.2.1</b> Définition</a></li>
+<li class="chapter" data-level="3.2.2" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#les-autres-expressions-régulières"><i class="fa fa-check"></i><b>3.2.2</b> Les autres expressions régulières</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#application-aux-tweets"><i class="fa fa-check"></i><b>3.3</b> Application aux tweets</a></li>
+<li class="chapter" data-level="3.4" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#nuage-de-mots"><i class="fa fa-check"></i><b>3.4</b> Nuage de mots</a></li>
+<li class="chapter" data-level="3.5" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#ordonnancement"><i class="fa fa-check"></i><b>3.5</b> Ordonnancement</a></li>
+<li class="chapter" data-level="3.6" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#package-stringr"><i class="fa fa-check"></i><b>3.6</b> Package <strong>stringr</strong></a></li>
+<li class="chapter" data-level="3.7" data-path="les-chaînes-de-caractères.html"><a href="les-chaînes-de-caractères.html#package-glue"><i class="fa fa-check"></i><b>3.7</b> Package <strong>glue</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="les-facteurs.html"><a href="les-facteurs.html"><i class="fa fa-check"></i><b>4</b> Les facteurs</a></li>
+<li class="chapter" data-level="5" data-path="les-dates.html"><a href="les-dates.html"><i class="fa fa-check"></i><b>5</b> Les dates</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="les-dates.html"><a href="les-dates.html#dates-et-unités-de-temps"><i class="fa fa-check"></i><b>5.1</b> Dates et unités de temps</a></li>
+<li class="chapter" data-level="5.2" data-path="les-dates.html"><a href="les-dates.html#séries-temporelles"><i class="fa fa-check"></i><b>5.2</b> Séries temporelles</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="opérations-ensemblistes.html"><a href="opérations-ensemblistes.html"><i class="fa fa-check"></i><b>6</b> Opérations ensemblistes</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="opérations-ensemblistes.html"><a href="opérations-ensemblistes.html#lunion"><i class="fa fa-check"></i><b>6.1</b> L’union</a></li>
+<li class="chapter" data-level="6.2" data-path="opérations-ensemblistes.html"><a href="opérations-ensemblistes.html#lintersection"><i class="fa fa-check"></i><b>6.2</b> L’intersection</a></li>
+<li class="chapter" data-level="6.3" data-path="opérations-ensemblistes.html"><a href="opérations-ensemblistes.html#la-différence-a-b-différent-de-b-a"><i class="fa fa-check"></i><b>6.3</b> La différence (<span class="math inline">\(A-B\)</span>, différent de <span class="math inline">\(B-A\)</span>)</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html"><i class="fa fa-check"></i><b>7</b> Manipulation de bases de données</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#jointure-et-agrégation"><i class="fa fa-check"></i><b>7.1</b> Jointure et agrégation</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#jointure-sans-utiliser-la-fonction-merge"><i class="fa fa-check"></i><b>7.1.1</b> Jointure sans utiliser la fonction <em>merge()</em></a></li>
+<li class="chapter" data-level="7.1.2" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#jointure-en-utilisant-la-fonction-merge"><i class="fa fa-check"></i><b>7.1.2</b> Jointure en utilisant la fonction <em>merge()</em></a></li>
+<li class="chapter" data-level="7.1.3" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#aggrégation"><i class="fa fa-check"></i><b>7.1.3</b> Aggrégation</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#package-dplyr"><i class="fa fa-check"></i><b>7.2</b> Package <strong>dplyr</strong></a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#sélection-de-lignes-avec-la-fonction-filter"><i class="fa fa-check"></i><b>7.2.1</b> Sélection de lignes avec la fonction <em>filter()</em></a></li>
+<li class="chapter" data-level="7.2.2" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#trier-le-jeu-de-données-avec-la-fonction-arrange"><i class="fa fa-check"></i><b>7.2.2</b> Trier le jeu de données avec la fonction <em>arrange()</em></a></li>
+<li class="chapter" data-level="7.2.3" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#sélectionner-certaines-variables-avec-la-fonction-select"><i class="fa fa-check"></i><b>7.2.3</b> Sélectionner certaines variables avec la fonction <em>select()</em></a></li>
+<li class="chapter" data-level="7.2.4" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#changer-le-nom-de-variables-avec-la-fonction-rename"><i class="fa fa-check"></i><b>7.2.4</b> Changer le nom de variables avec la fonction <em>rename()</em></a></li>
+<li class="chapter" data-level="7.2.5" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#ajouter-une-nouvelle-colonne-avec-la-fonction-mutate"><i class="fa fa-check"></i><b>7.2.5</b> Ajouter une nouvelle colonne avec la fonction <em>mutate()</em></a></li>
+<li class="chapter" data-level="7.2.6" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#faire-des-calculs-statistiques-avec-la-fonction-summarise"><i class="fa fa-check"></i><b>7.2.6</b> Faire des calculs statistiques avec la fonction <em>summarise()</em></a></li>
+<li class="chapter" data-level="7.2.7" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#faire-des-calculs-statistiques-en-utilisant-une-nouvelle-syntaxe"><i class="fa fa-check"></i><b>7.2.7</b> Faire des calculs statistiques en utilisant une nouvelle syntaxe</a></li>
+<li class="chapter" data-level="7.2.8" data-path="manipulation-de-bases-de-données.html"><a href="manipulation-de-bases-de-données.html#tirer-un-échantillon-dune-population"><i class="fa fa-check"></i><b>7.2.8</b> Tirer un échantillon d’une population</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tidy-data.html"><a href="tidy-data.html"><i class="fa fa-check"></i><b>8</b> Tidy data</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tidy-data.html"><a href="tidy-data.html#la-fonction-pivot_longer-transformer-des-colonnes-en-lignes"><i class="fa fa-check"></i><b>8.1</b> La fonction <em>pivot_longer()</em> : transformer des colonnes en lignes</a></li>
+<li class="chapter" data-level="8.2" data-path="tidy-data.html"><a href="tidy-data.html#la-fonction-pivot_wider-transformer-des-lignes-en-colonnes"><i class="fa fa-check"></i><b>8.2</b> La fonction <em>pivot_wider()</em> : transformer des lignes en colonnes</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="tidy-data.html"><a href="tidy-data.html#la-fonction-separate"><i class="fa fa-check"></i><b>8.2.1</b> La fonction <em>separate()</em></a></li>
+<li class="chapter" data-level="8.2.2" data-path="tidy-data.html"><a href="tidy-data.html#la-fonction-unite"><i class="fa fa-check"></i><b>8.2.2</b> La fonction <em>unite()</em></a></li>
+<li class="chapter" data-level="8.2.3" data-path="tidy-data.html"><a href="tidy-data.html#la-fonction-extract"><i class="fa fa-check"></i><b>8.2.3</b> La fonction <em>extract()</em></a></li>
+<li class="chapter" data-level="8.2.4" data-path="tidy-data.html"><a href="tidy-data.html#la-fonction-complete"><i class="fa fa-check"></i><b>8.2.4</b> La fonction <em>complete()</em></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html"><i class="fa fa-check"></i><b>9</b> Gestion de données volumineuses</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#optimiser-la-fonction-read.table"><i class="fa fa-check"></i><b>9.1</b> Optimiser la fonction <em>read.table()</em></a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#astuce-1"><i class="fa fa-check"></i><b>9.1.1</b> Astuce 1</a></li>
+<li class="chapter" data-level="9.1.2" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#astuce-2"><i class="fa fa-check"></i><b>9.1.2</b> Astuce 2</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#le-package-readr"><i class="fa fa-check"></i><b>9.2</b> Le package <strong>readr</strong></a></li>
+<li class="chapter" data-level="9.3" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#autres-packages"><i class="fa fa-check"></i><b>9.3</b> Autres packages</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#package-data.table"><i class="fa fa-check"></i><b>9.3.1</b> Package <strong>data.table</strong></a></li>
+<li class="chapter" data-level="9.3.2" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#package-ff"><i class="fa fa-check"></i><b>9.3.2</b> Package <strong>ff</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#algorithme-de-type-mapreducce"><i class="fa fa-check"></i><b>9.4</b> Algorithme de type Map/Reducce</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#package-matrix"><i class="fa fa-check"></i><b>9.4.1</b> Package <strong>Matrix</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#interaction-avec-des-systèmes-de-gestion-de-bases-de-données"><i class="fa fa-check"></i><b>9.5</b> Interaction avec des systèmes de gestion de bases de données</a></li>
+<li class="chapter" data-level="9.6" data-path="gestion-de-données-volumineuses.html"><a href="gestion-de-données-volumineuses.html#utiliser-la-syntaxe-sql"><i class="fa fa-check"></i><b>9.6</b> utiliser la syntaxe SQL</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="visualiser-et-traiter-les-données-manquantes.html"><a href="visualiser-et-traiter-les-données-manquantes.html"><i class="fa fa-check"></i><b>10</b> Visualiser et traiter les données manquantes</a></li>
+<li class="chapter" data-level="11" data-path="répertoires-et-fichiers.html"><a href="répertoires-et-fichiers.html"><i class="fa fa-check"></i><b>11</b> Répertoires et fichiers</a></li>
+<li class="chapter" data-level="12" data-path="autour-de-lespace-de-travail.html"><a href="autour-de-lespace-de-travail.html"><i class="fa fa-check"></i><b>12</b> Autour de l’espace de travail</a></li>
+<li class="chapter" data-level="13" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html"><i class="fa fa-check"></i><b>13</b> Footnotes and citations</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#footnotes"><i class="fa fa-check"></i><b>13.1</b> Footnotes</a></li>
+<li class="chapter" data-level="13.2" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#citations"><i class="fa fa-check"></i><b>13.2</b> Citations</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="hello-bookdown.html"><a href="hello-bookdown.html"><i class="fa fa-check"></i><b>14</b> Hello bookdown</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="hello-bookdown.html"><a href="hello-bookdown.html#a-section"><i class="fa fa-check"></i><b>14.1</b> A section</a>
+<ul>
+<li class="chapter" data-level="" data-path="hello-bookdown.html"><a href="hello-bookdown.html#an-unnumbered-section"><i class="fa fa-check"></i>An unnumbered section</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="cross.html"><a href="cross.html"><i class="fa fa-check"></i><b>15</b> Cross-references</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="cross.html"><a href="cross.html#chapters-and-sub-chapters"><i class="fa fa-check"></i><b>15.1</b> Chapters and sub-chapters</a></li>
+<li class="chapter" data-level="15.2" data-path="cross.html"><a href="cross.html#captioned-figures-and-tables"><i class="fa fa-check"></i><b>15.2</b> Captioned figures and tables</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="parts.html"><a href="parts.html"><i class="fa fa-check"></i><b>16</b> Parts</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="17" data-path="blocks.html"><a href="blocks.html"><i class="fa fa-check"></i><b>17</b> Blocks</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="blocks.html"><a href="blocks.html#equations"><i class="fa fa-check"></i><b>17.1</b> Equations</a></li>
+<li class="chapter" data-level="17.2" data-path="blocks.html"><a href="blocks.html#theorems-and-proofs"><i class="fa fa-check"></i><b>17.2</b> Theorems and proofs</a></li>
+<li class="chapter" data-level="17.3" data-path="blocks.html"><a href="blocks.html#callout-blocks"><i class="fa fa-check"></i><b>17.3</b> Callout blocks</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="sharing-your-book.html"><a href="sharing-your-book.html"><i class="fa fa-check"></i><b>18</b> Sharing your book</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="sharing-your-book.html"><a href="sharing-your-book.html#publishing"><i class="fa fa-check"></i><b>18.1</b> Publishing</a></li>
+<li class="chapter" data-level="18.2" data-path="sharing-your-book.html"><a href="sharing-your-book.html#pages"><i class="fa fa-check"></i><b>18.2</b> 404 pages</a></li>
+<li class="chapter" data-level="18.3" data-path="sharing-your-book.html"><a href="sharing-your-book.html#metadata-for-sharing"><i class="fa fa-check"></i><b>18.3</b> Metadata for sharing</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Manipulation de données avec <strong>R</strong></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="tidy-data" class="section level1" number="8">
+<h1><span class="header-section-number">Chapitre 8</span> Tidy data</h1>
+<p>Pour illustrer ce paragraphe, on considére les données suivantes : on observe pour 3 pays (Afghanistan, Brazil et Chine) sur 2 années consécutives (1999 et 2000), la taille de la population ainsi que le nombre de cas de tuberculoses observés. On va voir qu’on peut utiliser différentes tables pour présenter ces données et parmi ces différentes possibilités, on aura intérêt à en utiliser une plutôt que les autres. Pour charger ces données, on va installer le package <strong>DSR</strong> accessible depuis <strong>github</strong>. En effet, il est possible de récupérer sur <strong>github</strong> des packages qui sont en cours de développement et qui n’ont pas encore passés le processus de validation pour être un package officiel du CRAN :</p>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="tidy-data.html#cb255-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;garrettgman/DSR&quot;</span>)</span></code></pre></div>
+<p>On pourrait traduire <em>tidy data</em> par données rangées en opposition à <em>messy data</em>, données désordonnées. Ce courant de <em>tidy data</em> vient encore de Hadley Wickham (voir article <a href="https://www.jstatsoft.org/article/view/v059i10" class="uri">https://www.jstatsoft.org/article/view/v059i10</a> ou encore <a href="https://r4ds.had.co.nz/tidy-data.html" class="uri">https://r4ds.had.co.nz/tidy-data.html</a>) qui part du principe suivant qui peut paraître évident, mais selon les situations, ce n’est pas toujours le cas :</p>
+<ul>
+<li><p>Une variable doit être rangée dans une colonne,</p></li>
+<li><p>Un individu est rangé dans une ligne,</p></li>
+<li><p>On place les valeurs observées dans les bonnes cases.</p></li>
+</ul>
+<p>On présente ici une façon de présenter les données <em>tidy</em> :</p>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="tidy-data.html#cb256-1" aria-hidden="true" tabindex="-1"></a>DSR<span class="sc">::</span>table1</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 4
+##   country      year  cases population
+##   &lt;fct&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan  1999    745   19987071
+## 2 Afghanistan  2000   2666   20595360
+## 3 Brazil       1999  37737  172006362
+## 4 Brazil       2000  80488  174504898
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583</code></pre>
+<p>Au contraire, dans les données <em>messy</em>, on trouve en général une de ces situations :</p>
+<ul>
+<li><p>le nom des colonnes sont des valeurs et pas des noms,</p></li>
+<li><p>Plusieurs variables sont stockées dans une même colonne, c’est le cas du jeu de données suivant.</p></li>
+</ul>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="tidy-data.html#cb258-1" aria-hidden="true" tabindex="-1"></a>DSR<span class="sc">::</span>table3</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 3
+##   country      year rate             
+##   &lt;fct&gt;       &lt;int&gt; &lt;chr&gt;            
+## 1 Afghanistan  1999 745/19987071     
+## 2 Afghanistan  2000 2666/20595360    
+## 3 Brazil       1999 37737/172006362  
+## 4 Brazil       2000 80488/174504898  
+## 5 China        1999 212258/1272915272
+## 6 China        2000 213766/1280428583</code></pre>
+<ul>
+<li>Les variables sont à la fois présentes dans les lignes et les colonnes, c’est le cas du jeu de données suivant où constate que la colonne <strong>key</strong> contient le nom des deux variables <strong>population</strong> et <strong>cases</strong>, qu’il semblerait judiciable de présenter plutôt en colonnes.</li>
+</ul>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="tidy-data.html#cb260-1" aria-hidden="true" tabindex="-1"></a>DSR<span class="sc">::</span>table2</span></code></pre></div>
+<pre><code>## # A tibble: 12 x 4
+##    country      year key             value
+##    &lt;fct&gt;       &lt;int&gt; &lt;fct&gt;           &lt;int&gt;
+##  1 Afghanistan  1999 cases             745
+##  2 Afghanistan  1999 population   19987071
+##  3 Afghanistan  2000 cases            2666
+##  4 Afghanistan  2000 population   20595360
+##  5 Brazil       1999 cases           37737
+##  6 Brazil       1999 population  172006362
+##  7 Brazil       2000 cases           80488
+##  8 Brazil       2000 population  174504898
+##  9 China        1999 cases          212258
+## 10 China        1999 population 1272915272
+## 11 China        2000 cases          213766
+## 12 China        2000 population 1280428583</code></pre>
+<ul>
+<li>Les valeurs sont stockées dans plusieurs tables. C’est le cas de ces deux tables (une contenant les informations sur la population, l’autre sur le nombre de cas de tuberculoses) qui auraient pu être regroupées en une seule table</li>
+</ul>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="tidy-data.html#cb262-1" aria-hidden="true" tabindex="-1"></a>DSR<span class="sc">::</span>table4</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 3
+##   country     `1999` `2000`
+##   &lt;fct&gt;        &lt;int&gt;  &lt;int&gt;
+## 1 Afghanistan    745   2666
+## 2 Brazil       37737  80488
+## 3 China       212258 213766</code></pre>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="tidy-data.html#cb264-1" aria-hidden="true" tabindex="-1"></a>DSR<span class="sc">::</span>table5</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 3
+##   country         `1999`     `2000`
+##   &lt;fct&gt;            &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan   19987071   20595360
+## 2 Brazil       172006362  174504898
+## 3 China       1272915272 1280428583</code></pre>
+<p>On va présenter ici les fonctions principales du package <strong>tidyr</strong> (ce package fait partie de la bibliothèque <strong>tidyverse</strong>) qui permettent de passer d’un format <em>messy</em> à un format <em>tidy</em> ou inversement.</p>
+<div id="la-fonction-pivot_longer-transformer-des-colonnes-en-lignes" class="section level2" number="8.1">
+<h2><span class="header-section-number">8.1</span> La fonction <em>pivot_longer()</em> : transformer des colonnes en lignes</h2>
+<p>Cette fonction permet de représenter en 1 seul colonne (et d’ajouter une colonne correspondant à une variable qualitative où les modalités sont le nom des variables initiales), une variable contenue à l’origine dans plusieurs colonnes.</p>
+<p><img src="Figures/pivot_longer.png" width="80%" height="\textheight" /></p>
+<p>L’argument <strong>cols</strong> indique les variables à transformer en ligne, l’argument <strong>names_to</strong> correspond au nom donné à la variable contenant les nouvelles modalités (le nom des variables) et l’argument <strong>values_to</strong> correspond au nom de la colonne contenant les valeurs qui ont été transformées de colonnes en lignes.</p>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="tidy-data.html#cb266-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pivot_longer</span>(DSR<span class="sc">::</span>table4, </span>
+<span id="cb266-2"><a href="tidy-data.html#cb266-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">cols =</span> <span class="fu">c</span>(<span class="st">&quot;1999&quot;</span>, <span class="st">&quot;2000&quot;</span>),</span>
+<span id="cb266-3"><a href="tidy-data.html#cb266-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">names_to =</span> <span class="st">&quot;years&quot;</span>,</span>
+<span id="cb266-4"><a href="tidy-data.html#cb266-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">values_to =</span> <span class="st">&quot;cases&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 3
+##   country     years  cases
+##   &lt;fct&gt;       &lt;chr&gt;  &lt;int&gt;
+## 1 Afghanistan 1999     745
+## 2 Afghanistan 2000    2666
+## 3 Brazil      1999   37737
+## 4 Brazil      2000   80488
+## 5 China       1999  212258
+## 6 China       2000  213766</code></pre>
+<p>Avant <em>pivot_longer()</em>, il était possible d’utiliser la fonction <em>gather()</em>:</p>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="tidy-data.html#cb268-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gather</span>(DSR<span class="sc">::</span>table4, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;cases&quot;</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 3
+##   country     year   cases
+##   &lt;fct&gt;       &lt;chr&gt;  &lt;int&gt;
+## 1 Afghanistan 1999     745
+## 2 Brazil      1999   37737
+## 3 China       1999  212258
+## 4 Afghanistan 2000    2666
+## 5 Brazil      2000   80488
+## 6 China       2000  213766</code></pre>
+<p>Avant toutes ces fonctions, il aurait fallu exécuter ce genre de commandes où l’opération mathématique consiste à transformer une matrice en un vecteur.</p>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="tidy-data.html#cb270-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb270-2"><a href="tidy-data.html#cb270-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">country =</span> <span class="fu">rep</span>(DSR<span class="sc">::</span>table4<span class="sc">$</span>country, <span class="at">times =</span> <span class="dv">2</span>),</span>
+<span id="cb270-3"><a href="tidy-data.html#cb270-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;1999&quot;</span>, <span class="st">&quot;2000&quot;</span>), <span class="at">each =</span> <span class="fu">nrow</span>(DSR<span class="sc">::</span>table4)), </span>
+<span id="cb270-4"><a href="tidy-data.html#cb270-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">cases =</span> <span class="fu">as.vector</span>(<span class="fu">as.matrix</span>(DSR<span class="sc">::</span>table4[ , <span class="fu">c</span>(<span class="st">&quot;1999&quot;</span>, <span class="st">&quot;2000&quot;</span>)]))</span>
+<span id="cb270-5"><a href="tidy-data.html#cb270-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>##       country year  cases
+## 1 Afghanistan 1999    745
+## 2      Brazil 1999  37737
+## 3       China 1999 212258
+## 4 Afghanistan 2000   2666
+## 5      Brazil 2000  80488
+## 6       China 2000 213766</code></pre>
+</div>
+<div id="la-fonction-pivot_wider-transformer-des-lignes-en-colonnes" class="section level2" number="8.2">
+<h2><span class="header-section-number">8.2</span> La fonction <em>pivot_wider()</em> : transformer des lignes en colonnes</h2>
+<p>Cette fonction permet de re-distribuer les valeurs d’une colonne qui contenait l’information de plusieurs variables, en plusieurs colonnes où chaque colonne correspond à une variable.</p>
+<p><img src="Figures/pivot_wider.png" width="80%" height="\textheight" /></p>
+<p>L’argument <strong>names_from</strong> correspond au nom de la colonne qui contient le nom des variables, et l’argument <strong>values_from</strong> correspond au nom de la colonne qui contient les valeurs à re-distribuer :</p>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="tidy-data.html#cb272-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pivot_wider</span>(DSR<span class="sc">::</span>table2, <span class="at">names_from =</span> key, </span>
+<span id="cb272-2"><a href="tidy-data.html#cb272-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">values_from =</span> value)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 4
+##   country      year  cases population
+##   &lt;fct&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan  1999    745   19987071
+## 2 Afghanistan  2000   2666   20595360
+## 3 Brazil       1999  37737  172006362
+## 4 Brazil       2000  80488  174504898
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583</code></pre>
+<p>Avant <em>pivot_wider()</em>, il était possible d’utiliser la fonction <em>spread()</em></p>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="tidy-data.html#cb274-1" aria-hidden="true" tabindex="-1"></a><span class="fu">spread</span>(DSR<span class="sc">::</span>table2, key, value)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 4
+##   country      year  cases population
+##   &lt;fct&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan  1999    745   19987071
+## 2 Afghanistan  2000   2666   20595360
+## 3 Brazil       1999  37737  172006362
+## 4 Brazil       2000  80488  174504898
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583</code></pre>
+<p>Avant la création de ces fonctions, il aurait fallu utiliser la fonction <em>split()</em> et <em>merge()</em>:</p>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="tidy-data.html#cb276-1" aria-hidden="true" tabindex="-1"></a>sp_DSR <span class="ot">&lt;-</span> <span class="fu">split</span>(DSR<span class="sc">::</span>table2[, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>)],  DSR<span class="sc">::</span>table2[, <span class="dv">3</span>]) </span>
+<span id="cb276-2"><a href="tidy-data.html#cb276-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sp_DSR<span class="sc">$</span>cases)[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="st">&quot;cases&quot;</span></span>
+<span id="cb276-3"><a href="tidy-data.html#cb276-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sp_DSR<span class="sc">$</span>population)[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="st">&quot;population&quot;</span></span>
+<span id="cb276-4"><a href="tidy-data.html#cb276-4" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(sp_DSR<span class="sc">$</span>cases, sp_DSR<span class="sc">$</span>population,</span>
+<span id="cb276-5"><a href="tidy-data.html#cb276-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">by.x =</span> <span class="fu">c</span>(<span class="st">&quot;country&quot;</span>, <span class="st">&quot;year&quot;</span>),</span>
+<span id="cb276-6"><a href="tidy-data.html#cb276-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">by.y =</span> <span class="fu">c</span>(<span class="st">&quot;country&quot;</span>, <span class="st">&quot;year&quot;</span>),)</span></code></pre></div>
+<pre><code>##       country year  cases population
+## 1 Afghanistan 1999    745   19987071
+## 2 Afghanistan 2000   2666   20595360
+## 3      Brazil 1999  37737  172006362
+## 4      Brazil 2000  80488  174504898
+## 5       China 1999 212258 1272915272
+## 6       China 2000 213766 1280428583</code></pre>
+<div id="la-fonction-separate" class="section level3" number="8.2.1">
+<h3><span class="header-section-number">8.2.1</span> La fonction <em>separate()</em></h3>
+<p>Cette fonction permet de séparer une colonne en deux variables dès qu’elle détecte un caractère de séparation. Par exemple, pour spliter la colonne <strong>rate</strong> de la <strong>table3</strong>.</p>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="tidy-data.html#cb278-1" aria-hidden="true" tabindex="-1"></a><span class="fu">separate</span>(table3, rate, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;cases&quot;</span>, <span class="st">&quot;population&quot;</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 4
+##   country      year cases  population
+##   &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;     
+## 1 Afghanistan  1999 745    19987071  
+## 2 Afghanistan  2000 2666   20595360  
+## 3 Brazil       1999 37737  172006362 
+## 4 Brazil       2000 80488  174504898 
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583</code></pre>
+</div>
+<div id="la-fonction-unite" class="section level3" number="8.2.2">
+<h3><span class="header-section-number">8.2.2</span> La fonction <em>unite()</em></h3>
+<p>Cette fonction permet de faire l’opération inverse de <em>separate()</em>. Elle permet de concaténer deux variables. Le résultat est proche de celui de la fonction <em>paste()</em>.</p>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="tidy-data.html#cb280-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unite</span>(DSR<span class="sc">::</span>table1, <span class="at">col =</span> <span class="st">&quot;rate&quot;</span>,</span>
+<span id="cb280-2"><a href="tidy-data.html#cb280-2" aria-hidden="true" tabindex="-1"></a>      cases, population, <span class="at">sep =</span> <span class="st">&quot;/&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 3
+##   country      year rate             
+##   &lt;fct&gt;       &lt;int&gt; &lt;chr&gt;            
+## 1 Afghanistan  1999 745/19987071     
+## 2 Afghanistan  2000 2666/20595360    
+## 3 Brazil       1999 37737/172006362  
+## 4 Brazil       2000 80488/174504898  
+## 5 China        1999 212258/1272915272
+## 6 China        2000 213766/1280428583</code></pre>
+</div>
+<div id="la-fonction-extract" class="section level3" number="8.2.3">
+<h3><span class="header-section-number">8.2.3</span> La fonction <em>extract()</em></h3>
+<p>Cette fonction permet de spliter une colonne en deux en précisant quelle chaîne de caractère est utilisée pour le split. Dans l’exemple ci-dessous, on splitte une chaîne de caractère lorsqu’il y a un espace dans une chaîne de caractère. Pour cela, on utilise l’argument <strong>regex=</strong> qui indique une expression régulière “REGEX.”</p>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="tidy-data.html#cb282-1" aria-hidden="true" tabindex="-1"></a>df_to_split <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb282-2"><a href="tidy-data.html#cb282-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">player =</span> <span class="fu">c</span>(<span class="st">&quot;Lionel Messi&quot;</span>, <span class="st">&quot;Christiano Ronaldo&quot;</span>, <span class="st">&quot;Antoine Griezman&quot;</span>),</span>
+<span id="cb282-3"><a href="tidy-data.html#cb282-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">prix =</span> <span class="fu">c</span>(<span class="dv">170</span>, <span class="dv">100</span>, <span class="dv">120</span>))</span>
+<span id="cb282-4"><a href="tidy-data.html#cb282-4" aria-hidden="true" tabindex="-1"></a><span class="fu">extract</span>(df_to_split, </span>
+<span id="cb282-5"><a href="tidy-data.html#cb282-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> player,</span>
+<span id="cb282-6"><a href="tidy-data.html#cb282-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;prenom&quot;</span>, <span class="st">&quot;nom&quot;</span>),</span>
+<span id="cb282-7"><a href="tidy-data.html#cb282-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">regex =</span> <span class="st">&quot;^(.).* (.).*$&quot;</span>)</span></code></pre></div>
+<pre><code>##   prenom nom prix
+## 1      L   M  170
+## 2      C   R  100
+## 3      A   G  120</code></pre>
+<p>Ceci aurait pu se faire en utilisant la fonction <em>strsplit()</em>.</p>
+</div>
+<div id="la-fonction-complete" class="section level3" number="8.2.4">
+<h3><span class="header-section-number">8.2.4</span> La fonction <em>complete()</em></h3>
+<p>Cette fonction permet d’ajouter des lignes dans le cas où une valeur serait manquante. Par exemple, si on considère le jeu de données suivant, on constate que la firme B n’a pas de valeurs de CA pour l’année 2009.</p>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="tidy-data.html#cb284-1" aria-hidden="true" tabindex="-1"></a>firms <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb284-2"><a href="tidy-data.html#cb284-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">firms =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
+<span id="cb284-3"><a href="tidy-data.html#cb284-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">years =</span> <span class="fu">c</span>(<span class="st">&quot;2008&quot;</span>, <span class="st">&quot;2009&quot;</span>, <span class="st">&quot;2008&quot;</span>),</span>
+<span id="cb284-4"><a href="tidy-data.html#cb284-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">CA =</span> <span class="fu">c</span>(<span class="dv">20000</span>, <span class="dv">25000</span>, <span class="dv">40000</span>)</span>
+<span id="cb284-5"><a href="tidy-data.html#cb284-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Pour changer cela, on utilise la fonction <em>complete()</em> de la façon suivante:</p>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="tidy-data.html#cb285-1" aria-hidden="true" tabindex="-1"></a><span class="fu">complete</span>(firms, firms, years)</span></code></pre></div>
+<pre><code>## # A tibble: 4 x 3
+##   firms years    CA
+##   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
+## 1 A     2008  20000
+## 2 A     2009  25000
+## 3 B     2008  40000
+## 4 B     2009     NA</code></pre>
+<p>Pour plus de documentation sur l’univers <strong>tidyr</strong>, on recommande la lecture de <a href="https://juba.github.io/tidyverse/12-tidyr.html#fn19">cette page</a> écrite par Julien Barnier.</p>
+<p><strong>Exercice 1.9.</strong></p>
+<p><strong>Q1</strong> Découper en 3 variables (<strong>ville</strong>, <strong>num</strong>, <strong>dep</strong>), le vecteur suivant :</p>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="tidy-data.html#cb287-1" aria-hidden="true" tabindex="-1"></a>code_INSEE <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;toulouse_31_HG&quot;</span>, <span class="st">&quot;lyon_69_Rhone&quot;</span>, <span class="st">&quot;marsei_13_PACA&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="manipulation-de-bases-de-données.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="gestion-de-données-volumineuses.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-data-management.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
