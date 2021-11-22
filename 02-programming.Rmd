@@ -35,6 +35,8 @@ reticulate::py_install("pandas")
 
 * ["Google's **R** style guide"](https://google.github.io/styleguide/Rguide.xml)
 
+L'utilisation d'un linter (https://www.testim.io/blog/what-is-a-linter-heres-a-definition-and-quick-start-guide/) peut faciliter la production d'un code plus lisible et limiter les erreurs. Le package `lintr` permet de "vérifier" un code sur la base de règles paramétrables.
+
 ### Le nom des fichiers de codes 
 
 Appeler vos fichiers de code avec l'extension *.R* et donner des noms clairs à vos fichiers de codes, en utilisant éventuellement le symbole underscore ou le trait d'union entre les différents mots. Par exemple : 
