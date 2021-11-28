@@ -108,11 +108,41 @@ Essayer de limiter 80 caractères à une ligne de code.
 
 ### Affectation 
 
-Pour affecter une valeur à un objet essayer d'utiliser l'opérateur **<-** plutôt que **=**. 
+Pour assigner une valeur à un objet, on peut utiliser l'opérateur `<-` ou `=`. L'avantage du premier est qu'il permet d'assigner à pas seulement dans l'environement de travail, mais aussi à l'intérieur d'une fonction. Par exemple, l'instruction suivante va dans un premier temps assigner à `a` un vecteur de taille 5 simulé selon une loi normale centrée et réduite, puis calculer la moyenne de `a`. 
 
 ```{r}
-a <- 5
+mean(a <- rnorm(10))
 ```
+
+
+Avec l'opérateur `=`, ceci n'est pas possible, car `R` va chercher dans la fonction `mean` une variable locale qui s'appellerait `a` et lui affecter localement le vecteur donnée comme paramètre de la fonction. Si `a` n'est par une variable locale, il y aura un message d'erreur
+
+```{r, error = T}
+mean(a = rnorm(10))
+```
+Cependant, il est possible de forcer l'assignement en ajoutant des parenthèses ou accolades autour de l'expression d'affectation. Ainsi, les expressions suivantes pourront fonctionner :
+
+```{r}
+mean(x = {a = rnorm(10)})
+mean(x = (a = rnorm(10)))
+```
+
+L'opérateur `<-` est prioritaire sur `=`. Ainsi, lorsqu'on souhaite assigner plusieurs objets à la même valeur, il vaut mieux utiliser systématiquement le même opérateur afin d'éviter l'erreur suivante. Dans cette exemple, comme `<-` est prioritaire sur `=`, l'expression : 
+
+```{r, error=T}
+a <- b = 5
+```
+
+est équivalent à : 
+```{r, error=T}
+`=`(`<-`(x, y), 5)
+```
+
+
+Voir aussi : 
+https://qastack.fr/programming/1741820/what-are-the-differences-between-and-assignment-operators-in-r
+https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Syntax
+
 
 **Remarque :** sur **RStudio** quelques-une des règles ci-dessus sont implémentées par défaut, notamment les indentations après les boucles ou les fonctions. 
 
