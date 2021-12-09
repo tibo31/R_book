@@ -1,0 +1,145 @@
+---
+title: "Retour d'expérience sur l'écriture d'un bookdown à 2 via github"
+author: "Sébastien Déjean (IMT, UPS) et Thibault Laurent (TSE, CNRS)"
+date: "09/12/2021"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Problématique
+
+**Notre objectif**
+
+Co-écrire un manuel sur une utilisation avancée de R 
+
+**Nos besoins**
+
+- trouver l'outil adéquat pour écrire un manuel associant du code R et ses sorties avec du texte
+
+- être capable de travailler le document chacun de notre côté et voir les contributions de chacun
+
+**Nos solutions**
+
+Bookdown et Github, utilisable depuis RStudio
+
+## Etape 1 : préparation du Bookdown en local
+
+*Pré-requis* : une distribution $LaTeX$ et l'installation du package R **bookdown**
+
+- En local : depuis RStudio, création de l'ensemble des fichiers qui permettent de générer le bookdown. Les fichiers sont contenus dans un répertoire **R_book**
+
+- pour plus d'informations sur bookdown :  https://thinkr.fr/rediger-avec-bookdown-pourquoi-comment/
+
+
+
+## Etape 2 : Envoi du répertoire **R_book** sur Github 
+
+*Pré-requis* : avoir un compte Github, avoir la commande `git` installée, ouvrir un terminal et se placer dans le répertoire **R_book**
+
+- aller sur https://github.com/, se connecter avec son compte et créer un nouveau répertoire **R_book**. Pour donner les droits de modification à une tierce personne, il faut aller dans "Manage access", puis "add people"
+
+- Initialiser un dossier dépôt git dans le répertoire **R_book**
+
+```{bash, eval = F, echo = T}
+git init
+```
+
+- Ajouter les fichiers dans le dépôt git
+
+```{bash, eval = F, echo = T}
+git add .
+```
+
+- Identification de l'utilisateur (facultatif) :
+```{bash, eval = F, echo = T}
+git config --global user.email thibault.laurent@tse-fr.eu
+git config --global user.name "tibo31"
+```
+
+
+## Etape 2 : Envoi du répertoire **R_book** sur Github 
+
+
+- Identification via un jeton créé préalablement sur Github ([voir notice](https://stackoverflow.com/questions/68775869/support-for-password-authentication-was-removed-please-use-a-personal-access-to)):
+```{bash, eval = F, echo = T}
+git remote set-url origin https://remplacer_par_token@github.com/tibo31/R_book.git
+```
+
+- Valider les modifications apportées au HEAD. Notez que tout commit ne se fera pas dans le dépôt distant.
+
+```{bash, eval = F, echo = T}
+git commit –m “Description du commit”
+```
+
+- Transférer les fichiers depuis la machine locale vers le serveur github
+
+```{bash, eval = F, echo = T}
+git push -u origin main
+```
+
+
+```{r,fig.width = 5}
+knitr::include_graphics("github.png", dpi = 1200)
+```
+Nos fichiers sont sur Github !
+
+
+
+## Etape 3 : récupérer **R_book** depuis Github (avec RStudio)
+
+
+*Pré-requis* : avoir un compte Github, avoir `git` installée (git-scm.com), avoir le package R **usethis** installé
+
+- Depuis RStudio, `New project`, puis `Version control`:
+
+```{r,fig.width = 5}
+knitr::include_graphics("coupler_rstudio.png", dpi = 800)
+```
+
+**Remarque :** pour cloner le répertoire, pas besoin de compte Github. Pour pouvoir faire des changements en local et les envoyer sur Github, il faut s'identifier et avoir les droits de modification
+
+## Etape 4 : coupler le répertoire **R_book** sur la machine locale avec Github (avec RStudio)
+
+- il nous faut créer un jeton, la commande suivante nous renvoit sur Github (il faut se connecter avec le compte qui a les droits de modification). A la fin de cette étape, on obtient un code qu'il faut copier dans le presse papier
+
+```{R, eval = F, echo = T}
+usethis::create_github_token()
+```
+
+- pour valider le code sur notre machine locale, on utilise la commande suivante:
+
+```{R, eval = F, echo = T}
+gitcreds::gitcreds_set()
+```
+
+- on peut vérifier que les informations de notre compte Github ont bien été prises en compte:
+```{R, eval = F, echo = T}
+usethis::gh_token_help()
+```
+
+A présent, toutes les modifications faites en local pourront être transférées sur le serveur Github depuis l'onglet Git 
+
+## Etape 5 : mettre à jour les modifications faites en local sur Github (avec RStudio)
+
+- Dans l'onglet Git, on sélectionne les fichiers qu'on a modifié localement et qu'on souhaite transférer sur Github. On appuie sur le bouton `Commit` et il est recommandé d'écrire un message clair pour ses collaborateurs. A la fin de cette étape, on n'a toujours pas envoyé les changements sur Github.
+
+- Pour finaliser le transfert sur Github, il faut cliquer sur `Push`. 
+
+- Les nouveaux fichiers sont sur Github
+
+
+## Etape 6 : reprendre son projet et mettre à jour les modifications de Github en local (avec RStudio)
+
+- Quand on reprend son projet, il est recommandé de faire un `pull` chaque fois : cela synchronise les fichiers de Github potentiellement modifiés, avec les mêmes fichiers en local. 
+
+- pour accéder à l'historique des modifications : aller dans `Commit`, puis `History`
+
+Non traité ici mais bien expliquer ici : https://thinkr.fr/travailler-avec-git-via-rstudio-et-versionner-son-code/
+
+- Gestion des conflits 
+- Créer une nouvelle branche
+- merger une branche
+- voyage, voyage
