@@ -34,25 +34,20 @@ class(phrase)
 
 Parmi les fonctions qui permettent de manipuler les chaînes de caractères, voici celles qui nous semblent importantes de connaître : 
 
-#### *nchar()* 
 
-Permet de compter le nombre de caractères de chaque élément d'un vecteur :
+- La fonction `nchar()` permet de compter le nombre de caractères de chaque élément d'un vecteur :
 
 ```{r}
 nchar(phrase)
 ```
 
-####  *substr()*
-
-Permet d'extraire un sous-ensemble de caractères :
+- La fonction `substr()` permet d'extraire un sous-ensemble de caractères :
 
 ```{r}
 substr(phrase, start = 1, stop = 5)
 ```
 
-####  *strsplit()*
-
-Permet d'éclater une chaîne de caractères dès qu'on trouve une sous-chaîne particulière : 
+- La fonction `strsplit()` permet d'éclater une chaîne de caractères dès qu'on trouve une sous-chaîne particulière : 
 
 ```{r}
 strsplit(phrase, split = " ")
@@ -92,9 +87,7 @@ strsplit(mots, split = ":")
 
 
 
-####  *toupper()*, *tolower()* 
-
-Pemettent de convertir toutes les lettres en majuscules et minuscules : 
+- Les fonctions `toupper()` et `tolower()`` pemettent de convertir toutes les lettres en majuscules et minuscules : 
 
 ```{r}
 toupper(phrase)
@@ -103,9 +96,7 @@ tolower("AAA")
 
 
 
-####  *grep()*
-
-Permet de trouver dans un vecteur de caractères quels sont les indices des composantes du vecteur qui contiennent un ensemble de caractères. Par exemple quels sont les mots qui contiennent la lettre "e" :  
+- La fonction `grep()` permet de trouver dans un vecteur de caractères quels sont les indices des composantes du vecteur qui contiennent un ensemble de caractères. Par exemple quels sont les mots qui contiennent la lettre "e" :  
 
 ```{r}
 (res <- grep(pattern = "e", x = mots))
@@ -122,9 +113,7 @@ mots[res]
 
 **Remarque :** un vecteur de taille nulle est retourné si le critère n'est pas satisfait. 
 
-#### *agrep()* 
-
-Pemet de trouver dans un vecteur de caractères quels sont les indices des composantes du vecteur qui contiennent "approximativement" une sous-chaîne, l'approximation pouvant être réglée avec les options de la fonction. Dans l'exemple suivant, la lettre s minuscule est différente de S majuscule, mais cette différence d'1 caractère sera tolérée. 
+- La fonction `agrep()` premet de trouver dans un vecteur de caractères quels sont les indices des composantes du vecteur qui contiennent "approximativement" une sous-chaîne, l'approximation pouvant être réglée avec les options de la fonction. Dans l'exemple suivant, la lettre s minuscule est différente de S majuscule, mais cette différence d'1 caractère sera tolérée. 
 
 ```{r}
 agrep("stat", mots)
@@ -132,15 +121,13 @@ agrep("stat", mots)
 
 **Remarque :** lorsqu'on traite des fichiers de données brutes, ce fichier peut contenir des erreurs de saisie, par exemple "Toulouze" au lieu de "Toulouse" et c'est pourquoi le fait de tolérer un nombre de différences peut s'avérer intéressant. 
 
-* *sub()* pour changer une sous-chaîne de caractères par une autre :
+- La fonction `sub()` permet de changer une sous-chaîne de caractères par une autre :
 
 ```{r}
 (mots <- sub(pattern = "=", replacement = ":", x = phrase))
 ```
 
-####  *regexpr()*
-
-Permet de dire à quelle position dans le mot se trouve une sous-chaîne de caractères. Dans l'exemple suivant, on cherche à savoir où se trouve le caractère ":" dans les mots. Si un caractère est présent, alors la fonction retourne les positions de la lettre ":" et si elle n'apparaît pas, la valeur -1 est retournée. Le résultat est encore donné sous forme de **list** car cela permet de traiter chaque mot du vecteur. 
+- La fonction `regexpr()` permet de dire à quelle position dans le mot se trouve une sous-chaîne de caractères. Dans l'exemple suivant, on cherche à savoir où se trouve le caractère ":" dans les mots. Si un caractère est présent, alors la fonction retourne les positions de la lettre ":" et si elle n'apparaît pas, la valeur -1 est retournée. Le résultat est encore donné sous forme de **list** car cela permet de traiter chaque mot du vecteur. 
 
 ```{r, eval = F}
 gregexpr(pattern = ":", text = mots, ignore.case = TRUE)
@@ -152,16 +139,12 @@ gregexpr(pattern = ":", text = mots, ignore.case = TRUE)
 help(regexp)
 ```
 
-#### *abbreviate()*
-
-Pemet de faire des abbréviations de chaînes de caratères trop longue, tout en respectant l'unicité de chaque mot (autement dit, une même abbréviation ne peut pas être donnée à deux mots différents). Par exemple :
+- La fonction `abbreviate()` permet de faire des abbréviations sur des  chaînes de caratères trop longue, tout en respectant l'unicité de chaque mot (autement dit, une même abbréviation ne peut pas être donnée à deux mots différents). Par exemple :
 
 ```{r}
 pays <- c("Bosnie-Herzégovine", "Burkina Faso",  "Côte d'Ivoire")
 abbreviate(pays)
 ```
-
-
 
 
 **Exercice 1.1** 
