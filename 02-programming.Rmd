@@ -67,7 +67,7 @@ a <- c(5, NA, 4, 3)
 mean(a, na.rm = TRUE)
 ```
 
-Exception faite pour les opérateurs **:**, **::** et **:::** où il ne faut pas d'espace :
+Exception faite pour les opérateurs `:`, `::` et `:::` où il ne faut pas d'espace :
 
 ```{r, eval = F}
 1:10
@@ -77,7 +77,7 @@ stats::lm
 
 ### Les conditions 
 
-Quand on utilise les conditions **if/else**, **for**, **while** : 
+Quand on utilise les conditions `if/else`, `for`, `while` : 
 
 * laisser un espace après le mot clé,
 
@@ -172,7 +172,7 @@ for(k in 1:n)
 
 ## Fixer la taille des vecteurs (si on la connaît à l'avance) 
 
-On a le problème suivant : on souhaite obtenir un vecteur de taille $n$ contenant des valeurs simulées issues d'une loi gaussienne centrée et réduite, mais on ne souhaite garder que les valeurs supérieures à un paramètre **a** (égal à 0 par défaut). Dans la fonction *trunc\_rnorm.1()* ci-dessous, nous ne précisons pas la taille du vecteur **x** qui sera retourné. A chaque fois qu'une valeur répond au critère, on la concatène au vecteur **x** en utilisant la commande *c()*. Le défaut de cette méthode est que **R** est sans arrêt en train d'allouer un nouvel espace mémoire pour le vecteur **x** qu'on modifie à chaque fois puisqu'on change sa taille.   
+On a le problème suivant : on souhaite obtenir un vecteur de taille $n$ contenant des valeurs simulées issues d'une loi gaussienne centrée et réduite, mais on ne souhaite garder que les valeurs supérieures à un paramètre `a` (égal à 0 par défaut). Dans la fonction `trunc_rnorm.1()` ci-dessous, nous ne précisons pas la taille du vecteur `x` qui sera retourné. A chaque fois qu'une valeur répond au critère, on la concatène au vecteur `x` en utilisant la commande `c()`. Le défaut de cette méthode est que **R** est sans arrêt en train d'allouer un nouvel espace mémoire pour le vecteur `x` qu'on modifie à chaque fois puisqu'on change sa taille.   
 
 ```{r}
 trunc_rnorm.1 <- function(n, a = 0) {
@@ -189,7 +189,7 @@ trunc_rnorm.1 <- function(n, a = 0) {
 }  
 ```
 
-C'est pourquoi lorsqu'on connaît à l'avance la taille du vecteur qu'on souhaite créer, on créé le vecteur avec la bonne taille et l'espace mémoire alloué à ce vecteur est fixée dès le début. C'est la seule différence avec la fonction *trunc\_rnorm.2()* ci-dessous où on a précisé la taille de **x** dès le départ. On affecte ensuite à chaque élément de **x** la valeur qu'on souhaite garder. 
+C'est pourquoi lorsqu'on connaît à l'avance la taille du vecteur qu'on souhaite créer, on créé le vecteur avec la bonne taille et l'espace mémoire alloué à ce vecteur est fixée dès le début. C'est la seule différence avec la fonction `trunc_rnorm.2()` ci-dessous où on a précisé la taille de `x` dès le départ. On affecte ensuite à chaque élément de `x` la valeur qu'on souhaite garder. 
 
 ```{r}
 trunc_rnorm.2 <- function(n, a = 0) {
@@ -220,7 +220,7 @@ system.time(trunc_rnorm.2(10000))
 
 Si vous répétez les instructions précédentes successivement, vous constaterez que les temps de calculs sont à chaque fois différents. Ceci s'explique par le fait que les machines sur lesquelles on travaille exécutent plusieurs tâches à la fois, qui ne sont pas toujours les mêmes à l'instant $t$. Aussi, une façon de rendre robuste ces temps de calcul est de répéter un certain nombre de fois ces mêmes commandes et de présenter ensuite les résultats statistiques sur ces temps de calcul. 
 
-Pour cela, on peut bien évidemment utiliser une boucle **for** ainsi et faire ensuite des statistiques de base 
+Pour cela, on peut bien évidemment utiliser une boucle `for` ainsi et faire ensuite des statistiques de base 
 ```{r}
 my_time <- data.frame(time_1 = numeric(10),
                       time_2 = numeric(10))
@@ -232,7 +232,7 @@ summary(my_time)
 ```
 
 
-Sinon, on utilise la fonction *microbenchmark()* du package **microbenchmark** (Mersmann et al., 2019). En général, on regarde la moyenne. 
+Sinon, on utilise la fonction `microbenchmark()` du package **microbenchmark** (Mersmann et al., 2019). En général, on regarde la moyenne. 
 
 ```{r}
 mbm <- microbenchmark::microbenchmark(
@@ -242,7 +242,7 @@ mbm <- microbenchmark::microbenchmark(
 mbm
 ```
 
-Par ailleurs, il est possible de représenter graphiquement ces résultats avec la fonction *autoplot()* du package **ggplot2**.
+Par ailleurs, il est possible de représenter graphiquement ces résultats avec la fonction `autoplot()` du package **ggplot2**.
 
 ```{r, message = F}
 ggplot2::autoplot(mbm)
@@ -252,7 +252,7 @@ ggplot2::autoplot(mbm)
 
 ### Pour comprendre la gestion de la mémoire 
 
-Lorsqu'on crée un vecteur sous **R**, celui-ci est stocké sur un espace mémoire que l'on peut identifier avec la fonction *address()* du package **pryr** (Wickham, 2019).
+Lorsqu'on crée un vecteur sous **R**, celui-ci est stocké sur un espace mémoire que l'on peut identifier avec la fonction `address()` du package **pryr** (Wickham, 2019).
 
 Par exemple : 
 ```{r}
@@ -318,7 +318,7 @@ my_sum <- function(x) {
 }
 ```
 
-* Méthode 2 : on utilise la fonction *sum()* sur un vecteur. Cette dernière va bien entendu effectuer une boucle, mais elle sera effectuée en langage compilé, donc plus rapidement.
+* Méthode 2 : on utilise la fonction `sum()` sur un vecteur. Cette dernière va bien entendu effectuer une boucle, mais elle sera effectuée en langage compilé, donc plus rapidement.
 
 ```{r}
 microbenchmark::microbenchmark(
@@ -327,12 +327,12 @@ microbenchmark::microbenchmark(
    times = 10L)
 ```
 
-**Remarque :** il existe de nombreuses fonctions de base qui sont vectorisées et qui permettent de gagner en temps de calcul et on les utilise souvent sans s'en rendre compte. Par exemple, les fonctions *log()*, *cos()*, *exp()*, etc. Dès lors qu'on est amener à faire des boucles, cela peut valoir le coup de se poser la question : est-ce qu'il n'existe pas de fonctions prédéfinies et vectorisées qui feraient déjà ce qu'on souhaite faire, en un temps plus rapide.    
+**Remarque :** il existe de nombreuses fonctions de base qui sont vectorisées et qui permettent de gagner en temps de calcul et on les utilise souvent sans s'en rendre compte. Par exemple, les fonctions `log()`, `cos()`, `exp()`, etc. Dès lors qu'on est amener à faire des boucles, cela peut valoir le coup de se poser la question : est-ce qu'il n'existe pas de fonctions prédéfinies et vectorisées qui feraient déjà ce qu'on souhaite faire, en un temps plus rapide.    
 
 
 **Exercise 2.3**
 
-Ecrire la fonction *my_sd()* qui calcule l'écart-type d'un vecteur **numeric**. La fonction ne pourra pas faire appel ni à la fonction *sum()* ni *mean()* et ne pourra avoir qu'une seule boucle. Comparer les temps de calcul avec *sd()*.
+Ecrire la fonction `my_sd()` qui calcule l'écart-type d'un vecteur **numeric**. La fonction ne pourra pas faire appel ni à la fonction `sum()` ni `mean()` et ne pourra avoir qu'une seule boucle. Comparer les temps de calcul avec `sd()`.
 
 
 
@@ -340,7 +340,7 @@ Ecrire la fonction *my_sd()* qui calcule l'écart-type d'un vecteur **numeric**.
 
 Lorsqu'on a identifié certaines parties d'un code qui sont coûteuses en temps calcul, il peut être intéressant de coder ces parties sous formes de fonctions écrites en **C++** et d'appeler ensuite ces fonctions depuis **R**.
 
-Par exemple, on va convertir la fonction *my_sum()* écrite en **R** en code **C++**. On présente ci-dessous le code inclus dans le fichier [sumcplusplus.cpp](R/sumcplusplus.cpp).
+Par exemple, on va convertir la fonction `my_sum()` écrite en **R** en code **C++**. On présente ci-dessous le code inclus dans le fichier [sumcplusplus.cpp](R/sumcplusplus.cpp).
 
 ```{Rcpp}
 #include <Rcpp.h> // pour utiliser des fonctions de base
@@ -364,23 +364,23 @@ double sum_rcpp(NumericVector x) {
 }
 ```
 
-L'algorithme utilisé dans la fonction *sum_rcpp()* présente la même syntaxe que la fonction *my_sum()* écrite en **R**. Par contre, il faut utiliser les particularités du langage **C++**. Parmi ces particularités : 
+L'algorithme utilisé dans la fonction `sum_rcpp()` présente la même syntaxe que la fonction `my_sum()` écrite en **R**. Par contre, il faut utiliser les particularités du langage **C++**. Parmi ces particularités : 
 
 * il faut définir le type de l'objet qui sera retourné par la fonction,
 
-* de manière générale, il faut définir le type de tous les objets créés et/ou utilisés. En effet, on a du définir le type de tous les paramètres d'entrée. Même dans la boucle **for**, on a définir le type de **i** qui sert d'incrément, 
+* de manière générale, il faut définir le type de tous les objets créés et/ou utilisés. En effet, on a du définir le type de tous les paramètres d'entrée. Même dans la boucle `for`, on doit définir le type de `i` qui sert d'incrément, 
 
 * les lignes de code se terminent par le point virgule,
 
-* l'opérateur d'affectation est le symbole **=**,
+* l'opérateur d'affectation est le symbole `=`,
 
-* la boucle **for** s'utilise différemment que du code **R**,
+* la boucle `for` s'utilise différemment que du code **R**,
 
 * pour connaître la taille d'un vecteur, on a utilisé la méthode *.size()* qui retourne un entier,
 
 * l'indexation du vecteur commence à 0 et on utiliser les parenthèses pour accéder à un élément du vecteur. 
 
-Une fois la fonction écrite, il faut la charger sous **R**. Pour cela, on utilise la fonction *sourceCpp()* du package **Rcpp** (Eddelbuettel et al., 2019) qui est le package **R** le plus utilisé par d'autres packages.  
+Une fois la fonction écrite, il faut la charger sous **R**. Pour cela, on utilise la fonction `sourceCpp()` du package **Rcpp** (Eddelbuettel et al., 2019) qui est le package **R** le plus utilisé par d'autres packages.  
 
 ```{r}
 require("Rcpp")
@@ -393,10 +393,10 @@ On peut ensuite appeler directement la fonction créée :
 sum_rcpp(vec)
 ```
 
-Depuis **R** Markdown, il est possible d'insérer du code écrit **C++** directement à l'intérieur d'un chunk. Pour cela, il suffit de cliquer depuis **RStudio** sur l'onglet "Insert", puis "Rcpp" et cela aura pour effet d'insérer une balise de code qui sera compilée au moment de son évaluation (autrement dit, *sourceCpp()* est automatiquement exécutée). 
+Depuis **R** Markdown, il est possible d'insérer du code écrit **C++** directement à l'intérieur d'un chunk. Pour cela, il suffit de cliquer depuis **RStudio** sur l'onglet "Insert", puis "Rcpp" et cela aura pour effet d'insérer une balise de code qui sera compilée au moment de son évaluation (autrement dit, `sourceCpp()` est automatiquement exécutée). 
 
 
-Si on compare les temps de calcul avec *my_func()* et la fonction *sum()*, on constate que *sum_rcpp()* est presque 20 fois plus rapides que *my_sum()* et 4 fois plus lentes que *sum()*.
+Si on compare les temps de calcul avec `my_func()` et la fonction `sum()`, on constate que `sum_rcpp()` est presque 20 fois plus rapides que `my_sum()` et 4 fois plus lentes que `sum()`.
 
 ```{r}
  microbenchmark::microbenchmark(
@@ -411,9 +411,9 @@ Pour en savoir plus sur l'utilisation de code **C++** depuis **R**, on recommand
 
 **Exercise 2.4**
 
-Ecrire la fonction *my_sd_cpp()* en **C++** qui calcule l'écart-type d'un vecteur **numeric**. Comparer les temps de calcul avec *sd()*. 
+Ecrire la fonction `my_sd_cpp()` en **C++** qui calcule l'écart-type d'un vecteur **numeric**. Comparer les temps de calcul avec `sd()`. 
 
-**Remarque :** en **C++**, on utilise *pow(a, b)* pour calculer $a^b$
+**Remarque :** en **C++**, on utilise `pow(a, b)` pour calculer $a^b$
 
 
 ## Insérer du code Python dans un document Markdown 
@@ -445,15 +445,15 @@ ggplot(py$flights, aes(UniqueCarrier, ArrDelay)) +
 ```
 
 
-## Eviter si possible les boucles (*apply()*, *lapply()*, *replicate()*, *colSums()*, etc.) 
+## Eviter si possible les boucles (`apply()`, `lapply()`, `replicate()`, `colSums()`, etc.) 
 
-On va parler ici des fonctions  *apply()*, *lapply*, *sapply()*, *mapply()*, *tapply()*. Les différences en temps de calcul ne sont pas significatives par rapport à l'utilisation de boucles, dans la mesure où implicitement, ces fonctions font le même travail que les boucles. L'idée de ces fonctions est de réduire le nombre de lignes de code qu'on utiliserait en faisant des boucles à la place. 
+On va parler ici des fonctions  `apply()`, `lapply()`, `sapply()`, `mapply()`, `tapply()`. Les différences en temps de calcul ne sont pas significatives par rapport à l'utilisation de boucles, dans la mesure où implicitement, ces fonctions font le même travail que les boucles. L'idée de ces fonctions est de réduire le nombre de lignes de code qu'on utiliserait en faisant des boucles à la place. 
 
-On va voir qu'on utilise une de ces fonctions plutôt qu'une autre selon le type de l'objet considéré en entrée et selon le type d'objets que l'on souhaite en sortie. On verra également la fonction *replicate()* qui utilise les propriétés de la fonction *sapply()*, mais pour un usage un peu différent.
+On va voir qu'on utilise une de ces fonctions plutôt qu'une autre selon le type de l'objet considéré en entrée et selon le type d'objets que l'on souhaite en sortie. On verra également la fonction `replicate()` qui utilise les propriétés de la fonction `sapply()`, mais pour un usage un peu différent.
 
-On présentera également les fonctions *colSums()*, *rowSums()*, *colMeans()*, *rowMeans()* qui sont plus performantes qu'utiliser la fonction *apply()* car elles sont vectorisées.
+On présentera également les fonctions `colSums()`, `rowSums()`, `colMeans()`, `rowMeans()` qui sont plus performantes qu'utiliser la fonction `apply()` car elles sont vectorisées.
 
-### *apply()* pour les **matrix/array** 
+### `apply()` pour les **matrix/array** 
 
 Une **matrix** est une forme particulière d'un **array**. Une **matrix** posssède deux dimensions (espace des lignes et espace des colonnes), un **array** peut avoir autant de dimensions que souhaitées. Les $D$-dimensions sont données sous forme d'un vecteur de taille $D$, chaque élément $i$ donnant la taille de la dimension $i$. En général, on utilise peu les **array** à plus de 3 dimensions. Une caractéristique d'un **array** est que tous ses éléments sont du même type : **numeric**, **integer**, **logical**, **character** (rarement **complex**).
 
@@ -468,7 +468,7 @@ dimnames(tab)[[3]] <- c("2000", "2010")
 tab
 ```
 
-La fonction *apply()* permet de faire des calculs :
+La fonction `apply()` permet de faire des calculs :
 
 * sur une seule dimension. On précise alors le numéro de la dimension dans le deuxième argument et le troisième argument correspond à la fonction qu'on souhaite appliquer sur chaque élément appartenant à cette dimension. Dans ce cas, le résultat est un vecteur de longueur la taille de la dimension choisie. Par exemple, si on souhaite faire la moyenne des éléments en considérant la 2ème dimension.
 
@@ -476,9 +476,9 @@ La fonction *apply()* permet de faire des calculs :
 apply(tab, 2, mean)
 ```
 
-**Remarque :** en réalité, selon la fonction qu'on applique à *apply()*, le résultat n'est pas forcément un vecteur. Essayer par exemple de remplacer la fonction *mean()* par *range()* dans l'exemple ci-dessus. 
+**Remarque :** en réalité, selon la fonction qu'on applique à `apply()`, le résultat n'est pas forcément un vecteur. Essayer par exemple de remplacer la fonction `mean()` par `range()` dans l'exemple ci-dessus. 
 
-**Equivalent avec les boucles :** si on avait utilisé les boucles plutôt que la fonction *apply()*, on aurait utilisé le code suivant : 
+**Equivalent avec les boucles :** si on avait utilisé les boucles plutôt que la fonction `apply()`, on aurait utilisé le code suivant : 
 
 ```{r}
 res <- numeric(dim(tab)[2])
@@ -504,9 +504,9 @@ res
 ```
 
 
-### Les fonctions *colSums()*, *rowSums()*, *colMeans()*, *rowMeans()* 
+### Les fonctions `colSums()`, `rowSums()`, `colMeans()`, `rowMeans()` 
 
-Ces fonctions sont équivalentes à la fonction *apply()* en utilisant **FUN=sum** ou **FUN=mean** et en appliquant les bonnes dimensions (1 pour lignes, 2 pour colonnes), mais sont plus rapides car elles ont été codées en langage compilé.
+Ces fonctions sont équivalentes à la fonction `apply()` en utilisant **FUN=sum** ou **FUN=mean** et en appliquant les bonnes dimensions (1 pour lignes, 2 pour colonnes), mais sont plus rapides car elles ont été codées en langage compilé.
 
 Pour comparer les temps de calcul : 
 
@@ -519,17 +519,17 @@ x <- matrix(runif(10e6), nc = 5)
 ```
 
 
-### La fonction *lapply()* 
+### La fonction `lapply()` 
 
-Même si la fonction *lapply()* s'applique aussi bien sur les vecteurs que les **list**, on présentera ici son utilisation pour les **list/data.frame**. L'intérêt de l'appliquer sur des vecteurs sera présenté avec la fonction *replicate()*.
+Même si la fonction `lapply()` s'applique aussi bien sur les vecteurs que les **list**, on présentera ici son utilisation pour les **list/data.frame**. L'intérêt de l'appliquer sur des vecteurs sera présenté avec la fonction `replicate()`.
 
-On rappelle ici qu'une **list** est caractérisée par un certain nombre d'éléments pouvant être de types différents. On accède aux éléments d'une liste par le symbole **\$** suivi du nom de l'élément de la liste et s'il n'y a pas de nom, on y accède avec les doubles crochets avec l'indice de l'élément auquel on souhaite accèder.  Un **data.frame** est une forme particulière d'une **list** dans la mesure où les éléments peuvent être vus comme étant les variables (on y accède avec le symbole **\$**).
+On rappelle ici qu'une **list** est caractérisée par un certain nombre d'éléments pouvant être de types différents. On accède aux éléments d'une liste par le symbole `$` suivi du nom de l'élément de la liste et s'il n'y a pas de nom, on y accède avec les doubles crochets avec l'indice de l'élément auquel on souhaite accèder.  Un **data.frame** est une forme particulière d'une **list** dans la mesure où les éléments peuvent être vus comme étant les variables (on y accède avec le symbole `$`).
 
-La fonction *lapply()* consiste à appliquer la même opération sur chaque élément de la **list**. Cette opération pouvant être donnée par une fonction de base de **R** ou bien pouvant être une fonction programmée.
+La fonction `lapply()` consiste à appliquer la même opération sur chaque élément de la **list**. Cette opération pouvant être donnée par une fonction de base de **R** ou bien pouvant être une fonction programmée.
 
-On considère le jeu de données **mtcars** accessible par défaut sous **R** et contenant un certaine nombre de variables sur des moteurs de voitures de différentes marques. Pour connaître les caractéristiques moyennes, on applique la fonction *mean()* à chaque élément de **mtcars**, autrement dit à chaque variable. Le résultat est retourné sous forme de **list** de même longeur que la **list** de départ. 
+On considère le jeu de données **mtcars** accessible par défaut sous **R** et contenant un certaine nombre de variables sur des moteurs de voitures de différentes marques. Pour connaître les caractéristiques moyennes, on applique la fonction `mean()` à chaque élément de **mtcars**, autrement dit à chaque variable. Le résultat est retourné sous forme de **list** de même longeur que la **list** de départ. 
 
-Ici, on a utilisé la fonction *unlist()* sur le résultat retourné afin de présenter le résultat sous forme d'un vecteur, plus lisible à lire :  
+Ici, on a utilisé la fonction `unlist()` sur le résultat retourné afin de présenter le résultat sous forme d'un vecteur, plus lisible à lire :  
 
 ```{r}
 unlist(lapply(mtcars, mean))
@@ -545,9 +545,9 @@ res
 ```
 
 
-### La fonction *sapply()* 
+### La fonction `sapply()` 
 
-On a vu que la fonction *lapply()* retournait une **list**. Or, si on sait par avance que le résultat retourné pour chaque élément de la liste sera identique pour chaque élément, la fonction *sapply()* va concaténer les résultats de chaque élément sous forme d'un vecteur ou d'un tableau. Si on reprend l'exemple précédent :
+On a vu que la fonction `lapply()` retournait une **list**. Or, si on sait par avance que le résultat retourné pour chaque élément de la liste sera identique pour chaque élément, la fonction `sapply()` va concaténer les résultats de chaque élément sous forme d'un vecteur ou d'un tableau. Si on reprend l'exemple précédent :
 
 ```{r}
 sapply(mtcars, mean)
@@ -560,20 +560,20 @@ f <- function(x)
   c(min = min(x), max = max(x), mean = mean(x), med = median(x), sd = sd(x))
 ```
 
-On applique ensuite la fonction *f()* à chaque élément de la **list** avec la fonction *sapply()*. On transpose le résultat car c'est en général ainsi que sont présentées les statistiques descriptives des variables :
+On applique ensuite la fonction `f()` à chaque élément de la **list** avec la fonction `sapply()`. On transpose le résultat car c'est en général ainsi que sont présentées les statistiques descriptives des variables :
 
 ```{r}
 t(sapply(mtcars, f))
 ```
 
-Par ailleurs, pour insérer une table dans un document Markdown, on peut utiliser la fonction *kbl()* du package **kableExtra** dont on verra d'autres exemples dans le chapitre sur la visualisation de données.
+Par ailleurs, pour insérer une table dans un document Markdown, on peut utiliser la fonction `kbl()` du package **kableExtra** dont on verra d'autres exemples dans le chapitre sur la visualisation de données.
 
 ```{r, results='asis'}
 kableExtra::kbl(t(round(sapply(mtcars, f), 3))) 
 ```
 
 
-**Remarque :** si on on souhaite appliquer la fonction *f()* pour les éléments qui sont de type **numeric** et la fonction *table()* pour les éléments de type **factor**, alors la fonction *sapply()* retournera le même résultat que la fonction *lapply()*, à savoir une **list**, car les résultats retournés pour chaque élément ne seront pas les mêmes : 
+**Remarque :** si on on souhaite appliquer la fonction `f()` pour les éléments qui sont de type **numeric** et la fonction `table()` pour les éléments de type **factor**, alors la fonction `sapply()` retournera le même résultat que la fonction `lapply()`, à savoir une **list**, car les résultats retournés pour chaque élément ne seront pas les mêmes : 
 
 ```{r}
 sapply(iris, function(x){
@@ -584,7 +584,7 @@ sapply(iris, function(x){
 })
 ```
 
-### La fonction *replicate()* 
+### La fonction `replicate()` 
 
 On va partir de l'exemple suivant : on souhaitre simuler 5 échantillons de taille 10 distribués selon une loi uniforme $U_{[0,1]}$.
 
@@ -596,25 +596,25 @@ for (k in 1:5)
   res[[k]] <- runif(10)
 ```
 
-* La deuxième solution consiste à appliquer la fonction *lapply()* sur un vecteur quelconque de taille 5 (ici, le plus simple est de faire *1:5*, mais on aurait pu prendre n'importe quel vecteur de taille 5) et de lui appliquer une fonction qui retourne un vecteur simulé selon une $U_{[0,1]}$. Un vecteur est donc considéré ici comme une liste où chaque élément du vecteur serait un élement d'une liste.
+* La deuxième solution consiste à appliquer la fonction `lapply()` sur un vecteur quelconque de taille 5 (ici, le plus simple est de faire `1:5`, mais on aurait pu prendre n'importe quel vecteur de taille 5) et de lui appliquer une fonction qui retourne un vecteur simulé selon une $U_{[0,1]}$. Un vecteur est donc considéré ici comme une liste où chaque élément du vecteur serait un élement d'une liste.
 
 ```{r}
 res <- lapply(1:5, function(x) runif(10))
 ```
 
-**Remarque :** dans le deuxième argument, la fonction qu'on va appliquer sur chaque élément d'une vecteur prend comme argument d'entrée **x** (un élément du vecteur), mais on ne l'utilise pas à l'intérieur de la fonction, car on n'en a pas besoin pour faire ce qu'on souhaite faire.
+**Remarque :** dans le deuxième argument, la fonction qu'on va appliquer sur chaque élément d'une vecteur prend comme argument d'entrée `x` (un élément du vecteur), mais on ne l'utilise pas à l'intérieur de la fonction, car on n'en a pas besoin pour faire ce qu'on souhaite faire.
 
-* La troisième solution consiste à utiliser la fonction *replicate()*, qui comme la fonction *sapply()* va retourner le résultat sous une forme plus simplifiée qu'une **list** : 
+* La troisième solution consiste à utiliser la fonction `replicate()`, qui comme la fonction `sapply()` va retourner le résultat sous une forme plus simplifiée qu'une **list** : 
 
 ```{r}
 res <- replicate(5, runif(10))
 ```
 
-**Remarque :** la fonction *replicate()* fait précisément appel à la fonction *sapply()*. Pour cela, elle créé un vecteur de 0L de taille le premier argument de *replicate()*.
+**Remarque :** la fonction `replicate()` fait précisément appel à la fonction `sapply()`. Pour cela, elle créé un vecteur de 0L de taille le premier argument de `replicate()`.
 
-### La fonction *mapply()* 
+### La fonction `mapply()` 
 
-Pour illustrer cette fonction, on considère 5 échantillons de taille 10 issus d'une loi $U_{[0,1]}$. Pour calculer la moyenne par échantilon, on peut utiliser la fonction *lapply()* : 
+Pour illustrer cette fonction, on considère 5 échantillons de taille 10 issus d'une loi $U_{[0,1]}$. Pour calculer la moyenne par échantilon, on peut utiliser la fonction `lapply()` : 
 
 ```{r}
 xs <- replicate(5, runif(10), simplify = FALSE)
@@ -636,14 +636,14 @@ for (k in seq_along(res))
 res
 ```
 
-Le problème de la fonction *lapply()* est qu'on ne peut pas appliquer une fonction sur deux **list** simultanément. C'est ce que fait la fonction *mapply()* qui prend comme 1er argument d'entrée une fonction à appliquer sur les éléments d'autant de **list** que l'on souhaite. La fonction qu'on applique contient donc deux arguments d'entrée **x** et **y** qui correspondent aux éléments de chacune des deux listes : 
+Le problème de la fonction `lapply()` est qu'on ne peut pas appliquer une fonction sur deux **list** simultanément. C'est ce que fait la fonction `mapply()` qui prend comme 1er argument d'entrée une fonction à appliquer sur les éléments d'autant de **list** que l'on souhaite. La fonction qu'on applique contient donc deux arguments d'entrée **x** et **y** qui correspondent aux éléments de chacune des deux listes : 
 
 ```{r}
 mapply(function(x, y) sum(x * y) / mean(y), xs, ws)
 ```
 
 
-### La fonction *tapply()* 
+### La fonction `tapply()` 
 
 On considère les deux vecteurs suivants : 
 
@@ -652,30 +652,30 @@ On considère les deux vecteurs suivants :
 (sexe <- rep(c("M", "F"), each = 5))
 ```
 
-On souhaite calculer la moyenne dans chaque sous-groupe *"M"* et *"F"*. Une façon de faire est de créer une **list** contenant deux éléments, le premier correspondant au vecteur de **taille** du sous-groupe *"M"* et le second correspondant au vecteur de **taille** du sous-groupe *"F"*. C'est ce que fait la fonction *split()* ci-dessous : 
+On souhaite calculer la moyenne dans chaque sous-groupe `"M"` et `"F"`. Une façon de faire est de créer une **list** contenant deux éléments, le premier correspondant au vecteur de `taille` du sous-groupe `"M"` et le second correspondant au vecteur de `taille` du sous-groupe `"F"`. C'est ce que fait la fonction `split()` ci-dessous : 
 
 ```{r}
 (res.split <- split(taille, sexe))
 ```
 
-Ensuite, il suffit d'appliquer la fonction *sapply()* à cette **list** :
+Ensuite, il suffit d'appliquer la fonction `sapply()` à cette **list** :
 
 ```{r}
 sapply(res.split, mean)
 ```
 
-La fonction *tapply()* permet de faire ce calcul en une seule ligne :
+La fonction `tapply()` permet de faire ce calcul en une seule ligne :
 
 ```{r}
 tapply(taille, sexe, mean)
 ```
 
-**Remarque :** la fonction *tapply()* ne s'appliquant que sur des vecteurs, la fonction *by()* permet de généraliser la fonction *tapply()* aux **data.frame**. 
+**Remarque :** la fonction `tapply()` ne s'appliquant que sur des vecteurs, la fonction `by()` permet de généraliser la fonction `tapply()` aux **data.frame**. 
 
 
 **Exercise 2.5** 
 
-* Créer deux fonctions *mean\_rnorm.1()* et *mean\_rnorm.2()* qui prennent en entrée les paramètres **n** et **p**. Ces fonctions permettent de simuler **n** échantillons de taille **p** de lois normales centrées réduites et retournent pour chaque échantillon la moyenne. *mean\_rnorm.1()* utilisera des boucles, *mean\_rnorm.2()* la fonction *replicate()*. 
+* Créer deux fonctions `mean_rnorm.1()` et `mean_rnorm.2()` qui prennent en entrée les paramètres `n` et `p`. Ces fonctions permettent de simuler `n` échantillons de taille `p` de lois normales centrées réduites et retournent pour chaque échantillon la moyenne. `mean_rnorm.1()` utilisera des boucles, `mean_rnorm.2()` la fonction `replicate()`. 
 
 * Comparer les temps de calcul de ces 2 fonctions.
 
@@ -698,7 +698,7 @@ Supposons par exemple qu'on souhaite calculer une densité non paramétrique de 
 
 * noyau gaussien $K(x) = \frac{1}{\sqrt{2\pi}}\exp(-0.5(\frac{x}{h})^2))$
 
-où **h** est le paramètre de lissage. Dans un premier temps, pn peut alors programmer une fonction par noyau :
+où $h$ est le paramètre de lissage. Dans un premier temps, pn peut alors programmer une fonction par noyau :
 
 ```{r}
 biweight <- function(x, h) {
@@ -714,9 +714,9 @@ gaussian <- function(x, h) {
 
 ### Structure de contrôle  
 
-Les structures de contrôle classiques (**for**, **while**, **repeat**, **if/else**) sont bien entendu disponibles dans **R** (voir les document ["Pour se donner un peu d'**R**"](http://math.univ-toulouse.fr/~sdejean) et ["Introduction à **R**"](http://www.thibault.laurent.free.fr/pedago.html). Nous nous intéressons ici à la notion d'aiguillage (fonction *switch()*) moins couramment utilisée bien que très pratique.
+Les structures de contrôle classiques (`for`, `while`, `repeat`, `if/else`) sont bien entendu disponibles dans **R** (voir les document ["Pour se donner un peu d'**R**"](http://math.univ-toulouse.fr/~sdejean) et ["Introduction à **R**"](http://www.thibault.laurent.free.fr/pedago.html). Nous nous intéressons ici à la notion d'aiguillage (fonction `switch()`) moins couramment utilisée bien que très pratique.
 
-Celle-ci permet d'éviter d'emboîter des **if/else** lorsqu'on a plusieurs options possibles. Supposons par exemple qu'on souhaite calculer une densité non paramétrique de la densité en utilisant un des noyaux suivants : 
+Celle-ci permet d'éviter d'emboîter des `if/else` lorsqu'on a plusieurs options possibles. Supposons par exemple qu'on souhaite calculer une densité non paramétrique de la densité en utilisant un des noyaux suivants : 
 
 * noyau *biweight* $K(x) = \frac{15}{16}(1-(\frac{x}{h})^2)^21_{(\frac{x}{h})^2\leq 1}$ 
 
@@ -724,11 +724,11 @@ Celle-ci permet d'éviter d'emboîter des **if/else** lorsqu'on a plusieurs opti
 
 * noyau gaussien $K(x) = \frac{1}{\sqrt{2\pi}}\exp(-0.5(\frac{x}{h})^2))$
 
-où **h** est le paramètre de lissage. On peut alors programmer sous **R** la fonction *f\_noyau()* suivante, prenant en entrée les arguments **x**, **h** et **type** où **type** est un caractère prenant les valeurs **"bi"**, **"tri"** et **"gauss"**. 
+où $h$ est le paramètre de lissage. On peut alors programmer sous **R** la fonction `f_noyau()` suivante, prenant en entrée les arguments `x`, `h` et `type` où `type` est un caractère prenant les valeurs `"bi"`, `"tri"` et `"gauss"`. 
 
-#### Solution avec **if/else** 
+#### Solution avec `if/else` 
 
-La façon traditionnelle pour gérer différents cas de figure est d'utiliser les conditions **if/else** : 
+La façon traditionnelle pour gérer différents cas de figure est d'utiliser les conditions `if/else` : 
 
 ```{r}
 f_noyau <- function(x, h, type = "bi") {
@@ -744,11 +744,11 @@ f_noyau <- function(x, h, type = "bi") {
 }
 ```
 
-Un inconvénient est qu'en emboîtant des conditions **if/else**, on peut alors vite se perdre dans la lecture du code.
+Un inconvénient est qu'en emboîtant des conditions `if/else`, on peut alors vite se perdre dans la lecture du code.
 
-#### Solution avec **switch()** 
+#### Solution avec `switch()` 
 
-La fonction *switch()* s'applique sur l'argument **type** et on donne ensuite pour chaque valeur possible de **type** le type de calcul à effectuer. On ajoute ici un cas qui correspondrait à toutes autres valeurs de **type**.  
+La fonction `switch()` s'applique sur l'argument `type` et on donne ensuite pour chaque valeur possible de `type` le type de calcul à effectuer. On ajoute ici un cas qui correspondrait à toutes autres valeurs de `type`.  
 
 
 ```{r}
@@ -771,11 +771,11 @@ f_noyau.2(x, 0.3, type = "unif")
 ```
 
 
-### Fonction *stopifnot()* 
+### Fonction `stopifnot()` 
 
-On connaît la fonction *stop()* qui s'insère en général à l'intérieur des conditions **if/else**. 
+On connaît la fonction `stop()` qui s'insère en général à l'intérieur des conditions `if/else`. 
 
-La fonction *stopifnot()* permet de tester simultanément plusieurs conditions et évite donc d'avoir recours aux **if/else**. Elle est particulièrement utile à l'intérieur d'une fonction pour, par exemple, vérifier la conformité des valeurs passées en paramètres. Un exemple d'uitlisation : 
+La fonction `stopifnot()` permet de tester simultanément plusieurs conditions et évite donc d'avoir recours aux `if/else`. Elle est particulièrement utile à l'intérieur d'une fonction pour, par exemple, vérifier la conformité des valeurs passées en paramètres. Un exemple d'uitlisation : 
 
 ```{r, error=TRUE}
 stopifnot(1 < 2, length(1:2) == 2, pi < 2, cos(pi) > 3)
@@ -786,13 +786,13 @@ Si plusieurs conditions ne sont pas respectées, c'est la première non respect�
 
 **Exercise 2.6** 
 
-Modifier la fonction *f\_noyau.2()* définie précédemment pour vérifier que :
+Modifier la fonction `f_noyau.2()` définie précédemment pour vérifier que :
 
-* le paramètre **x** est **numeric** 
+* le paramètre `x` est `numeric` 
 
-* **h** est de taille 1 et de type **numeric** 
+* `h` est de taille 1 et de type `numeric`
 
-* **type** est une chaîne de caractères (on supprimera la possibilité de passer un entier pour choisir le type).
+* `type` est une chaîne de caractères (on supprimera la possibilité de passer un entier pour choisir le type).
 
     
 
@@ -800,7 +800,7 @@ Modifier la fonction *f\_noyau.2()* définie précédemment pour vérifier que :
 
 #### Supprimer les paramètres inutiles 
 
-Dans l'exemple ci-dessous, les paramètres **d** et **e** ne sont pas utilisés dans la fonction et pourtant ils ont un coût de stockage et un coût en temps de calcul car ils sont évalués par défaut dans la fonction. 
+Dans l'exemple ci-dessous, les paramètres `d` et `e` ne sont pas utilisés dans la fonction et pourtant ils ont un coût de stockage et un coût en temps de calcul car ils sont évalués par défaut dans la fonction. 
 
 ```{r}
 f_1 <- function(a = 5, b = 4, d = 3, e = 1)
@@ -827,13 +827,13 @@ Contrairement à d'autres langages, **R** ne signale pas les paramètres qui ne 
 
 #### Utiliser des fonctions comme argument d'entrée 
 
-On a vu dans la section précédente que la fonction *lapply()* avait dans ses argument d'entrée une fonction. On peut si on le souhaite créer nos propres fonctions qui ont comme argument d'entrée une fonction. Dans l'exemple suivant, on applique une fonction choisie par l'utilisateur sur un échantillon simulée selon une loi uniforme : 
+On a vu dans la section précédente que la fonction `lapply()` avait dans ses argument d'entrée une fonction. On peut si on le souhaite créer nos propres fonctions qui ont comme argument d'entrée une fonction. Dans l'exemple suivant, on applique une fonction choisie par l'utilisateur sur un échantillon simulée selon une loi uniforme : 
 
 ```{r}
 randomise <- function(f) f(runif(1e3))
 ```
 
-Pour l'utiliser, on remplace l'argument **f** par le nom de la fonction qui nous intéresse : 
+Pour l'utiliser, on remplace l'argument `f` par le nom de la fonction qui nous intéresse : 
 
 ```{r}
 randomise(mean)
@@ -847,7 +847,7 @@ randomise(sum)
 
 #### Utiliser des fonctions comme argument de sortie 
 
-Il est également possible de faire retourner une fonction par une fonction. C'est ce que fait la fonction *f\_power()* ci-dessous : 
+Il est également possible de faire retourner une fonction par une fonction. C'est ce que fait la fonction `f_power()` ci-dessous : 
 
 ```{r}
 f_power <- function(exponent)
@@ -862,7 +862,7 @@ f_power(3)(1:5)
 ```
 
 
-On peut également créer les fonctions *f_square()* et *f_cube()* à partir de la fonction *f_power()* :
+On peut également créer les fonctions `f_square()` et `f_cube()` à partir de la fonction `f_power()` :
 
 ```{r}
 f_square <- f_power(2)
@@ -880,9 +880,9 @@ f_cube(1:5)
 
 
 
-#### Utiliser les ... comme argument d'entrée 
+#### Utiliser les `...` comme argument d'entrée 
 
-Lorsqu'un utilisateur définit une fonction, il peut permettre à sa fonction d'utiliser toutes les options d'une autre fonction sans les lister une à une. Prenons l'exemple de la fonction *plot\_reg()* définie ci-dessous.
+Lorsqu'un utilisateur définit une fonction, il peut permettre à sa fonction d'utiliser toutes les options d'une autre fonction sans les lister une à une. Prenons l'exemple de la fonction `plot_reg()` définie ci-dessous.
 
 ```{r}
 plot_reg <- function(x, y, np = TRUE, ...) {
@@ -897,7 +897,7 @@ plot_reg <- function(x, y, np = TRUE, ...) {
 ```
 
 
-L'utilisation de la syntaxe  **...** permet de préciser que la fonction *plot\_reg()* pourra, si besoin, faire appel à n'importe quelle option de la fonction *plot()*.
+L'utilisation de la syntaxe  `...` permet de préciser que la fonction `plot_reg()` pourra, si besoin, faire appel à n'importe quelle option de la fonction `plot()`.
 
 Pour illustrer la chose, exécuter les instructions suivantes.
 
@@ -914,19 +914,19 @@ plot_reg(x, y, pch = 16, col = "pink",
 
 **Exercice 2.7**
 
-**Q1** Que fait la fonction *plot\_reg()* ?
+**Q1** Que fait la fonction `plot_reg()` ?
 
-**Q2** Ecrire une fonction *hist_extrm()* qui prend en argument d'entrée un entier **n**, un entier **B** et **...** qui correspondra aux options utilisées dans la fonction *hist()*. Cette fonction devra mettre en oeuvre l'algorithme ci-dessous :
+**Q2** Ecrire une fonction `hist_extrm()` qui prend en argument d'entrée un entier `n`, un entier `B` et `...` qui correspondra aux options utilisées dans la fonction `hist()`. Cette fonction devra mettre en oeuvre l'algorithme ci-dessous :
 
-Répèter **B** fois l'opération suivante : 
+Répèter `B` fois l'opération suivante : 
 
-* simulation d'un vecteur **x** de taille *n* selon une $N(0,1)$,
+* simulation d'un vecteur `x` de taille `n` selon une $N(0,1)$,
 
 **Résultat**
-On comptabilise sur les **B** boucles le pourcentages de boucles où il existe au moins un élément de **x** supérieur en valeur absolue à 1.96. On stockera les valeurs concernées et on représentera l'histogramme des valeurs extrêmes.
+On comptabilise sur les `B` boucles le pourcentages de boucles où il existe au moins un élément de `x` supérieur en valeur absolue à 1.96. On stockera les valeurs concernées et on représentera l'histogramme des valeurs extrêmes.
 
 
-## A quoi servent les fonctions *substitute()/quote()* et *eval()* ? 
+## A quoi servent les fonctions `substitute()/quote()` et `eval()` ? 
 
 On considère l'exemple ci-dessous : 
 
@@ -935,7 +935,7 @@ a <- 5
 identical(a, "a") 
 ```
 
-**a** et **"a"** sont bien entendu deux entités différentes. **a** est un objet qui pointe sur la valeur 5 alors que **"a"** est une chaîne de caractère. 
+`a` et `"a"` sont bien entendu deux entités différentes. `a` est un objet qui pointe sur la valeur 5 alors que `"a"` est une chaîne de caractère. 
 
 Losqu'on charge une librairie, on a la possibilité d'utiliser les deux commandes suivantes :
 
@@ -947,9 +947,9 @@ require(tidyverse)
 Dans le deuxième cas, **tidyverse** (sans guillemet) n'est a priori pas un objet (à moins qu'au cours d'une session on ait créé un objet avec ce nom). C'est donc qu'il a été interprété comme étant quelque chose de différent d'un objet. 
 
 
-### Les fonctions *quote()* et *substitute()* 
+### Les fonctions `quote()` et `substitute()` 
 
-Les fonctions *quote()* et *substitute()* permettent de capturer une instruction sans l'évaluer. Pour généraliser, on va appeler cette capture une expression. La différence entre *eval()* et *substitute()* est décrite dans le chapitre [Non-standard evaluation](http://adv-r.had.co.nz/Computing-on-the-language.html) de l'ouvrage d'Hadley Wickham, mais pour résumer *quote()* ne fait que retourner l'expression qu'on lui donne en entrée alors que *substitute* est un peu plus complexe.
+Les fonctions `quote()` et `substitute()` permettent de capturer une instruction sans l'évaluer. Pour généraliser, on va appeler cette capture une expression. La différence entre `eval()` et `substitute()` est décrite dans le chapitre [Non-standard evaluation](http://adv-r.had.co.nz/Computing-on-the-language.html) de l'ouvrage d'Hadley Wickham, mais pour résumer `quote()` ne fait que retourner l'expression qu'on lui donne en entrée alors que `substitute()` est un peu plus complexe.
 
 ```{r}
 quote(1:10)
@@ -965,10 +965,10 @@ substitute(f(x))
 substitute(f(x + y^2))
 ```
 
-Une fois qu'on a fait cette capture de code, le but est d'évaluer cette expression dans un environnement spécifique et au moment où on le souhaitera avec la fonction *eval()*.
+Une fois qu'on a fait cette capture de code, le but est d'évaluer cette expression dans un environnement spécifique et au moment où on le souhaitera avec la fonction `eval()`.
 
 
-### La fonction *eval()* 
+### La fonction `eval()` 
 
 Cette fonction permet d'évaluer une expression. Par défaut, elle est évaluée dans l'environnement courant de **R**. Autrement dit, si on considère l'expression suivante : 
 
@@ -976,7 +976,7 @@ Cette fonction permet d'évaluer une expression. Par défaut, elle est évaluée
 a <- quote(f.eval(x.eval))
 ```
 
-Si on veut évaluer cette expression, il faut que la fonction *f.eval()* et l'objet **x.eval** existent tous les deux dans l'environnement où on souhaite exécuter cette expression. Par défaut, *eval()* ira chercher dans l'environnement courant. Ici, on obtient le message d'erreur suivant car la fonction *f.eval()* et l'objet **x.eval**  n'ont pas été définies au préalables : 
+Si on veut évaluer cette expression, il faut que la fonction `f.eval()` et l'objet `x.eval` existent tous les deux dans l'environnement où on souhaite exécuter cette expression. Par défaut, `eval()` ira chercher dans l'environnement courant. Ici, on obtient le message d'erreur suivant car la fonction `f.eval()` et l'objet `x.eval`  n'ont pas été définies au préalables : 
 
 ```{r, error = T}
 eval(a)
@@ -994,7 +994,7 @@ La commande suivante donnera un message d'erreur :
 eval(a)
 ```
 
-En revanche, on peut préciser qu'on va trouver le nom **Species** dans l'environnement du **data.frame** nommé **iris** : 
+En revanche, on peut préciser qu'on va trouver le nom `Species` dans l'environnement du **data.frame** nommé `iris` : 
 
 ```{r, error = T}
 eval(a, envir = iris)
@@ -1004,21 +1004,21 @@ eval(a, envir = iris)
 
 Elles sont utilisées dans beaucoup de fonction sans qu'on s'en apperçoive nécessairement. On va voir quelques fonctions qui utilisent ces expressions : 
 
-* dans la fonction *subset()*, le deuxième argument est considérée comme une expression :  
+* dans la fonction `subset()`, le deuxième argument est considérée comme une expression :  
 
 ```{r}
 subset(iris, Species == "setosa" & Sepal.Length > 5.5)
 ```
 
-Ainsi, l'expression *Species == "setosa" & Sepal.Length > 5.5* sera évaluée dans le jeu de données **iris** ce qui permet d'éviter de faire :
+Ainsi, l'expression `Species == "setosa" & Sepal.Length > 5.5` sera évaluée dans le jeu de données `iris` ce qui permet d'éviter de faire :
 
 ```{r}
 iris[iris$Species == "setosa" & iris$Sepal.Length > 5.5, ]
 ```
 
-* les différentes fonctions *filter()*, *arrange()*, etc. du package **dplyr** présentées dans le chapitre précédent utilisent le même genre de syntaxe que celui de la fonction *subset()*.
+* les différentes fonctions `filter()`, `arrange()`, etc. du package **dplyr** présentées dans le chapitre précédent utilisent le même genre de syntaxe que celui de la fonction `subset()`.
 
-* la fonction *plot.defaut()* qui représente un nuage de points :
+* la fonction `plot.defaut()` qui représente un nuage de points :
 
 ```{r}
 plot(1:10, rnorm(10))
@@ -1039,11 +1039,11 @@ sum(c("a", "b"))
 
 Dans cet exemple, le message d'erreur n'intervient pas dans le coeur de la fonction, mais dans l'appel des arguments. Lorsque l'erreur est dûe à l'exécution d'une commande à l'intérieur d'une fonction, il est parfois plus difficile d'identifier d'où vient le problème. 
 
-#### La fonction *traceback()* 
+#### La fonction `traceback()` 
 
-Le principe de la fonction *traceback()* est le suivant : si un message d'erreur est apparu à cause de l'appel d'une commande, l'historique qui a conduit à l'appel de cette commande sera affiché.
+Le principe de la fonction `traceback()` est le suivant : si un message d'erreur est apparu à cause de l'appel d'une commande, l'historique qui a conduit à l'appel de cette commande sera affiché.
 
-Ici, on créé une fonction *ex\_bug()* à partir des fonctions *mean\_rnorm.1()* et *mean\_rnorm.2()* créées précédemment, dans laquelle on a glissé une erreur. 
+Ici, on créé une fonction `ex_bug()` à partir des fonctions `mean_rnorm.1()` et `mean_rnorm.2()` créées précédemment, dans laquelle on a glissé une erreur. 
 
 ```{r}
 ex_bug <- function(n, p) {
@@ -1057,7 +1057,7 @@ On obtient le message d'erreur suivant :
 ex_bug(5, 10)
 ```
 
-On appelle la fonction *traceback()* dans la foulée du message d'erreur : 
+On appelle la fonction `traceback()` dans la foulée du message d'erreur : 
 
 ```{r, eval = F}
 traceback()
@@ -1070,12 +1070,12 @@ traceback()
 1: ex_bug(5, 10)
 ```
 
-Comment interpéter le résultat de la fonction *traceback()*. Le message d'erreur est intervenu au moment d'appeler la commande de la ligne 4. Cette commande a été appelée à la suite de l'appel de la commande de la ligne 3. La commande de la ligne 3 a été appelée suite à la commande de la ligne 2. La ligne 1 correspond bien entend à l'appel de la fonction de départ *ex\_bug()*.
+Comment interpéter le résultat de la fonction `traceback()`. Le message d'erreur est intervenu au moment d'appeler la commande de la ligne 4. Cette commande a été appelée à la suite de l'appel de la commande de la ligne 3. La commande de la ligne 3 a été appelée suite à la commande de la ligne 2. La ligne 1 correspond bien entend à l'appel de la fonction de départ `ex_bug()`.
 
 
-#### La fonction *debugonce()*
+#### La fonction `debugonce()`
 
-La fonction *debugonce()* a pour objectif de rentrer dans le coeur de la fonction considérée et d'exécuter les lignes de code l'une après l'autre. Après chaque exécution, il est possible d'utiliser la fonction *ls()*, *print()*, etc. pour connaître le résultat des étapes intermédiaires. On n'est pas obligé d'utiliser cette fonction uniquement après l'affichage d'un message d'erreur. Parfois, on n'a pas de message d'erreur, mais le résultat retourné n'est pas celui attendu et il peut s'agir d'un problème de programmation. Dans ce cas là, l'idée est d'exécuter son code ligne après ligne et de vérifier les étapes intermédiaires.  
+La fonction `debugonce()` a pour objectif de rentrer dans le coeur de la fonction considérée et d'exécuter les lignes de code l'une après l'autre. Après chaque exécution, il est possible d'utiliser la fonction `ls()`, `print()`, etc. pour connaître le résultat des étapes intermédiaires. On n'est pas obligé d'utiliser cette fonction uniquement après l'affichage d'un message d'erreur. Parfois, on n'a pas de message d'erreur, mais le résultat retourné n'est pas celui attendu et il peut s'agir d'un problème de programmation. Dans ce cas là, l'idée est d'exécuter son code ligne après ligne et de vérifier les étapes intermédiaires.  
 
 On considère la fonction suivante :
 
@@ -1088,22 +1088,22 @@ x
 }
 ```
 
-Pour utiliser la fonction *debugonce()* :
+Pour utiliser la fonction `debugonce()` :
 
 ```{bash, eval = F}
 debugonce(ex_bug.2)
 ex_bug.2(-5)
 ```
 
-En exécutant pas à pas la fonction *ex\_bug.2(-5)*, on peut demander à chaque étape la valeur que prend la variable **x** en cours d'exécution ; il faut pour cela saisir la variable **x** devant le prompt du débugger (*Browse[2]>*). 
+En exécutant pas à pas la fonction `ex_bug.2(-5)`, on peut demander à chaque étape la valeur que prend la variable `x` en cours d'exécution ; il faut pour cela saisir la variable `x` devant le prompt du débugger (`Browse[2]>`). 
 
 #### Négliger un message d'erreur 
 
 Une erreur entraîne l'interruption automatique du processus en cours d'execution. Parfois, on peut avoir une erreur, mais on ne souhaite pas que cela interrompe le processus. 
 
-##### La fonction *try()* 
+##### La fonction `try()` 
 
-Si on connaît l'instruction qui peut entraîner une erreur, il est possible de lui appliquer la fonction *try()* :
+Si on connaît l'instruction qui peut entraîner une erreur, il est possible de lui appliquer la fonction `try()` :
 
 ```{r}
 f_error.1 <- function(x) {
@@ -1147,11 +1147,11 @@ rec <- c(5, 6)
 cir <- sqrt(10)
 ```
 
-Pour ce faire, on souhaiterait utiliser une fonction qui s'appelle *getArea()* et qui puisse reconaître quand on l'applique à un carré, un rectangle ou un cercle afin d'utiliser la bonne formule. Ceci consiste à définir une méthode générique **getArea** qui renvoie à la bonne implémentation en fonction de la classe de l'argument d'entrée. C'est ce qu'on appelle le polymorphisme.
+Pour ce faire, on souhaiterait utiliser une fonction qui s'appelle `getArea()` et qui puisse reconaître quand on l'applique à un carré, un rectangle ou un cercle afin d'utiliser la bonne formule. Ceci consiste à définir une méthode générique **getArea** qui renvoie à la bonne implémentation en fonction de la classe de l'argument d'entrée. C'est ce qu'on appelle le polymorphisme.
 
 #### Définition d'une nouvelle classe 
 
-Pour pouvoir être identifié comme étant un objet particulier, les trois objets ci-dessus doivent être définis comme appartenant à une certaine classe, que l'utilisateur, dans la norme S3, peut lui-même créer. On définit ainsi ci-dessous les trois types de classe **carre**, **rectangle** et **cercle** en utilisant la fonction *class()* :
+Pour pouvoir être identifié comme étant un objet particulier, les trois objets ci-dessus doivent être définis comme appartenant à une certaine classe, que l'utilisateur, dans la norme S3, peut lui-même créer. On définit ainsi ci-dessous les trois types de classe **carre**, **rectangle** et **cercle** en utilisant la fonction `class()` :
 
 ```{r}
 class(cir) <- "cercle"
@@ -1176,22 +1176,22 @@ area <- function(x) {
 }
 ```
 
-Cependant, si on considère une nouvelle classe d'objet (un triangle par exemple), on devra reprogrammer la fonction *area()*. 
+Cependant, si on considère une nouvelle classe d'objet (un triangle par exemple), on devra reprogrammer la fonction `area()`. 
 
 C'est pourquoi on définit une méthode générique afin de de pouvoir greffer autant de nouvelles classes d'objet sur celle-ci (par exemple, **plot** est une méthode sur laquelle on peut appliquer différents types d'objets).
 
 #### Définition d'une méthode générique 
 
-On va créer la fonction *getArea()* qui va s'appliquer à ces classes d'objet en 3 étapes : **getArea** sera définie comme étant une méthode générique. 
+On va créer la fonction `getArea()` qui va s'appliquer à ces classes d'objet en 3 étapes : **getArea** sera définie comme étant une méthode générique. 
 
-* La première étape consiste à définir la fonction *getArea()* comme étant une méthode générique. Autrement dit, on signale à **R** que cette fonction sera ensuite implémentée sous différentes versions :
+* La première étape consiste à définir la fonction `getArea()` comme étant une méthode générique. Autrement dit, on signale à **R** que cette fonction sera ensuite implémentée sous différentes versions :
 
 ```{r}
 getArea <- function(obj)
   UseMethod("getArea", obj)
 ```
 
-* La deuxième étape consiste à créer une fonction par défaut qui sera appliquée dans le cas où on appliquerait à la fonction *getArea()* une classe d'objet autre que **carre**, **rectangle** ou **cercle**.
+* La deuxième étape consiste à créer une fonction par défaut qui sera appliquée dans le cas où on appliquerait à la fonction `getArea()` une classe d'objet autre que **carre**, **rectangle** ou **cercle**.
 
 ```{r}
 getArea.default <- function(obj) {
@@ -1199,7 +1199,7 @@ getArea.default <- function(obj) {
 }
 ```
 
-* Enfin, on va créer les 3 "sous" fonctions de *getArea()* en ajoutant simplement à **getArea** le suffixe **.cercle**, **.rectangle** et **.carre** : 
+* Enfin, on va créer les 3 "sous" fonctions de `getArea()` en ajoutant simplement à **getArea** le suffixe **.cercle**, **.rectangle** et **.carre** : 
 
 ```{r}
 getArea.cercle <- function(obj) {
@@ -1236,14 +1236,14 @@ Ajouter à la méthode **getArea**, la classe triangle
 
 #### Exemple de méthodes génériques
 
-Il existe de nombreuses méthodes sous **R** qui sont déclarées comme génériques dans la norme S3. Par exemple, lorsqu'on utilise la fonction *plot()* ci-dessous, on l'applique dans le premier cas sur deux vecteurs **numeric** et dans le deuxième cas, on l'applique sur le résultat de la fonction *lm()* : 
+Il existe de nombreuses méthodes sous **R** qui sont déclarées comme génériques dans la norme S3. Par exemple, lorsqu'on utilise la fonction `plot()` ci-dessous, on l'applique dans le premier cas sur deux vecteurs **numeric** et dans le deuxième cas, on l'applique sur le résultat de la fonction `lm()` : 
 
 ```{r, eval = F}
 plot(rnorm(10), runif(10))
 plot(lm(Sepal.Length ~ Sepal.Width, data = iris))
 ```
 
-De même, pour savoir si un objet appartient à la norme S3, ce qui sous-entend que des méthodes génériques pourront s'appliquer sur cet objet, on peut utiliser la fonction *otype()* du package **pryr** :
+De même, pour savoir si un objet appartient à la norme S3, ce qui sous-entend que des méthodes génériques pourront s'appliquer sur cet objet, on peut utiliser la fonction `otype()` du package **pryr** :
 
 ```{r, message=F}
 library("pryr")
@@ -1254,12 +1254,12 @@ df <- data.frame(x = 1:10, y = letters[1:10])
 pryr::otype(df)    
 ```
 
-On constate qu'un **data.frame** appartient à la norme S3, ce qui sous entend qu'un nombre de méthodes génériques pourront s'appliquer dessus. La plupart du temps, ces objets qui appartiennent à la norme S3 sont créés à partir de **list**. Pour savoir comment ils sont constitués, on peut donc simplement utiliser la fonction *str()*. 
+On constate qu'un **data.frame** appartient à la norme S3, ce qui sous entend qu'un nombre de méthodes génériques pourront s'appliquer dessus. La plupart du temps, ces objets qui appartiennent à la norme S3 sont créés à partir de **list**. Pour savoir comment ils sont constitués, on peut donc simplement utiliser la fonction `str()`. 
 
 
 ##### Pour connaître les objets qui s'appliquent sur une méthode générique 
 
-On utilise la fonction *methods()* appliquée au nom de la méthode. Par exemple : 
+On utilise la fonction `methods()` appliquée au nom de la méthode. Par exemple : 
 
 ```{r}
 methods("plot")
@@ -1267,13 +1267,13 @@ methods("plot")
 
 ##### Pour connaître les méthodes qui s'appliquent sur une classe d'objet  
 
-On utilise la fonction *methods()* en précisant l'argument **class =**.  Par exemple : 
+On utilise la fonction `methods()` en précisant l'argument `class =`.  Par exemple : 
 
 ```{r}
 methods(class = "lm")
 ```
 
-**Pour en savoir plus :** le lecteur pourra consulter la dernière partie du lien suivant qui donne un exemple de création de méthode générique plus complet, avec la possibilité de définir les commandes **+**, **[]**, etc. sur de nouvelles classes d'objet :  http://www.duclert.org/r-divers/classes-S3-R.php.
+**Pour en savoir plus :** le lecteur pourra consulter la dernière partie du lien suivant qui donne un exemple de création de méthode générique plus complet, avec la possibilité de définir les commandes `+`, `[]`, etc. sur de nouvelles classes d'objet :  http://www.duclert.org/r-divers/classes-S3-R.php.
 
 
 
@@ -1283,33 +1283,33 @@ Ici, on présentera uniquement les grandes lignes de la norme S4. Cette section 
 
 La norme S4 s'inspire de la norme S3 auxquelles s'ajoutent certaines caractéristiques telles que :
 
-* les classes sont définies en ajoutant un certain nombre de règles et de précisions les concernant. Pour mieux comprendre, dans l'exemple ci-dessous, on peut définir l'objet **a** comme appartenant à la classe **lm** dans la norme S3, alors qu'il n'en possède pas les caractéristiques :
+* les classes sont définies en ajoutant un certain nombre de règles et de précisions les concernant. Pour mieux comprendre, dans l'exemple ci-dessous, on peut définir l'objet `a` comme appartenant à la classe **lm** dans la norme S3, alors qu'il n'en possède pas les caractéristiques :
 
 ```{r}
 a <- 5
 class(a) <- "lm"
 ```
 
-* on utilisera un opérateur spécial **\@** pour extraire des éléments d'un objet ayant la norme S4. 
+* on utilisera un opérateur spécial `@` pour extraire des éléments d'un objet ayant la norme S4. 
 
-Pour savoir si un objet appartient à la norme S4, on peut utiliser la fonction *isS4()*. La plupart du temps, la norme S4 n'a pas été utilisée pour définir des objets et fonctions qui appartiennant à l'environnement de base. Ils sont donc plutôt présents dans des nouveaux packages qu'on va charger. 
+Pour savoir si un objet appartient à la norme S4, on peut utiliser la fonction `isS4()`. La plupart du temps, la norme S4 n'a pas été utilisée pour définir des objets et fonctions qui appartiennant à l'environnement de base. Ils sont donc plutôt présents dans des nouveaux packages qu'on va charger. 
 
 Les principales fonctions utilisées pour travailler sur la norme S4 sont : 
 
-* la fonction *setClass()* qui permet de définir une nouvelle classe. Le 1er argument est le nom de la classe, le second est le résultat de la fonction *representation()* qui définit le nom et le type des éléments que la classe contient et le troisième argument est le résultat de la fonction *prototype()* qui donne des valeurs par défaut. Par exemple : 
+* la fonction `setClass()` qui permet de définir une nouvelle classe. Le 1er argument est le nom de la classe, le second est le résultat de la fonction `representation()` qui définit le nom et le type des éléments que la classe contient et le troisième argument est le résultat de la fonction `prototype()` qui donne des valeurs par défaut. Par exemple : 
 
 ```{r}
 setClass("Personne", representation(nom = "character", age = "numeric"),
                         prototype(nom = NA_character_, age = NA_real_))
 ```
 
-* la fonction *new()* permet de créer un nouvel objet. 
+* la fonction `new()` permet de créer un nouvel objet. 
 
 ```{r}
 hadley <- new("Personne", nom = "Hadley", age = 31)
 ```
 
-**Remarque :** on accède aux éléments d'un objet de norme S4 avec la commande spéciale **\@** :
+**Remarque :** on accède aux éléments d'un objet de norme S4 avec la commande spéciale `@` :
 
 ```{r}
 hadley@age
@@ -1317,13 +1317,13 @@ hadley@age
 
 Les autres fonctions utiles dont vous trouverez des exemples d'utilisation dans http://adv-r.had.co.nz/S4.html sont : 
 
-* la fonction *setMethods()* permettant de définir des nouvelles méthodes.
+* la fonction `setMethods()` permettant de définir des nouvelles méthodes.
 
-* les fonctions *as()* et *setAs()* pour passer d'une classe d'objet à une autre (quand cela est possible).
+* les fonctions `as()` et `setAs()` pour passer d'une classe d'objet à une autre (quand cela est possible).
 
-* les fonctions *setValidity()* et *validObject()* pour vérifier la validité.
+* les fonctions `setValidity()` et `validObject()` pour vérifier la validité.
 
-* les fonctions *showClass()*, *showMethods()* et *getMethod()* pour accéder aux propriétés des objets et méthodes créées. 
+* les fonctions `showClass()`, `showMethods()` et `getMethod()` pour accéder aux propriétés des objets et méthodes créées. 
 
 **Bilbiographie :** la présentation de F. Leisch à useR! 2004 (http://www.ci.tuwien.ac.at/Conferences/useR-2004/Keynotes/Leisch.pdf) ainsi que le manuel de C. Genolini (https://cran.r-project.org/doc/contrib/Genolini-PetitManuelDeS4.pdf).
 
@@ -1342,13 +1342,13 @@ sapply
 
 ### La fonction est une méthode générique de type S3  
 
-Vous tapez le nom d'une fonction *lambda()* et vous obtenez une ligne **UseMethod("lambda")**. Ceci signifie que **lambda** est une méthode générique pour des objets issus de la classe S3. Il existe donc plusieurs fonctions associées à la fonction *lambda()*. Pour connaître quelles sont les différentes fonctions associées à la fonction *lambda()*, on utilise la fonction *methods()*. Par exemple, pour la fonction *summary()*, si on tape le nom de la fonction dans la console, on obtient : 
+Vous tapez le nom d'une fonction `lambda()` et vous obtenez une ligne `UseMethod("lambda")`. Ceci signifie que **lambda** est une méthode générique pour des objets issus de la classe S3. Il existe donc plusieurs fonctions associées à la fonction `lambda()`. Pour connaître quelles sont les différentes fonctions associées à la fonction `lambda()`, on utilise la fonction `methods()`. Par exemple, pour la fonction `summary()`, si on tape le nom de la fonction dans la console, on obtient : 
 
 ```{r}
 summary
 ```
 
-Pour obtenir les différentes fonctions associées à *summary()*, on utilise donc la fonction *methods()*.
+Pour obtenir les différentes fonctions associées à `summary()`, on utilise donc la fonction `methods()`.
 
 ```{r}
 methods("summary")
@@ -1362,13 +1362,13 @@ Pour lire le code des fonctions affichées ci-dessus, il y a deux options :
 summary.proc_time
 ```
 
-* s'il y a une étoile, c'est que la fonction se trouve dans un package et qu'on doit indiquer le nom du package suivi de **:::** :
+* s'il y a une étoile, c'est que la fonction se trouve dans un package et qu'on doit indiquer le nom du package suivi de `:::` :
 
 ```{r, eval = F}
 stats:::summary.ecdf
 ```
 
-Si on ne connaît pas le nom du package, on peut alors utiliser la fonction *getAnywhere()* qui va chercher dans toutes les librairies chargées : 
+Si on ne connaît pas le nom du package, on peut alors utiliser la fonction `getAnywhere()` qui va chercher dans toutes les librairies chargées : 
 
 ```{r}
 getAnywhere(summary.ecdf)
@@ -1376,7 +1376,7 @@ getAnywhere(summary.ecdf)
 
 ### La fonction fait appel à du code **C** 
 
-Si on affiche le code la fonction *sum()*, on constate que le calcul n'est pas directement fait dans le corps de la fonction. C'est ce que nous avons vu précédemment, à savoir qu'il existe un grand nombre de fonctions qui font appel à du code compilé pour gagner en performances. Lorsqu'on voit dans une fonction les instructions **.Primitive()** ou **.Internal()**, cela signifie que **R** va en réalité exécuter des fonctions qui ont été compilées en **C**. La différence entre **.Primitive()** ou **.Internal()** vient du fait que dans le deuxième cas, on peut appeler des fonctions qui sont codées en langage **R**. 
+Si on affiche le code la fonction `sum()`, on constate que le calcul n'est pas directement fait dans le corps de la fonction. C'est ce que nous avons vu précédemment, à savoir qu'il existe un grand nombre de fonctions qui font appel à du code compilé pour gagner en performances. Lorsqu'on voit dans une fonction les instructions `.Primitive()` ou `.Internal()`, cela signifie que **R** va en réalité exécuter des fonctions qui ont été compilées en **C**. La différence entre `.Primitive()` ou `.Internal()` vient du fait que dans le deuxième cas, on peut appeler des fonctions qui sont codées en langage **R**. 
 
 ```{r}
 sum
@@ -1384,17 +1384,17 @@ sum
 
 On peut donc faire appel à du code **C** de plusieurs façons. On verra ici les deux principales façons de le faire. 
 
-#### **.Primitive()** ou **.Internal()**   
+#### `.Primitive()` ou `.Internal()`   
 
-Il est difficile d'accéder directement au code source de la fonction exécutée par **.Primitive()** ou **.Internal()**. Il s'agit des fonctions qui font en général partie du package **base**. On peut utiliser la fonction *show\_c\_source()* du package **pryr** qui va effectuer une recherche sur [github](https://github.com) où a été déposé le source de l'ensemble des fichiers de codes pré-compilés utilisés dans **R** :  
+Il est difficile d'accéder directement au code source de la fonction exécutée par `.Primitive()` ou `.Internal()`. Il s'agit des fonctions qui font en général partie du package **base**. On peut utiliser la fonction `show_c_source()` du package **pryr** qui va effectuer une recherche sur [github](https://github.com) où a été déposé le source de l'ensemble des fichiers de codes pré-compilés utilisés dans **R** :  
 
 ```{r, eval = FALSE}
 pryr::show_c_source(.Internal(mean(x)))
 ```
 
-#### **.Call()** 
+#### `.Call()` 
 
-Dans d'autres situtations, une fonction fait appel à du code **C** via la fonction *.Call()*. Par exemple : 
+Dans d'autres situtations, une fonction fait appel à du code **C** via la fonction `.Call()`. Par exemple : 
 
 ```{r}
 qnorm
@@ -1417,19 +1417,19 @@ C'est le cas des fonctions programmées dans le package **Matrix**.
 require("Matrix")
 ```
 
-Si on utiliser la fonction *methods()* sur la méthode **dim**, pour identifier les méthodes génériques qui s'appliquent à des objets S4, on constate que le nom de la fonction est suivi d'une virgule, suivi alors de la classe de l'objet sur laquelle s'applique la méthode. Dans le cas de *dim()*, elle peut s'appliquer sur les classes d'objet **MatrixFactorization** ou **Matrix**.    
+Si on utiliser la fonction `methods()` sur la méthode **dim**, pour identifier les méthodes génériques qui s'appliquent à des objets S4, on constate que le nom de la fonction est suivi d'une virgule, suivi alors de la classe de l'objet sur laquelle s'applique la méthode. Dans le cas de `dim()`, elle peut s'appliquer sur les classes d'objet **MatrixFactorization** ou **Matrix**.    
 
 ```{r}
 methods("dim")
 ```
 
-Pour obtenir le code source de la fonction *dim()* qui s'applique à la classe d'objet **MatrixFactorization**, on utilise la fonction *getMethod()* ainsi :
+Pour obtenir le code source de la fonction `dim()` qui s'applique à la classe d'objet **MatrixFactorization**, on utilise la fonction `getMethod()` ainsi :
 
 ```{r}
 getMethod("dim", "MatrixFactorization")
 ```
 
-Pour connaître les méthodes S4 qui s'appliquent sur une classe d'objets particuliers, on utilise la fonction *showMethods()* :
+Pour connaître les méthodes S4 qui s'appliquent sur une classe d'objets particuliers, on utilise la fonction `showMethods()` :
 
 ```{r}
 showMethods(class = "MatrixFactorization")
