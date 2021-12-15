@@ -1,7 +1,7 @@
 ---
 title: "Retour d'expérience sur l'écriture d'un bookdown à 2 via github"
 author: "Sébastien Déjean (IMT, UPS) et Thibault Laurent (TSE, CNRS)"
-date: "09/12/2021"
+date: "16/12/2021"
 output: beamer_presentation2
 ---
 
@@ -110,7 +110,7 @@ knitr::include_graphics("coupler_rstudio.png", dpi = 800)
 
 ## Etape 4 : coupler le répertoire **R_book** sur la machine locale avec Github (avec RStudio)
 
-- il nous faut créer un jeton, la commande suivante nous renvoit sur Github (il faut se connecter avec le compte qui a les droits de modification). A la fin de cette étape, on obtient un code qu'il faut copier dans le presse papier
+- il nous faut créer un jeton, la commande suivante nous renvoie sur Github (il faut se connecter avec le compte qui a les droits de modification). A la fin de cette étape, on obtient un code qu'il faut copier dans le presse papier
 
 ```{R, eval = F, echo = T}
 usethis::create_github_token()
@@ -131,7 +131,7 @@ A présent, toutes les modifications faites en local pourront être transférée
 
 ## Etape 5 : mettre à jour les modifications faites en local sur Github (avec RStudio)
 
-- Dans l'onglet Git, on sélectionne les fichiers qu'on a modifié localement et qu'on souhaite transférer sur Github. On appuie sur le bouton `Commit` et il est recommandé d'écrire un message clair pour ses collaborateurs. A la fin de cette étape, on n'a toujours pas envoyé les changements sur Github.
+- Dans l'onglet Git, on sélectionne les fichiers qu'on a modifiés localement et qu'on souhaite transférer sur Github. On appuie sur le bouton `Commit` et il est recommandé d'écrire un message clair pour ses collaborateurs. A la fin de cette étape, on n'a toujours pas envoyé les changements sur Github.
 
 - Pour finaliser le transfert sur Github, il faut cliquer sur `Push`. 
 
