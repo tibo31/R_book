@@ -1,6 +1,6 @@
 # Manipulation de données avec **R**
 
-Packages à installer pour ce chapitre 
+Les packages à installer pour ce chapitre 
 
 ```{r, eval = F}
 install.packages(c(
