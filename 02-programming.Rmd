@@ -39,7 +39,7 @@ L'utilisation d'un linter (https://www.testim.io/blog/what-is-a-linter-heres-a-d
 
 ### Le nom des fichiers de codes 
 
-Appeler vos fichiers de code avec l'extension *.R* et donner des noms clairs à vos fichiers de codes, en utilisant éventuellement le symbole underscore ou le trait d'union entre les différents mots. Par exemple : 
+Vous devez appeler vos fichiers de code avec l'extension *.R* et donner des noms clairs à vos fichiers de codes, en utilisant éventuellement le symbole underscore ou le trait d'union entre les différents mots. Par exemple : 
 
 ```{r, eval = F}
 traitement-base.R
