@@ -23,7 +23,136 @@ install.packages(c(
 
 ## Les chaînes de caractères  
 
-### Fonctions de base 
+Dans cette section, nous présentons des concepts et outils qui pourraient s'avérer utile pour l'analyse de texte (Text Mining) 
+
+### Différence entre **character** et **factor**
+
+Quand on fait du traitement sur des chaînes de caractères, il est certainement préférable d'utiliser le type **character** plutôt que le type **factor**. En effet, si la classe **factor** peut s'avérer fort utile pour l'analyse statistique, celle-ci a aussi des spécificités qui peuvent s'avérer contraignantes pour l'analyse de texte. 
+
+A vrai dire, la classe **factor** a probablement été définie par des statisticiens, car elle répond parfaitement à la définition d'une variable qualitative. Autrement dit, il s'agit de caractéristiques non numériques, observées sur des individus, dont les valeurs possibles sont connues à l'avance et dénombrables. Par exemple, à la question avez-vous aimé ce film, on pourra répondre `pas du tout`, `un peu`, `moyennement`, `beaucoup`, `énormément` et seules ces valeurs sont autorisées.
+
+Supposons qu'on récupère des données sur des notes de film dont un extrait serait contenu dans le vecteur suivant :
+
+```{r}
+harry_potter_6 <- c("bcp", "moyennement", "moyen", "non", "beacup")
+```
+
+La première chose serait de corriger les erreurs qui peuvent être dûes, dans la plupart des cas, à des erreurs de saisie. Ce serait le rôle de l'analyste de texte de programmer un certain nombre de fonctions afin de corriger ces erreurs. Une fois ces erreurs corrigées, on obtientrait ainsi le vecteur suivant : 
+
+```{r}
+harry_potter_6 <- c("beaucoup", "moyennement", "moyennement", "pas du tout", "beaucoup")
+```
+
+A partir de là, il pourrait être judicieux de transformer ce vecteur en **factor** de la façon suivante : 
+
+```{r}
+harry_potter_6_f <- factor(harry_potter_6)
+```
+
+Les facteurs ont des modalités pré-définies qui sont retournées avec la fonction *levels()*. 
+
+```{r}
+levels(harry_potter_6_f)
+```
+
+Dans l'instruction suivante, on souhaite ajouter la valeur `énormément`, mais comme celle-ci n'a pas été spécifiée au départ, elle n'est pas acceptée, ce qui génère ici un message d'avertissement et une valeur manquante
+
+```{r}
+harry_potter_6_f[6] <- "énormément"
+harry_potter_6_f[6]
+```
+
+C'est pourquoi, il est important de spécifier toutes les valeurs possibles au moment de la création du **factor** (même si certaines valeurs ne sont pas encore incluses dans le vecteur) avec l'option `levels =`.
+
+```{r}
+harry_potter_6_f <- factor(harry_potter_6, 
+  levels = c("pas du tout", "un peu", "moyennement", "beaucoup", "énormément")
+)
+```
+
+```{r}
+levels(harry_potter_6_f)
+harry_potter_6_f[6] <- "énormément"
+harry_potter_6_f[6]
+```
+
+Un autre avantage du **factor** est que lorsqu'on va faire des tableaux de contingence ou des graphiques, l'ordre des modalités sera identique et dans le même ordre que celui défini initialement. Par exemple : 
+
+```{r}
+table(harry_potter_6_f)
+```
+
+ce qui n'est bien entendu pas le cas pour les vecteurs de caractères, où l'ordre alphabétique est systématiquement utilisé :
+
+```{r}
+table(harry_potter_6)
+```
+
+En fait, lorsqu'on tape la commande suivante : 
+
+```{r}
+str(harry_potter_6_f)
+```
+
+on constate qu'un **factor** peut être considéré comme un vecteur de valeurs entières où chaque entier correspond à une étiquette. Autrement dit, une autre façon de créer un **factor** serait de définir un vecteur d'entiers, de préciser avec **levels** quels sont les entiers qui sont acceptés (ici 1, 2, 3, 4, 5) et d'associer à chacune de ces valeurs une étiquette ou **label**. Par exemple : 
+
+```{r}
+harry_poter_6 <- c(4, 3, 3, 1, 4)
+harry_poter_6 <- factor(harry_poter_6, levels = 1:5, 
+    labels = c("pas du tout", "un peu", "moyennement", "beaucoup", "énormément"))
+```
+
+**Remarque :** si on oublie d'associer un **level** à un **label**, cela a pour conséquence de créer une valeur manquante. 
+
+Dans le cas de vecteurs de taille importantes, le stockage d'un **factor** est un peu moins volumineux qu'un objet **character**, car au lieu de stocker des chaînes de caractères, on stocke un vecteur de valeurs entières. Toutefois, sur des objets de petite taille, ce n'est pas le cas puisqu'un **factor** contient aussi l'information contenant la correspondance entre les valeurs entières et les étiquettes.  
+
+Ici, on utilise la fonction *object.size()* qui indique la taille allouée à un objet en mémoire vive : 
+
+```{r}
+object.size(harry_potter_6)
+object.size(harry_potter_6_f)
+```
+
+
+**Remarque** : pendant longtemps, la plupart des fonctions qui importent des jeux de données (comme `read.table()`) retournaient les variables non numériques sous forme de **factor**. Cet aspect a été critiqué par certains programmeurs dont Hadley Wickam (nous en verrons les raisons un peu plus tard), ce qui explique pourquoi aujourd'hui les variables non numériques sont codées sous forme de **character**. 
+
+L'idée serait donc d'utiliser la classe **character** pour le traitement de texte et une fois que les différentes modalités des variables qualitatives ont été identifiées, convertir le vecteur **factor** pour faciliter l'analyse statistique. 
+
+**Exercice 1.1.**
+
+* **Q1. Facteur ordonné:**
+    * Créer un vecteur de chaîne de caractères **doses** de taille 25, comprenant les valeurs "faible", "moyenne" ou "forte" (on pourra créer ce vecteur de façon aléatoire).
+    * Convertir cet élément en **f_dose** de type **factor** ordonné (voir si besoin *?factor*).
+    * Vérifier que les niveaux du facteur sont effectivement ordonnés. Pour cela, il suffit de comparer d'utiliser les opérateurs de comparaison **<** ou **>** sur deux composantes du vecteur. 
+
+
+### Transformer une variable quantitative en character 
+
+La fonction *cut()* qui permet le recodage d'une variable quantitative en classes, génère un objet de type **factor**. On précise les amplitudes des classes avec l'option **breaks** :
+
+```{r}
+set.seed(123)
+mesures <- rnorm(100)
+codage <- cut(mesures, breaks = -4:4)
+table(codage)
+```
+
+Pour aider à trouver un découpage d'une variable quantitative, la fonction *classIntervals()* du package **classInt** propose différentes méthodes de discrétisation d'une variable quantitative. Parmi ces méthodes, on compte la méthode basée sur des classes d'amplitudes égales, d'effectifs égaux, ou calculées à partir de l'algorithme des $k$-means :
+
+```{r, message=FALSE}
+require("classInt")
+codage2 <- cut(mesures, 
+           classIntervals(mesures, n = 5, style = "kmeans")$brks)
+table(codage2)
+```
+
+**Exercice 1.2.**
+
+* **Q1. Codage et comptage :** donner un équivalent de l'enchaînement des fonctions *cut()* et *table()* utilisées précédemment.
+
+
+
+### Fonctions de base pour l'analyse de texte
 
 On considère la chaîne de caractère suivante : 
 
@@ -87,7 +216,7 @@ strsplit(mots, split = ":")
 
 
 
-- Les fonctions `toupper()` et `tolower()`` pemettent de convertir toutes les lettres en majuscules et minuscules : 
+- Les fonctions `toupper()` et `tolower()` pemettent de convertir toutes les lettres en majuscules et minuscules : 
 
 ```{r}
 toupper(phrase)
@@ -147,7 +276,7 @@ abbreviate(pays)
 ```
 
 
-**Exercice 1.1** 
+**Exercice 1.3** 
 
 **Q1** Compter le nombre de caractères de chaque élément du vecteur suivant. Que constatez-vous ? 
 
@@ -271,7 +400,7 @@ print(grep("t[[:digit:]]t[[:digit:]]", textes))
 * [:cntrl:] tout caractère de contrôle
 
 
-**Exercice 1.2**:
+**Exercice 1.4**:
 
 On considère la chaîne de caractère suivante :
 
@@ -300,7 +429,7 @@ tweet <- c("TopStartupsUSA: RT @FernandoX: 7 C's of Marketing in the Digital Era
   "#BigData #Analytics #DataScience #AI #MachineLearning #IoT #IIoT #Python")
 ```
 
-**Exercice 1.3.**
+**Exercice 1.5.**
 
 Expliquer la fonction de chacune des expressions régulières suivantes
 
@@ -379,7 +508,7 @@ sort(unique(mots))
 * les chiffres ne sont pas regardés comme des chiffres mais comme une chaîne de caractères. Autrement dit "10" doit être vu comme un mot avec 2 caractères consécutifs : "1", puis "0". "2" doit être vu comme 1 mot avec un seul caractère. Pour comparer ces 2 mots, on compare  les caractères entre eux les uns après les autres. Dans un premier temps, on regarde le 1er caractère de chaque mot : "1" est plus petit que "2". Aussi, quelque soit le nombre de caractère qu'on va ajouter après "1" ce mot sera plus petit que "2". Par exemple "15552525" sera plus petit que "2".    
 
 
-**Exercice 1.4.**
+**Exercice 1.6.**
 
 A partir du jeu de données **USArrests**, extraire les lignes dont le nom contient la chaîne de caractères "New". Vous pouvez vous inspirer des instructions suivantes. Dans le premier cas, tous les noms de lignes contenant la lettre **C** sont renvoyés ; dans le second cas, seuls ceux commencant par **C** sont renvoyés. Consulter la fiche d'aide sur les expressions régulières pour en savoir (beaucoup !) plus (**help(regexp)**).
 
@@ -453,84 +582,6 @@ new_object <- glue('My name is {name},',
   ' my anniversary is {format(anniversary, "%A, %d %B, %Y")}.')
 new_object
 ```
-
-
-## Les facteurs  
-
-Même s'ils peuvent a priori ressembler à des chaînes de caractères, les **factor** ont un comportement différent. Cette classe d'objet a été créé pour correspondre à une variable qualitative.
-
-On commence par créer un vecteur de chaîne de caractères :
-
-```{r}
-genre <- sample(c("Ctrl", "Trait"), size = 10000, replace = TRUE)
-```
-
-Puis, on le transforme en **factor** en utilisant la fonction *factor()* ou *as.factor()* :
-
-```{r}
-genre_fact <- factor(genre)
-```
-
-Les facteurs ont des modalités pré-définies qui sont retournées avec la fonction *levels()*. L'affectation d'une valeur différente de ces modalités pré-définies provoque un message d'avertissement et une valeur manquante dans le vecteur : 
-
-```{r}
-levels(genre_fact)
-genre_fact[1] <- "Autre"
-genre_fact[1]
-```
-
-ce qui n'est bien entendu pas le cas pour les vecteurs de caractères :
-
-```{r}
-genre[1] <- "Autre" 
-genre[1]
-```
-
-Dans le cas de vecteurs de taille importantes, le stockage d'un **factor** est un peu moins volumineux qu'un objet **character**. Ici, on utilise la fonction *object.size()* qui indique la taille allouée à un objet en mémoire vive : 
-
-```{r}
-object.size(genre)
-object.size(genre_fact)
-```
-
-L'exemple suivant permet de mieux comprendre qu'un **factor** peut être considéré comme un vecteur de valeurs entières où chaque entier pourrait être remplacé par un **label**. Dans le cas où l'on souhaite associer un **label**, on procède de la façon suivante.  
-
-```{r}
-vec <- sample(1:4, size = 20, rep = T)
-(f_vec <- factor(vec, levels = 1:3, 
-                      labels = c("Rien", "Peu", "Beaucoup")))
-```
-
-**Remarque :** si on oublie d'associer un **level** à un **label**, cela a pour conséquence de créer une valeur manquante. 
-
-La fonction *cut()* qui permet le recodage d'une variable quantitative en classes, génère un objet de type **factor**. On précise les amplitudes des classes avec l'option **breaks** :
-
-```{r}
-set.seed(123)
-mesures <- rnorm(100)
-codage <- cut(mesures, breaks = -4:4)
-table(codage)
-```
-
-Pour aider à trouver un découpage d'une variable quantitative, la fonction *classIntervals()* du package **classInt** propose différentes méthodes de discrétisation d'une variable quantitative. Parmi ces méthodes, on compte la méthode basée sur des classes d'amplitudes égales, d'effectifs égaux, ou calculées à partir de l'algorithme des $k$-means :
-
-```{r, message=FALSE}
-require("classInt")
-codage2 <- cut(mesures, 
-           classIntervals(mesures, n = 5, style = "kmeans")$brks)
-table(codage2)
-```
-
-**Remarque** : les fonctions classiques d'importation des jeux de données codent les variables qualitatives sous forme de **factor**. Cet aspect a été critiqué par certains programmeurs dont Hadley Wickam (nous en verrons les raisons un peu plus tard), qui préconise un codage des variables qualitatives sous forme de **character**. Toutefois, un des avantages de la classe **factor** est que cela permet de représenter les modalités d'une variable qualitative de façon ordonnée, ce qui se révelera très pratique pour représenter des diagramme en barres par exemple..   
-
-**Exercice 1.5.**
-
-* **Q1. Facteur ordonné:**
-    * Créer un vecteur de chaîne de caractères **doses** de taille 25, comprenant les valeurs "faible", "moyenne" ou "forte" (on pourra créer ce vecteur de façon aléatoire).
-    * Convertir cet élément en **f_dose** de type **factor** ordonné (voir si besoin *?factor*).
-    * Vérifier que les niveaux du facteur sont effectivement ordonnés. Pour cela, il suffit de comparer d'utiliser les opérateurs de comparaison **<** ou **>** sur deux composantes du vecteur. 
-
-* **Q2. Codage et comptage :** donner un équivalent de l'enchaînement des fonctions *cut()* et *table()* utilisées précédemment.
 
 
 
@@ -611,7 +662,7 @@ system.time(for(i in 1:100) var(runif(100000)))
 **Remarque :** il est parfois compliqué de convertir des chaînes de caractères en **Date** ou **POSIXct/POSIXlt**, mais une fois que cela est fait, il est alors possible d'utiliser un nombre conséquent de packages existants, qui permettent en autre la manipulation de séries temporelles.
 
 
-**Exercice 1.6.**
+**Exercice 1.7.**
 
 **Q1** Quel jour (lundi, mardi ... ?) sera le 1er janvier de l'année 2022 ?
 
@@ -732,7 +783,7 @@ union(A, let)
 Il est donc possible de faire des opérations ensemblistes sur les chaînes de caractères. 
 
 
-**Exercice 1.7.**
+**Exercice 1.8.**
 
 **Q1 :** donner une notation équivalente à *is.element(2, A)*.
 
@@ -872,7 +923,7 @@ aggregate(visite.patient$age, by = list(S = visite.patient$sexe),
 ```
 
 
-**Exercice 1.8.**
+**Exercice 1.9.**
 
 **Q1** à partir du jeu de données **iris** (disponible par défaut dans l'environnement courant), construire l'objet **iris1** qui contient en fonction des espèces (variable **Species**), la taille moyenne de la variable **Petal.Length**.
 
@@ -1256,7 +1307,7 @@ complete(firms, firms, years)
 
 Pour plus de documentation sur l'univers **tidyr**, on recommande la lecture de [cette page](https://juba.github.io/tidyverse/12-tidyr.html#fn19) écrite par Julien Barnier. 
 
-**Exercice 1.9.**
+**Exercice 1.10.**
 
 **Q1** Découper en 3 variables (**ville**, **num**, **dep**), le vecteur suivant :
 
@@ -1635,7 +1686,7 @@ dir.exists("Sorties")
 ```
 
 
-**Exercice 1.10.**
+**Exercice 1.11.**
 
 écrire une fonction qui, à partir d'un nombre entier $n$ passé en paramètre, effectue un tirage aléatoire de $n$ valeurs selon une loi normale $\mathcal{N}(0,1)$ puis renvoie les valeurs générées dans un fichier d'un répertoire *Num* et trace une boxplot de ces données qui sera stockée dans un fichier *.jpg* du répertoire *Graph*.
 
@@ -1706,7 +1757,7 @@ detach(e)
 ![ça ne marche pas !!!](Figures/version.png)
 
 
-**Exercice 1.11.**
+**Exercice 1.12.**
 
 **Q1** Quel est l'inconvénient illustré par les manipulations de  *e_fic1()*, **e_vec_x** et *e_fic2()* ?
 
